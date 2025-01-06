@@ -28,6 +28,7 @@ export default function QuestoesAluno() {
   const [value, setValue] = useState("");
   const [acertos, setAcertos] = useState(0);
   const [erros, setErros] = useState(0);
+  const [acertoQuestoes, setAcertoQuestoes] = useState([]);
   const [correct, setCorrect] = useState(false);
   const [incorrect, setIncorrect] = useState(false);
   const [end, setEnd] = useState(false);
@@ -44,15 +45,13 @@ export default function QuestoesAluno() {
   const questoesCarregadasRef = useRef(questoesCarregadas);
 
   useEffect(() => {
-    // Sobrescreve o botão de voltar do Android
     const backAction = () => {
-      navigation.navigate("MenuAluno"); // Navega diretamente para a aba Listas
-      return true; // Impede o comportamento padrão (voltar para a tela anterior)
+      navigation.navigate("MenuAluno");
+      return true;
     };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
 
-    // Limpa o evento ao desmontar o componente
     return () => backHandler.remove();
   }, [navigation]);
   
@@ -142,31 +141,19 @@ export default function QuestoesAluno() {
   }, [questaoAtual]);
 
   const conferirQuestao = async (respostaCorreta, respostaALuno) => {
-    try {
-      const novosAcertos =
-        respostaCorreta === respostaALuno ? acertos + 1 : acertos;
-      const novosErros = respostaCorreta !== respostaALuno ? erros + 1 : erros;
+    const isAcerto = respostaCorreta === respostaALuno;
 
-      const db = getFirestore(FIREBASE_APP);
-      const listaDocRef = doc(db, "ListaAluno", codigoLista);
-      const listaDocSnapshot = await getDoc(listaDocRef);
+    const novosAcertos = isAcerto ? acertos + 1 : acertos;
+    const novosErros = !isAcerto ? erros + 1 : erros;
+    const novoAcertoQuestoes = [...acertoQuestoes, isAcerto];
 
-      if (listaDocSnapshot.exists()) {
-        await updateDoc(listaDocRef, {
-          acertos: novosAcertos,
-          erros: novosErros,
-        });
+    setAcertos(novosAcertos);
+    setErros(novosErros);
+    setAcertoQuestoes(novoAcertoQuestoes);
 
-        setAcertos(novosAcertos);
-        setErros(novosErros);
-
-        respostaCorreta === respostaALuno
-          ? setCorrect(true)
-          : setIncorrect(true);
-      }
-    } catch (error) {
-
-    }
+    respostaCorreta === respostaALuno
+      ? setCorrect(true)
+      : setIncorrect(true);
   };
 
   const proximaQuestao = () => {
@@ -179,13 +166,40 @@ export default function QuestoesAluno() {
     }
   };
 
-  const finishList = () => {
+  const finishList = async () => {
     setIndice(0);
     setCorrect(false);
     setIncorrect(false);
     setAcertos(0);
     setErros(0);
+    setAcertoQuestoes([]);
     setEnd(false);
+
+    try {
+      const db = getFirestore(FIREBASE_APP);
+      const listaDocRef = doc(db, "ListaAluno", codigoLista);
+      const listaDocSnapshot = await getDoc(listaDocRef);
+
+      const oldAcertos = listaDocSnapshot.data().acertos;
+      console.log(oldAcertos);
+
+      if(oldAcertos >= acertos) {
+        navigation.goBack({ reload: true });
+        return;
+      }
+
+      if (listaDocSnapshot.exists()) {
+        await updateDoc(listaDocRef, {
+          acertos: acertos,
+          erros: erros,
+          acertoQuestoes: acertoQuestoes,
+        });
+        
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
     navigation.goBack({ reload: true });
   };
 

@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { View, Text, TouchableOpacity, TextInput, Modal, Alert, FlatList, } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Styles from "../Styles.js/StylesLista";
 import style from "../Styles.js/StylesModalLista";
 import { AntDesign } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
-import { doc, getFirestore, getId, where } from "firebase/firestore";
+import { doc, getFirestore, where } from "firebase/firestore";
 import { addDoc, collection, query, getDocs, updateDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { EvilIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -275,12 +275,30 @@ export default function Listas() {
             <View style={{ alignItems: "center" }}>
               <View style={{ justifyContent: "center", height: 185 }}>
                 {itemFinalizado ? (
-                  <TouchableOpacity
-                    style={style.botaoEditar}
-                    onPress={() => { setVisibleEdit(false); setVisibleCodigo(true) }}
-                  >
-                    <Text style={style.txtEditar}>Exibir código</Text>
-                  </TouchableOpacity>
+                  <>
+                    <TouchableOpacity
+                      style={style.botaoEditar}
+                      onPress={() => { navigation.navigate('StackNav', { screen: 'EstatisticasAlunos', params: { itemId } }); setVisibleEdit(false)
+                      }}
+                    >
+                      <Text style={style.txtEditar}>Exibir estatísticas dos alunos</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={style.botaoEditar}
+                      onPress={() => { navigation.navigate('StackNav', { screen: 'EstatisticasQuestoes', params: { itemId } }); setVisibleEdit(false)
+                      }}
+                    >
+                      <Text style={style.txtEditar}>Exibir estatísticas das questões</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      style={style.botaoEditar}
+                      onPress={() => { setVisibleEdit(false); setVisibleCodigo(true) }}
+                    >
+                      <Text style={style.txtEditar}>Exibir código</Text>
+                    </TouchableOpacity>          
+                  </>
                 ) : (
                   <>
                     <TouchableOpacity

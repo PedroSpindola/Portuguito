@@ -14,10 +14,11 @@ import Questoes from "../ListaDeListas/index";
 import QuestoesLista from "../ListaDeListas/indexLista"
 import PerfilAluno from "../Views/PerfilAluno";
 import MenuAluno from "../Views/MenuAluno";
+import EstatisticasAlunos from "../Views/EstatisticasAlunos"
+import EstatisticasQuestoes from "../Views/EstatisticasQuestoes"
 
 
 import {useTabDisplay} from "../hooks/useTabDisplay"
-import { useNavigation } from "@react-navigation/native";
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,8 @@ export default function StackNav({navigation, route}) {
       />
       <Stack.Screen name="Questoes" component={Questoes} />
       <Stack.Screen name="QuestoesLista" component={QuestoesLista} />
+      <Stack.Screen name="EstatisticasAlunos" component={EstatisticasAlunos} />
+      <Stack.Screen name="EstatisticasQuestoes" component={EstatisticasQuestoes} />
       <Stack.Screen name="MenuAluno" component={MenuAluno} />
       <Stack.Screen name="PerfilAluno" component={PerfilAluno} />
     </Stack.Navigator>
