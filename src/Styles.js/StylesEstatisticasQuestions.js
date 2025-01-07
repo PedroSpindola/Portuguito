@@ -1,12 +1,18 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-    scrollContent: {
-        flexGrow: 1, 
-        justifyContent: "center", 
+      resultadoQuestoes: {
+        flex: 1,
+        backgroundColor: "rgba(210, 208, 250, 1)",
+        padding: 20,
+      },
+  
+      scrollContent: {
+        // flexGrow: 1, 
+        // justifyContent: "center", 
         alignItems: "center", 
         backgroundColor: "rgba(210, 208, 250, 1)", 
-        paddingVertical: 20, 
+        // paddingVertical: 20, 
       },
       container: {
         flex: 1,

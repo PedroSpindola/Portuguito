@@ -66,32 +66,34 @@ export default function EstatisticasQuestoes() {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={Styles.scrollContent}>
-                <View style={Styles.voltar}>
-                  <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.navigate('Listas')}>
-                    <Ionicons name="arrow-back" style={Styles.iconStyle} />
-                </TouchableOpacity>
-                </View>
-      
-      <View style={Styles.container}>
-        {questoes.map((questao) => (
-          <View key={questao.id} style={Styles.card}>
-            <View style={Styles.header}>
-              <Text style={Styles.headerText}>Questão</Text>
-              <Text style={[Styles.headerText, Styles.acertosHeader]}>Acertos</Text>
-            </View>
-            <View style={Styles.body}>
-              <View style={Styles.bodyRow}>
-                <Text style={Styles.bodyText}>{questao.id}</Text>
-                <Text style={[Styles.bodyText, Styles.acertosBody]}>{questao.acertos}/{questao.erros + questao.acertos}</Text>
+    <View style={Styles.resultadoQuestoes}>
+        <View style={Styles.voltar}>
+          <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.navigate('Listas')}>
+            <Ionicons name="arrow-back" style={Styles.iconStyle} />
+          </TouchableOpacity>
+        </View>
+      <ScrollView contentContainerStyle={Styles.scrollContent}>
+        
+        <View style={Styles.container}>
+          {questoes.map((questao) => (
+            <View key={questao.id} style={Styles.card}>
+              <View style={Styles.header}>
+                <Text style={Styles.headerText}>Questão</Text>
+                <Text style={[Styles.headerText, Styles.acertosHeader]}>Acertos</Text>
               </View>
+              <View style={Styles.body}>
+                <View style={Styles.bodyRow}>
+                  <Text style={Styles.bodyText}>{questao.id}</Text>
+                  <Text style={[Styles.bodyText, Styles.acertosBody]}>{questao.acertos}/{questao.erros + questao.acertos}</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={Styles.button}>
+                <Text style={Styles.buttonText}>Ver Questão</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={Styles.button}>
-              <Text style={Styles.buttonText}>Ver Questão</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+          ))}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
