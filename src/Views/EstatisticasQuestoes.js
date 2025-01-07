@@ -14,7 +14,6 @@ export default function EstatisticasQuestoes() {
   const [questoes, setQuestoes] = useState([]);
   
   const loadQuestoes = async () => {
-    loadQuestoes();
     const db = getFirestore(FIREBASE_APP);
     const listAlunoRef = collection(db, "ListaAluno");
     const listAlunoQuery = query(listAlunoRef, where("codigo", "==", id));
@@ -43,6 +42,8 @@ export default function EstatisticasQuestoes() {
     const questoesArray = Object.values(questoesData);
     setQuestoes(questoesArray);
   };
+
+  loadQuestoes();
 
   useEffect(() => {
     const onBackPress = () => {
