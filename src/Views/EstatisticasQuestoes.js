@@ -6,6 +6,7 @@ import { FIREBASE_APP } from "../../FirebaseConfig";
 import { getFirestore, where, collection, query, getDocs } from "firebase/firestore";
 import Styles from "../Styles.js/StylesEstatisticasQuestions";
 import { async } from "@firebase/util";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function EstatisticasQuestoes() {
   const navigation = useNavigation();
@@ -66,6 +67,12 @@ export default function EstatisticasQuestoes() {
 
   return (
     <ScrollView contentContainerStyle={Styles.scrollContent}>
+                <View style={Styles.voltar}>
+                  <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.navigate('Listas')}>
+                    <Ionicons name="arrow-back" style={Styles.iconStyle} />
+                </TouchableOpacity>
+                </View>
+      
       <View style={Styles.container}>
         {questoes.map((questao) => (
           <View key={questao.id} style={Styles.card}>
