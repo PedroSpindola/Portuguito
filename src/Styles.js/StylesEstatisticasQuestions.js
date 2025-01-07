@@ -1,12 +1,18 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-    scrollContent: {
-        flexGrow: 1, 
-        justifyContent: "center", 
+      resultadoQuestoes: {
+        flex: 1,
+        backgroundColor: "rgba(210, 208, 250, 1)",
+        padding: 20,
+      },
+  
+      scrollContent: {
+        // flexGrow: 1, 
+        // justifyContent: "center", 
         alignItems: "center", 
         backgroundColor: "rgba(210, 208, 250, 1)", 
-        paddingVertical: 20, 
+        // paddingVertical: 20, 
       },
       container: {
         flex: 1,
@@ -36,7 +42,7 @@ export default StyleSheet.create({
       },
       headerText: {
         color: "#FFF",
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: "Inder-Regular",
       },
       errorsHeader: {
@@ -58,7 +64,7 @@ export default StyleSheet.create({
       },
       bodyText: {
         color: "#FFF",
-        fontSize: 12,
+        fontSize: 16,
         fontFamily: "Inder-Regular",
       },
       errorsBody: {
@@ -71,13 +77,33 @@ export default StyleSheet.create({
       button: {
         backgroundColor: "#f54f59",
         borderRadius: 10, 
-        padding: 10,
+        padding: 6,
         marginTop: 5,
         alignSelf: "flex-start",
       },
       buttonText: {
         color: "#FFF",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Inder-Regular",
+      },  
+      voltar:{
+        height: 50,
+        width: 50,
+        zIndex: 1,
+        marginBottom: 10,
+      },
+    
+      iconStyle:{
+          color: "#FFFFFF",
+          fontSize: 24,
+      },
+      
+      paginationButton:{
+          width: 42,
+          height: 42,
+          borderRadius: 25,
+          backgroundColor: "#ff8c90",
+          justifyContent: "center",
+          alignItems: "center",
       },
 });

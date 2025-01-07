@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useRoute } from "@react-navigation/native";
 import { getAlunosWithList } from "../FuncoesFirebase/ListQuery";
 import Styles from "../Styles.js/StylesEstatisticasAlunos";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function EstatisticasAluno() {
   const [alunos, setAlunos] = useState([]);
@@ -47,6 +48,11 @@ export default function EstatisticasAluno() {
 
   return (
     <View style={Styles.resultadoAlunos}>
+          <View style={Styles.voltar}>
+            <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.navigate('Listas')}>
+              <Ionicons name="arrow-back" style={Styles.iconStyle} />
+          </TouchableOpacity>
+          </View>
       {alunos.length > 0 ? (
         <ScrollView contentContainerStyle={Styles.scrollContainer}>
           {
