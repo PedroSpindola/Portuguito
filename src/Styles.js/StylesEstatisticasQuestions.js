@@ -36,7 +36,7 @@ export default StyleSheet.create({
       },
       headerText: {
         color: "#FFF",
-        fontSize: 14,
+        fontSize: 16,
         fontFamily: "Inder-Regular",
       },
       errorsHeader: {
@@ -58,7 +58,7 @@ export default StyleSheet.create({
       },
       bodyText: {
         color: "#FFF",
-        fontSize: 12,
+        fontSize: 16,
         fontFamily: "Inder-Regular",
       },
       errorsBody: {
@@ -71,13 +71,13 @@ export default StyleSheet.create({
       button: {
         backgroundColor: "#f54f59",
         borderRadius: 10, 
-        padding: 10,
+        padding: 6,
         marginTop: 5,
         alignSelf: "flex-start",
       },
       buttonText: {
         color: "#FFF",
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "Inder-Regular",
       },
 });
