@@ -49,7 +49,7 @@ export default function EstatisticasAluno() {
   return (
     <View style={Styles.resultadoAlunos}>
           <View style={Styles.voltar}>
-            <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={Styles.paginationButton} onPress={() => navigation.navigate('Listas')}>
               <Ionicons name="arrow-back" style={Styles.iconStyle} />
           </TouchableOpacity>
           </View>
