@@ -11,7 +11,7 @@ export default function TabNav() {
 
     return (
         <Tab.Navigator
-            initialRouteName="Listas"
+            initialRouteName="Perfil"
             screenOptions={{
                 tabBarActiveTintColor: '#fff',
                 tabBarActiveBackgroundColor: '#F54F59',

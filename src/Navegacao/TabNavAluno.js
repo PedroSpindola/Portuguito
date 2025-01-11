@@ -13,7 +13,7 @@ export default function TabNavAluno() {
 
     return (
         <Tab.Navigator
-            initialRouteName="MenuAluno"
+            initialRouteName="PerfilAluno"
             screenOptions={{
                 tabBarActiveTintColor: '#fff',
                 tabBarActiveBackgroundColor: '#F54F59',
