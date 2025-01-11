@@ -63,9 +63,9 @@ export default function TabNavAluno() {
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => {
                     if (focused) {
-                        return <Ionicons name="trail-sign-outline" size={50} color={color} />
+                        return <Ionicons name="trophy" size={50} color={color} />
                     }
-                    return <Ionicons name="trail-sign-outline" size={50} color="#fff" />
+                    return <Ionicons name="trophy" size={50} color="#fff" />
                 },
 
             }}
