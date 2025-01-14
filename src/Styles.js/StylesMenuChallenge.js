@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet, TouchableOpacity } from "react-native"
 
 export default StyleSheet.create({
     imageAjust: {
@@ -6,14 +6,25 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    boxImageBoss: {
+        height: 250,
+        width: 200,
+        flex: 1,
+    },
+    boxLastDay: {
+        height: 250,
+        width: 200,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     boxImageImage: {
-        height: 120,
-        width: 120,
-
+        height: 100,
+        width: 115,
+        flex: 1,
     },
     boxImageButton: {
-        height: 120,
-        width: 120,
+        height: 130,
+        width: 130,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -35,20 +46,31 @@ export default StyleSheet.create({
         padding: 10,
 
     },
-    box: {
-        height: 500,
-        width: 300,
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-        margin: 10,
-
+    bottomPierLeft: {
+        right: 170,
+        top: 330,
+        transform: [{rotateY: '180deg'}],
     },
-    boxImage: {
-        height: '100%',
-        width: '40%',
-        justifyContent: "center",
-        alignItems: "center",
-
+    bottomPierRight: {
+        left: 170,
+        top: 200,
+    },
+    centerPierLeft: {
+        right: 145,
+        bottom: 125,
+        transform: [{rotateY: '180deg'}],
+    },
+    centerPierRight: {
+        left: 145,
+        bottom: 250,
+    },
+    topPierLeft: {
+        right: 130,
+        bottom: 525,
+        transform: [{rotateY: '180deg'}],
+    },
+    topPierRight: {
+        left: 130,
+        bottom: 655,
     },
 });

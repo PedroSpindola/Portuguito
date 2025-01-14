@@ -7,57 +7,117 @@ import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import Styles from "../Styles.js/StylesMenuChallenge";
 
 export default function MenuChallenge() {
-    const db = getFirestore(FIREBASE_APP);
-    const auth = FIREBASE_AUTH;
-    
-    const navigation = useNavigation();
-    const aluno = auth.currentUser.uid;
-    const referenceAluno = doc(db, 'users', aluno);
+  const db = getFirestore(FIREBASE_APP);
+  const auth = FIREBASE_AUTH;
 
-    const FreeFased = ({ txt, info }) => {
-        return (
-          <TouchableOpacity
-            style={Styles.boxImageButton}
-            onPress={() =>
-              navigation.navigate("QuestoesTrilha", {
-                screen: "QuestoesTrilha",
-                params: { info: info, userId: userId , subTemaDoc: subTemaDoc},
-              })
-            }
-          >
-            <Image
-              source={require("../Imagens/BarcoClaro.png")}
-              style={Styles.boxImageImage}
-            />
-            <Text style={Styles.boxImageButtonText}>{txt}</Text>
-          </TouchableOpacity>
-        );
-      };
+  const navigation = useNavigation();
 
-    const ClosedFased = ({ txt }) => {
-        return (
-            <TouchableOpacity 
-                style={Styles.boxImageButton} 
-                activeOpacity={1}
-            >
-                <Image
-                    source={require("../Imagens/BarcoEscuro.png")}
-                    style={Styles.boxImageImage}
-                />
-                <Text style={Styles.boxImageButtonText}>{txt}</Text>
-            </TouchableOpacity>
-        );
-    };
+  const currentDay = (new Date()).getDay();
+  const openedDays = [];
 
+  for (let i = 0; i < 6; i++) {
+    if (i === currentDay) {
+      openedDays.push(true);
+    } else {
+      openedDays.push(false);
+    }
+  }
+
+  const LastDay = ({ info }) => {
     return (
-        <ImageBackground
-            style={Styles.imageAjust}
-            source={require("../Imagens/menuPier.png")}
-        >
-            <View style={Styles.divTela}>
-                <FreeFased />
-            </View>
-            <StatusBar style="auto" />
-        </ImageBackground>
+      <TouchableOpacity
+        style={Styles.boxLastDay}
+        onPress={() =>
+          navigation.navigate("QuestoesTrilha", {
+            screen: "QuestoesTrilha",
+            params: { info: info, subTemaDoc: subTemaDoc },
+          })
+        }
+      >
+        <Image
+          source={require("../Imagens/BarcoFinal.png")}
+          style={Styles.boxImageBoss}
+        />
+        <Text style={Styles.boxImageButtonText}>{ }</Text>
+      </TouchableOpacity>
     );
+  };
+
+  const OpenedDay = ({ info }) => {
+    return (
+      <TouchableOpacity
+        style={Styles.boxImageButton}
+        activeOpacity={1}
+      >
+        <Image
+          source={require("../Imagens/BarcoClaro.png")}
+          style={Styles.boxImageImage}
+        />
+        <Text style={Styles.boxImageButtonText}>{ }</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const ClosedDay = () => {
+    return (
+      <TouchableOpacity
+        style={Styles.boxImageButton}
+        activeOpacity={1}
+      >
+        <Image
+          source={require("../Imagens/BarcoEscuro.png")}
+          style={Styles.boxImageImage}
+        />
+        <Text style={Styles.boxImageButtonText}>{ }</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <ImageBackground
+      style={Styles.imageAjust}
+      source={require("../Imagens/menuPier.png")}
+      resizeMode="cover"
+    >
+      <View style={Styles.divTela}>
+        {currentDay === 6 ?
+          <LastDay /> : <View style={Styles.boxLastDay}/>
+        }
+
+        {openedDays.map((isDayOpened, index) => {
+          const getPositionFase = () => {
+            switch (index) {
+              case 0:
+                return Styles.bottomPierLeft;
+              case 1:
+                return Styles.bottomPierRight;
+              case 2:
+                return Styles.centerPierLeft;
+              case 3:
+                return Styles.centerPierRight;
+              case 4:
+                return Styles.topPierLeft;
+              default:
+                return Styles.topPierRight;
+            }
+          }
+
+          let style = getPositionFase();
+
+          return (
+            <View style={style}>
+              {
+                isDayOpened ? (
+                  <OpenedDay />
+                ) : (
+                  <ClosedDay />
+                )
+              }
+            </View>
+          );
+        })}
+      </View>
+      <StatusBar style="auto" />
+    </ImageBackground>
+  );
 }
