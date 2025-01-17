@@ -38,7 +38,7 @@ export default function LoadingScreen() {
           ]}
         />
         <View style={styles.overlayCircle} />
-        <Image style={styles.image} source={require('../Imagens/icons/portuguitaBase.jpeg')} />
+        <Image style={styles.image} source={require('../Imagens/portuguitaMascote.png')} />
       </View>
     </LinearGradient>
   );
