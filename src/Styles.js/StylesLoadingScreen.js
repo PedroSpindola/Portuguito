@@ -24,9 +24,9 @@ export default StyleSheet.create({
   },
   overlayCircle: {
       position: "absolute",
-      width: 230, 
-      height: 230,
-      borderRadius: 115,
+      width: 240, 
+      height: 240,
+      borderRadius: 80,
       backgroundColor: "#ffffff44",
   },
   image: {
