@@ -7,16 +7,18 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
     boxImageBoss: {
-        top: 15,
         height: 200,
         width: 150,
         flex: 1,
     },
     boxLastDay: {
+        top: 8,
         height: 200,
         width: 150,
         alignItems: 'center',
-        justifyContent: 'center',
+    },
+    lastDayClosed: {
+        opacity: 0.3,
     },
     boxImageImage: {
         height: 100,
@@ -24,19 +26,39 @@ export default StyleSheet.create({
         flex: 1,
     },
     boxImageButton: {
-        height: 130,
-        width: 130,
+        height: 135,
+        width: 135,
         alignItems: 'center',
         justifyContent: 'center',
+    }, 
+    faseIcon: {
+        position: 'relative',
+        bottom: 62
     },
-
-    boxImageButtonText: {
-        color: '#fff',
-        fontSize: 16,
+    faseIconImage: {
+        height: 50,
+        width: 50,
         position: 'absolute',
-        top: 94,
+    },
+    centerFaseIcon: {
+        marginTop: 15,
+        marginRight: 50,
+    },
+    rightFaseIcon: {
+        left: 6,
+    },
+    leftFaseIcon: {
+        right: 55,
+    },
+    faseIconText: {
+        height: 45,
+        width: 50,
+        position: 'absolute',
+        textAlign: 'center',
+        verticalAlign: "middle",
+        color: '#fff',
+        fontSize: 12,
         fontFamily: 'Inder_400Regular',
-
     },
     divTela: {
         height: 'auto',
@@ -47,10 +69,12 @@ export default StyleSheet.create({
         padding: 10,
 
     },
+    rotatedFase: {
+        transform: [{rotateY: '180deg'}],
+    },
     bottomPierLeft: {
         right: 145,
         top: 350,
-        transform: [{rotateY: '180deg'}],
     },
     bottomPierRight: {
         left: 145,
@@ -58,20 +82,18 @@ export default StyleSheet.create({
     },
     centerPierLeft: {
         right: 130,
-        bottom: 100,
-        transform: [{rotateY: '180deg'}],
+        bottom: 105,
     },
     centerPierRight: {
         left: 130,
-        bottom: 230,
+        bottom: 243,
     },
     topPierLeft: {
         right: 120,
-        bottom: 500,
-        transform: [{rotateY: '180deg'}],
+        bottom: 515,
     },
     topPierRight: {
         left: 120,
-        bottom: 630,
+        bottom: 650,
     },
 });

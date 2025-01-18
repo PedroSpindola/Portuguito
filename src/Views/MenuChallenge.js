@@ -23,7 +23,19 @@ export default function MenuChallenge() {
     }
   }
 
-  const LastDay = ({ info }) => {
+  const FaseIcon = ({ style, faseDay }) => {
+    return (
+      <View style={[Styles.faseIcon, style]}>
+        <Image
+          source={require("../Imagens/faseIcon.png")}
+          style={Styles.faseIconImage}
+        />
+        <Text style={Styles.faseIconText}>{faseDay}</Text>
+      </View>
+    )
+  }
+
+  const LastDayOppened = ({  }) => {
     return (
       <TouchableOpacity
         style={Styles.boxLastDay}
@@ -38,37 +50,99 @@ export default function MenuChallenge() {
           source={require("../Imagens/BarcoFinal.png")}
           style={Styles.boxImageBoss}
         />
-        <Text style={Styles.boxImageButtonText}>{ }</Text>
+        <FaseIcon
+          style={Styles.centerFaseIcon}
+          faseDay={7 + '°'}
+        />
       </TouchableOpacity>
     );
   };
 
-  const OpenedDay = ({ info }) => {
+  const LastDayClosed = ({  }) => {
+    return (
+      <TouchableOpacity
+        style={Styles.boxLastDay}
+        activeOpacity={1}
+      >
+        <Image
+          source={require("../Imagens/BarcoFinal.png")}
+          style={[Styles.boxImageBoss, Styles.lastDayClosed]}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const OpenedDay = ({ index }) => {
+    return (
+      <TouchableOpacity
+        style={Styles.boxImageButton}
+        onPress={() =>
+          navigation.navigate("QuestoesTrilha", {
+            screen: "QuestoesTrilha",
+            params: { info: info, subTemaDoc: subTemaDoc },
+          })
+        }
+      >
+        {
+          index % 2 === 0 ? (
+            <>
+              <Image
+                source={require("../Imagens/BarcoEscuro.png")}
+                style={[Styles.boxImageImage, Styles.rotatedFase]}
+              />
+              <FaseIcon
+                style={Styles.leftFaseIcon}
+                faseDay={(index + 1) + '°'}
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                source={require("../Imagens/BarcoEscuro.png")}
+                style={Styles.boxImageImage}
+              />
+              <FaseIcon
+                style={Styles.rightFaseIcon}
+                faseDay={(index + 1) + '°'}
+              />
+            </>
+          )
+        }
+      </TouchableOpacity>
+    );
+  };
+
+  const ClosedDay = ({ index }) => {
     return (
       <TouchableOpacity
         style={Styles.boxImageButton}
         activeOpacity={1}
       >
-        <Image
-          source={require("../Imagens/BarcoClaro.png")}
-          style={Styles.boxImageImage}
-        />
-        <Text style={Styles.boxImageButtonText}>{ }</Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const ClosedDay = () => {
-    return (
-      <TouchableOpacity
-        style={Styles.boxImageButton}
-        activeOpacity={1}
-      >
-        <Image
-          source={require("../Imagens/BarcoEscuro.png")}
-          style={Styles.boxImageImage}
-        />
-        <Text style={Styles.boxImageButtonText}>{ }</Text>
+        {
+          index % 2 === 0 ? (
+            <>
+              <Image
+                source={require("../Imagens/BarcoEscuro.png")}
+                style={[Styles.boxImageImage, Styles.rotatedFase]}
+              />
+              <FaseIcon
+                style={Styles.leftFaseIcon}
+                faseDay={(index + 1) + '°'}
+              />
+            </>
+          ) : (
+            <>
+              <Image
+                source={require("../Imagens/BarcoEscuro.png")}
+                style={Styles.boxImageImage}
+              />
+              <FaseIcon
+                style={Styles.rightFaseIcon}
+                faseDay={(index + 1) + '°'}
+              />
+            </>
+          )
+        }
       </TouchableOpacity>
     );
   };
@@ -80,7 +154,13 @@ export default function MenuChallenge() {
       resizeMode="cover"
     >
       <View style={Styles.divTela}>
-        <LastDay />
+        {
+          currentDay === 6 ? (
+            <LastDayOppened />
+          ) : (
+            <LastDayClosed />
+          )
+        }
         {openedDays.map((isDayOpened, index) => {
           const getPositionFase = () => {
             switch (index) {
@@ -105,9 +185,9 @@ export default function MenuChallenge() {
             <View style={style}>
               {
                 isDayOpened ? (
-                  <OpenedDay />
+                  <OpenedDay index={index} />
                 ) : (
-                  <ClosedDay />
+                  <ClosedDay index={index} />
                 )
               }
             </View>
