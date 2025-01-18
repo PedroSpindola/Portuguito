@@ -76,14 +76,11 @@ export default function MenuChallenge() {
   return (
     <ImageBackground
       style={Styles.imageAjust}
-      source={require("../Imagens/menuPier.png")}
+      source={require("../Imagens/pier.png")}
       resizeMode="cover"
     >
       <View style={Styles.divTela}>
-        {currentDay === 6 ?
-          <LastDay /> : <View style={Styles.boxLastDay}/>
-        }
-
+        <LastDay />
         {openedDays.map((isDayOpened, index) => {
           const getPositionFase = () => {
             switch (index) {
