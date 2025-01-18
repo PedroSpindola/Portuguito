@@ -117,7 +117,7 @@ export default function PerfilAluno() {
                 </View>
 
                 <View style={Styles.titleView}>
-                  <Text style={Styles.txtTitleView}>Dias</Text>
+                  <Text style={Styles.txtTitleView}>Dia(s)</Text>
                 </View>
               </View>
 
