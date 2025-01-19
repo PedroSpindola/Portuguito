@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
-import Styles from "../Styles.js/StyleChallenge.js";
+import Styles from "../Styles.js/StyleChallengeFases.js";
 import { useRoute } from "@react-navigation/native";
 import { doc, getDocs, collection, query, where } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
@@ -56,13 +56,23 @@ export default function ChallengeFases() {
       setLastCompletedFase(dayInfoDoc.ultimaFaseConcluida);
     }
 
+    const unsubscribe = navigation.addListener("focus", fetchData)
+
     fetchData();
-  }, [userId]);
+
+    return unsubscribe;
+  }, [userId, dayName, navigation]);
 
   const FreeFased = ({ txt }) => {
     return (
       <TouchableOpacity
         style={Styles.boxImageButton}
+        onPress={() =>
+          navigation.navigate("ChallengeQuestions", {
+            screen: "ChallengeQuestions",
+            params: { userId: userId, day: day, dayName: dayName, fase: txt },
+          })
+        }
       >
         <Image
           source={require("../Imagens/openedFase.png")}
