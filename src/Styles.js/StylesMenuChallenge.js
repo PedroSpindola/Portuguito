@@ -6,6 +6,17 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    rankingIcon: {
+        position: "absolute",
+        width: 125,
+        height: 125,
+        bottom: 720,
+        left: 284,
+    },
+    rankingIconImage: {
+        width: 125,
+        height: 125,
+    },
     boxImageBoss: {
         height: 200,
         width: 150,

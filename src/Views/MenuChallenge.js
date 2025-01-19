@@ -23,6 +23,25 @@ export default function MenuChallenge() {
     }
   };
 
+  const RankingIcon = () => {
+    return (
+      <TouchableOpacity
+        style={Styles.rankingIcon}
+        onPress={() =>
+          navigation.navigate("ChallengeRanking", {
+            screen: "ChallengeRanking",
+            params: { day: currentDay },
+          })
+        }
+      >
+        <Image
+          source={require("../Imagens/IconRanking.png")}
+          style={Styles.rankingIconImage}
+        />
+      </TouchableOpacity>
+    )
+  };
+
   const FaseIcon = ({ style, faseDay }) => {
     return (
       <View style={[Styles.faseIcon, style]}>
@@ -35,7 +54,7 @@ export default function MenuChallenge() {
     )
   };
 
-  const LastDayOppened = ({  }) => {
+  const LastDayOppened = ({ }) => {
     return (
       <TouchableOpacity
         style={Styles.boxLastDay}
@@ -58,7 +77,7 @@ export default function MenuChallenge() {
     );
   };
 
-  const LastDayClosed = ({  }) => {
+  const LastDayClosed = ({ }) => {
     return (
       <TouchableOpacity
         style={Styles.boxLastDay}
@@ -67,6 +86,10 @@ export default function MenuChallenge() {
         <Image
           source={require("../Imagens/BarcoFinal.png")}
           style={[Styles.boxImageBoss, Styles.lastDayClosed]}
+        />
+        <FaseIcon
+          style={[Styles.centerFaseIcon, Styles.lastDayClosed]}
+          faseDay={7 + '°'}
         />
       </TouchableOpacity>
     );
@@ -195,6 +218,7 @@ export default function MenuChallenge() {
         })}
       </View>
       <StatusBar style="auto" />
+      <RankingIcon />
     </ImageBackground>
   );
 }
