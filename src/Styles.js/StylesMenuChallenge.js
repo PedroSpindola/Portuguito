@@ -50,6 +50,9 @@ export default StyleSheet.create({
     leftFaseIcon: {
         right: 55,
     },
+    activeIcon: {
+        marginTop: 10,
+    },
     faseIconText: {
         height: 45,
         width: 50,

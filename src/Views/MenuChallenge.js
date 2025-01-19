@@ -21,7 +21,7 @@ export default function MenuChallenge() {
     } else {
       openedDays.push(false);
     }
-  }
+  };
 
   const FaseIcon = ({ style, faseDay }) => {
     return (
@@ -33,16 +33,16 @@ export default function MenuChallenge() {
         <Text style={Styles.faseIconText}>{faseDay}</Text>
       </View>
     )
-  }
+  };
 
   const LastDayOppened = ({  }) => {
     return (
       <TouchableOpacity
         style={Styles.boxLastDay}
         onPress={() =>
-          navigation.navigate("QuestoesTrilha", {
-            screen: "QuestoesTrilha",
-            params: { info: info, subTemaDoc: subTemaDoc },
+          navigation.navigate("ChallengeFases", {
+            screen: "ChallengeFases",
+            params: { day: currentDay },
           })
         }
       >
@@ -77,9 +77,9 @@ export default function MenuChallenge() {
       <TouchableOpacity
         style={Styles.boxImageButton}
         onPress={() =>
-          navigation.navigate("QuestoesTrilha", {
-            screen: "QuestoesTrilha",
-            params: { info: info, subTemaDoc: subTemaDoc },
+          navigation.navigate("ChallengeFases", {
+            screen: "ChallengeFases",
+            params: { day: currentDay },
           })
         }
       >
@@ -87,22 +87,22 @@ export default function MenuChallenge() {
           index % 2 === 0 ? (
             <>
               <Image
-                source={require("../Imagens/BarcoEscuro.png")}
+                source={require("../Imagens/BarcoClaro.png")}
                 style={[Styles.boxImageImage, Styles.rotatedFase]}
               />
               <FaseIcon
-                style={Styles.leftFaseIcon}
+                style={[Styles.leftFaseIcon, Styles.activeIcon]}
                 faseDay={(index + 1) + '°'}
               />
             </>
           ) : (
             <>
               <Image
-                source={require("../Imagens/BarcoEscuro.png")}
+                source={require("../Imagens/BarcoClaro.png")}
                 style={Styles.boxImageImage}
               />
               <FaseIcon
-                style={Styles.rightFaseIcon}
+                style={[Styles.rightFaseIcon, Styles.activeIcon]}
                 faseDay={(index + 1) + '°'}
               />
             </>
