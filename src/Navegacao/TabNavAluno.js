@@ -3,9 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import StackNavAluno from "./StackNavAluno";
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import MenuAluno from "../Views/MenuAluno";
 import PerfilAluno from "../Views/PerfilAluno";
 import StackNavTrilha from "./StackNavTrilha";
+import StackNavChallenge from "./StackNavChallenge";
+import MenuAluno from "../Views/MenuAluno";
 
 const Tab = createBottomTabNavigator()
 
@@ -13,7 +14,7 @@ export default function TabNavAluno() {
 
     return (
         <Tab.Navigator
-            initialRouteName="MenuAluno"
+            initialRouteName="PerfilAluno"
             screenOptions={{
                 tabBarActiveTintColor: '#fff',
                 tabBarActiveBackgroundColor: '#F54F59',
@@ -49,6 +50,22 @@ export default function TabNavAluno() {
                         return <Ionicons name="trail-sign-outline" size={50} color={color} />
                     }
                     return <Ionicons name="trail-sign-outline" size={50} color="#fff" />
+                },
+
+            }}
+
+
+
+            />
+
+            <Tab.Screen name='StackNavChallenge' component={StackNavChallenge} options={{
+
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => {
+                    if (focused) {
+                        return <Ionicons name="trophy" size={50} color={color} />
+                    }
+                    return <Ionicons name="trophy" size={50} color="#fff" />
                 },
 
             }}

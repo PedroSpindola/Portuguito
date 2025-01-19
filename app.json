@@ -4,7 +4,7 @@
     "slug": "Portuguito",
     "version": "3.1.0",
     "orientation": "portrait",
-    "icon": "./assets/iconePortuguito4.png",
+    "icon": "./src/Imagens/icons/portuguitaBase.jpeg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {

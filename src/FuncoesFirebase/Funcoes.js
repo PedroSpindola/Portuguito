@@ -121,14 +121,14 @@ export const userVerification = async (email) => {
 
   const querySnapshot = await getDocs(q);
 
-  if (querySnapshot.size > 0) {
-    const userDoc = querySnapshot.docs[0].data();
-    //do objeto que representa o usuário, é retornado um booleano que indica se ele é professor(true) uo aluno (false)
-    return userDoc.souProfessor;
+  const userDoc = querySnapshot.docs[0].data();
+  const isProfessor = userDoc.souProfessor;
+
+  if (isProfessor) {
+    return 'teacher';
   }
 
-  // Se não houver documento correspondente, retorne false (ou o valor que fizer sentido para o seu caso)
-  return false;
+  return 'student';
 };
 
 export const getInfoUser = async (email) => {

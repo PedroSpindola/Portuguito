@@ -5,64 +5,60 @@ import { NavigationContainer } from '@react-navigation/native'
 import TabNav from "./TabNav";
 import LoginNav from "./LoginNav";
 import TabNavAluno from "./TabNavAluno";
-import { View } from "react-native";
-import { Image } from "expo-image";
 import { useAuthentication } from "../hooks/useAutentication";
 import { userVerification } from "../FuncoesFirebase/Funcoes";
 import { updateSequenceDays } from "../FuncoesFirebase/Funcoes";
+import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function Navegacao() {
-  //retorna o usuário atualmente autenticado (ou null se não estiver logado)
   const user = useAuthentication();
 
-  const [isProfessor, setIsProfessor] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [user])
 
   useEffect(() => {
     const fetchVerification = async () => {
-      //Verifica se o usuário é professor ou aluno (baseado no email do usuário)
-      const result = await userVerification(user?.email);
-      setIsProfessor(result);
-      //chama a função para atualizar(se for o caso) a última data de login
-      await updateSequenceDays(user?.email);
-      console.log(`É professor: ${result}`);
-      console.log(`Usuário: ${user?.email}`);
+      if (user) {
+        try {
+          const result = await userVerification(user.email);
+          setUserInfo(result);
+
+          await updateSequenceDays(user.email);
+        } catch (error) {
+          console.error("Erro ao buscar verificação do usuário:", error);
+        }
+      }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     };
 
-    if (user) {
-      fetchVerification();
-    }
+    fetchVerification();
   }, [user]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <NavigationContainer>
         {
-          user !== null ? (
-            user ? (
-              isProfessor ? <TabNav /> : <TabNavAluno />
+          !isLoading ? (
+            user !== null ? (
+              userInfo === 'teacher' ? (
+                <TabNav />
+              ) : (
+                <TabNavAluno />
+              )
             ) : (
-              //transição de imagem que é renderizada enquanto não carrega a tela do aluno ou do professor
-              <View
-                style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-              >
-                <Image
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    height: undefined,
-                    aspectRatio: 1,
-                  }}
-                  source={require("../Imagens/TranFinal.gif")}
-                  contentFit="contain"
-                />
-              </View>
-
+              <LoginNav />
             )
           ) : (
-            <LoginNav />
+            <LoadingScreen />
           )
         }
       </NavigationContainer>
     </SafeAreaView>
-  )
+  );
 }

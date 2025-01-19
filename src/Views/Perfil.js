@@ -8,13 +8,12 @@ import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { getAuth, signOut } from "firebase/auth";
 
 export default function Perfil() {
-  //armazena os dados do usuário obtidos do Firestore (através da função getInfoUser), como nome e email
   const [usuario, setUsuario] = useState();
 
   const logout = () => {
     const auth = getAuth();
 
-    signOut(auth)
+    signOut(auth);
   }
 
   useEffect(() => {
@@ -27,17 +26,13 @@ export default function Perfil() {
       }
     };
 
-    //sempre que o estado de autenticação mudar (após o login ou logout), esta função é acionada, verificando se há um usuário autenticado. onAuthStateChanged é um listener que escuta pela mudança de autenticação o tempo todo
-    //a função onAuthStateChanged retorna outra função que desinscreve o listener. Isso significa que quando você chama a função retornada, você cancela a escuta contínua de mudanças no estado de autenticação
     const unsubscribeFromAuthStateChanged = onAuthStateChanged(FIREBASE_AUTH, (user) => {
       if (user) {
         fetchData(user);
       }
     });
 
-    //return dentro do useEffect é usado para definir uma função de limpeza (cleanup function)
     return () => {
-      //garante que o listener de onAuthStateChanged seja removido quando o componente for desmontado
       unsubscribeFromAuthStateChanged();
     };
   }, []);
