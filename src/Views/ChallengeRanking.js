@@ -5,15 +5,16 @@ import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig.js";
 
-const RankingRow = ({ position, nome, isUser = false }) => (
+const RankingRow = ({ position, nome, fasesConcluidas, isUser = false }) => (
     <View
         style={[
             Styles.row,
             isUser && { backgroundColor: "#E89CA3" },
         ]}
     >
-        <Text style={Styles.cell}>{position}</Text>
-        <Text style={Styles.cell}>{nome}</Text>
+        <Text style={[Styles.cell, Styles.positionCell]}>{position}</Text>
+        <Text style={[Styles.cell, Styles.nameCell]}>{nome}</Text>
+        <Text style={Styles.cell}>{fasesConcluidas}</Text>
     </View>
 );
 
@@ -28,43 +29,30 @@ export default function ChallengeRanking() {
     useEffect(() => {
         const fetchRanking = async () => {
             try {
-                const usersRef = collection(db, "users");
-                const usersSnapshot = await getDocs(usersRef);
+                const progressRef = collection(db, "desafioProgresso");
+                const progressSnapshot = await getDocs(progressRef);
 
-                const usersData = [];
+                const usersProgress = [];
 
-                for (const userDoc of usersSnapshot.docs) {
-                    const desafioInfoRef = collection(userDoc.ref, "desafioInfo");
-                    const desafioInfoSnapshot = await getDocs(desafioInfoRef);
-
-                    if (!desafioInfoSnapshot.empty) {
-                        let totalUltimaFaseConcluida = 0;
-
-                        desafioInfoSnapshot.forEach((doc) => {
-                            const { ultimaFaseConcluida = 0 } = doc.data();
-                            totalUltimaFaseConcluida += ultimaFaseConcluida;
-                        });
-
-                        usersData.push({
-                            id: userDoc.id,
-                            nome: userDoc.data().nome || "Usuário Desconhecido",
-                            total: totalUltimaFaseConcluida,
-                        });
-                    }
+                for (const progressDoc of progressSnapshot.docs) {
+                    usersProgress.push(progressDoc.data());
                 }
+                
 
-                const sortedData = usersData.sort((a, b) => b.total - a.total);
-                const rankedData = sortedData.map((item, index) => ({
-                    ...item,
+                const sortedUsers = usersProgress.sort((a, b) => b.fasesConcluidas - a.fasesConcluidas);
+
+                
+                const rankedUsers = sortedUsers.map((user, index) => ({
+                    ...user,
                     position: index + 1,
                 }));
-
-                const currentUser = rankedData.find((item) => item.id === userId);
+                
+                const currentUser = rankedUsers.find((user) => user.userId === userId);
                 if (currentUser) {
                     setUserPosition(currentUser);
                 }
 
-                setRankingData(rankedData);
+                setRankingData(rankedUsers);
             } catch (error) {
                 console.error("Erro ao buscar o ranking: ", error);
             }
@@ -79,26 +67,31 @@ export default function ChallengeRanking() {
                 <Text style={Styles.headerText}>Ranking semanal</Text>
             </View>
 
+            
+
             <View style={Styles.tableHeader}>
                 <Text style={[Styles.cell, Styles.columnHeader]}>Posição</Text>
-                <Text style={[Styles.cell, Styles.columnHeader]}>Aluno</Text>
+                <Text style={[Styles.cell, Styles.nameCell, Styles.columnHeader]}>Aluno</Text>
+                <Text style={[Styles.cell, Styles.columnHeader]}>{`Fases\nCompletas`}</Text>
             </View>
 
             <ScrollView style={Styles.scrollContainer} persistentScrollbar={true}>
-                {rankingData.slice(0, 90).map((item) => (
+                {rankingData.slice(0, 100).map((item) => (
                     <RankingRow
-                        key={item.id}
+                        key={item.userId}
                         position={item.position}
-                        nome={item.nome}
-                        isUser={item.id === userId}
+                        nome={item.userName}
+                        fasesConcluidas={item.fasesConcluidas}
+                        isUser={item.userId === userId}
                     />
                 ))}
             </ScrollView>
 
             {userPosition && (
                 <View style={[Styles.row, Styles.userRow]}>
-                    <Text style={Styles.cell}>{userPosition.position}</Text>
-                    <Text style={Styles.cell}>{userPosition.nome}</Text>
+                    <Text style={[Styles.cell, Styles.positionCell]}>{userPosition.position}</Text>
+                    <Text style={[Styles.cell, Styles.nameCell]}>{userPosition.userName}</Text>
+                    <Text style={Styles.cell}>{userPosition.fasesConcluidas}</Text>
                 </View>
             )}
 

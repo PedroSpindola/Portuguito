@@ -28,6 +28,7 @@ export default StyleSheet.create({
         paddingVertical: 10,
     },
     columnHeader: {
+        verticalAlign: "middle",
         fontWeight: "bold",
         fontSize: 16,
         color: "#FFFFFF",
@@ -47,8 +48,18 @@ export default StyleSheet.create({
     cell: {
         flex: 1,
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 14,
         color: "#FFFFFF",
+    },
+    fasesCell: {
+        width: "20%",
+    },
+    positionCell: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    nameCell: {
+        minWidth: "30%",
     },
     userRow: {
         width: "90%",
