@@ -1,79 +1,178 @@
-import React from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import Styles from "../Styles.js/StyleChallengeRanking";
 import { useNavigation } from "@react-navigation/native";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig.js";
 
-const rankingData = Array.from({ length: 50 }, (_, index) => ({
-    position: index + 1,
-    name: `Aluno ${index + 1}`,
-}));
-
-const userPosition = {
-    position: 20,
-    name: "Marcos",
-};
-
-const RankingRow = ({ position, name, isUser = false }) => (
+const RankingRow = ({ position, nome, fasesConcluidas, isUser = false }) => (
     <View
         style={[
             Styles.row,
             isUser && { backgroundColor: "#E89CA3" },
         ]}
     >
-        <Text style={Styles.cell}>{position}</Text>
-        <Text style={Styles.cell}>{name}</Text>
+        <Text style={[Styles.cell, Styles.positionCell]}>{position}</Text>
+        <Text style={[Styles.cell, Styles.nameCell]}>{nome}</Text>
+        <Text style={Styles.cell}>{fasesConcluidas}</Text>
     </View>
 );
 
-export default function ChallengeRanking () {
+export default function ChallengeRanking() {
+    const db = getFirestore(FIREBASE_APP);
+    const [currentRankingData, setCurrentRankingData] = useState([]);
+    const [oldRankingData, setOldRankingData] = useState([]);
+    const [currentUserPosition, setCurrentUserPosition] = useState(null);
+    const [oldUserPosition, setOldUserPosition] = useState(null);
+    const [showCurrentChallenge, setShowCurrentChallenge] = useState(true);
     const navigation = useNavigation();
 
-    const modifiedRanking = rankingData.map((item) =>
-        item.position === userPosition.position
-            ? { ...item, name: `Marcos` }
-            : item
-    );
+    const userId = FIREBASE_AUTH.currentUser?.uid;
+
+    useEffect(() => {
+        const fetchCurrentRanking = async () => {
+            try {
+                const progressRef = collection(db, "desafioProgresso");
+                const progressSnapshot = await getDocs(progressRef);
+
+                const usersProgress = [];
+
+                for (const progressDoc of progressSnapshot.docs) {
+                    usersProgress.push(progressDoc.data());
+                }
+
+
+                const sortedUsers = usersProgress.sort((a, b) => b.fasesConcluidas - a.fasesConcluidas);
+
+
+                const rankedUsers = sortedUsers.map((user, index) => ({
+                    ...user,
+                    position: index + 1,
+                }));
+
+                const currentUser = rankedUsers.find((user) => user.userId === userId);
+                if (currentUser) {
+                    setCurrentUserPosition(currentUser);
+                }
+
+                setCurrentRankingData(rankedUsers);
+            } catch (error) {
+                console.error("Erro ao buscar o ranking: ", error);
+            }
+        };
+
+        const fetchOldRanking = async () => {
+            try {
+                const progressRef = collection(db, "ultimoDesafioProgresso");
+                const progressSnapshot = await getDocs(progressRef);
+
+                const usersProgress = [];
+
+                for (const progressDoc of progressSnapshot.docs) {
+                    usersProgress.push(progressDoc.data());
+                }
+
+
+                const sortedUsers = usersProgress.sort((a, b) => b.fasesConcluidas - a.fasesConcluidas);
+
+
+                const rankedUsers = sortedUsers.map((user, index) => ({
+                    ...user,
+                    position: index + 1,
+                }));
+
+                const currentUser = rankedUsers.find((user) => user.userId === userId);
+                if (currentUser) {
+                    setOldUserPosition(currentUser);
+                }
+                setOldRankingData(rankedUsers);
+            } catch (error) {
+                console.error("Erro ao buscar o ranking: ", error);
+            }
+        };
+
+        fetchCurrentRanking();
+        fetchOldRanking();
+    }, [db, userId]);
 
     return (
         <View style={Styles.container}>
-            {/* Título */}
             <View style={Styles.header}>
                 <Text style={Styles.headerText}>Ranking semanal</Text>
             </View>
 
-            {/* Cabeçalho tabela */}
+
+            <TouchableOpacity
+                onPress={() =>
+                    setShowCurrentChallenge(!showCurrentChallenge)
+                }
+                style={Styles.challengeShow}
+            >
+                <Text
+                    style={[
+                        Styles.buttonText,
+                        showCurrentChallenge ? Styles.showActive : Styles.showInactive
+                    ]}>
+                    Atual
+                </Text>
+                <Text style={[
+                    Styles.buttonText,
+                    !showCurrentChallenge ? Styles.showActive : Styles.showInactive
+                ]}>Passado</Text>
+            </TouchableOpacity>
+
             <View style={Styles.tableHeader}>
                 <Text style={[Styles.cell, Styles.columnHeader]}>Posição</Text>
-                <Text style={[Styles.cell, Styles.columnHeader]}>Aluno</Text>
+                <Text style={[Styles.cell, Styles.nameCell, Styles.columnHeader]}>Aluno</Text>
+                <Text style={[Styles.cell, Styles.columnHeader]}>{`Fases\nCompletas`}</Text>
             </View>
 
-            {/* Ranking */}
             <ScrollView style={Styles.scrollContainer} persistentScrollbar={true}>
-                {modifiedRanking.slice(0, 90).map((item, index) => (
-                    <RankingRow
-                        key={index}
-                        position={item.position}
-                        name={item.name}
-                        isUser={item.position === userPosition.position}
-                    />
-                ))}
+                {showCurrentChallenge ?
+                    (currentRankingData.slice(0, 100).map((item) => (
+                        <RankingRow
+                            key={item.userId}
+                            position={item.position}
+                            nome={item.userName}
+                            fasesConcluidas={item.fasesConcluidas}
+                            isUser={item.userId === userId}
+                        />
+                    ))) : (oldRankingData.slice(0, 100).map((item) => (
+                        <RankingRow
+                            key={item.userId}
+                            position={item.position}
+                            nome={item.userName}
+                            fasesConcluidas={item.fasesConcluidas}
+                            isUser={item.userId === userId}
+                        />
+                    )))
+                }
             </ScrollView>
 
-            {/* Exibe posição do jogador*/}
-            <View style={[Styles.row, Styles.userRow]}>
-                <Text style={Styles.cell}>{userPosition.position}</Text>
-                <Text style={Styles.cell}>{userPosition.name}</Text>
-            </View>
+            {showCurrentChallenge ? (
+                currentUserPosition && (
+                    <View style={[Styles.row, Styles.userRow]}>
+                        <Text style={[Styles.cell, Styles.positionCell]}>{currentUserPosition.position}</Text>
+                        <Text style={[Styles.cell, Styles.nameCell]}>{currentUserPosition.userName}</Text>
+                        <Text style={Styles.cell}>{currentUserPosition.fasesConcluidas}</Text>
+                    </View>
+                )) : (
+                oldUserPosition && (
+                    <View style={[Styles.row, Styles.userRow]}>
+                        <Text style={[Styles.cell, Styles.positionCell]}>{oldUserPosition.position}</Text>
+                        <Text style={[Styles.cell, Styles.nameCell]}>{oldUserPosition.userName}</Text>
+                        <Text style={Styles.cell}>{oldUserPosition.fasesConcluidas}</Text>
+                    </View>
+                )
+            )}
 
-            {/* Botão voltar */}
-            <TouchableOpacity 
+            < TouchableOpacity
                 style={Styles.button}
-                onPress={() => 
-                    navigation.goBack()
-                }
+                onPress={() => navigation.goBack()}
             >
                 <Text style={Styles.buttonText}>Voltar</Text>
             </TouchableOpacity>
-        </View>
+        </View >
     );
-};
+}
+

@@ -11,12 +11,31 @@ export default StyleSheet.create({
         backgroundColor: "#FFB8BC",
         padding: 10,
         borderRadius: 10,
-        marginBottom: 20,
+        marginBottom: 10,
     },
     headerText: {
         color: "#FFFFFF",
         fontSize: 20,
         fontWeight: "bold",
+    },
+    challengeShow: {
+        flexDirection: "row",
+        backgroundColor: "#FFB8BC",
+        paddingVertical: 4,
+        paddingHorizontal: 4,
+        borderRadius: 20,
+        marginTop: 10,
+        marginBottom: 20,
+    },
+    showActive: {
+        paddingHorizontal: 10,
+        paddingVertical: 1,
+        backgroundColor: "#FF6F6F",
+        borderRadius: 10,
+    }, 
+    showInactive: {
+        paddingHorizontal: 10,
+        paddingVertical: 1,
     },
     tableHeader: {
         flexDirection: "row",
@@ -28,6 +47,7 @@ export default StyleSheet.create({
         paddingVertical: 10,
     },
     columnHeader: {
+        verticalAlign: "middle",
         fontWeight: "bold",
         fontSize: 16,
         color: "#FFFFFF",
@@ -47,8 +67,18 @@ export default StyleSheet.create({
     cell: {
         flex: 1,
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 14,
         color: "#FFFFFF",
+    },
+    fasesCell: {
+        width: "20%",
+    },
+    positionCell: {
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+    nameCell: {
+        minWidth: "30%",
     },
     userRow: {
         width: "90%",
