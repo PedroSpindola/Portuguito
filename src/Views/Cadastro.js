@@ -74,8 +74,8 @@ export default function Cadastro() {
       const resposta = await createUserWithEmailAndPassword(auth, email, senha);
       await cadastroBD(resposta.user.uid);
       if (!souProfessor) {
-
         await cadastroFases(resposta.user.uid)
+        await cadastroWeekChallenge(resposta.user.uid)
       }
 
     } catch (error) {
@@ -137,6 +137,30 @@ export default function Cadastro() {
 
       const docRef = doc(trilhaInfoRef);
       await setDoc(docRef, trilhaInfoData);
+    }));
+  }
+
+  const cadastroWeekChallenge = async (userId) => {
+    const arrayDias = [
+      'domingo',
+      'segunda',
+      'terca',
+      'quarta',
+      'quinta',
+      'sexta',
+      'sabado',
+    ];
+
+    const desafioInfoRef = collection(db, "users", userId, "desafioInfo");
+
+    await Promise.all(arrayDias.map(async (dia) => {
+      const desafioInfoData = {
+        dia: dia,
+        ultimaFaseConcluida: 0,
+      };
+
+      const docRef = doc(desafioInfoRef);
+      await setDoc(docRef, desafioInfoData);
     }));
   }
 
