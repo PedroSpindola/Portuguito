@@ -20,14 +20,17 @@ const RankingRow = ({ position, nome, fasesConcluidas, isUser = false }) => (
 
 export default function ChallengeRanking() {
     const db = getFirestore(FIREBASE_APP);
-    const [rankingData, setRankingData] = useState([]);
-    const [userPosition, setUserPosition] = useState(null);
+    const [currentRankingData, setCurrentRankingData] = useState([]);
+    const [oldRankingData, setOldRankingData] = useState([]);
+    const [currentUserPosition, setCurrentUserPosition] = useState(null);
+    const [oldUserPosition, setOldUserPosition] = useState(null);
+    const [showCurrentChallenge, setShowCurrentChallenge] = useState(true);
     const navigation = useNavigation();
 
     const userId = FIREBASE_AUTH.currentUser?.uid;
 
     useEffect(() => {
-        const fetchRanking = async () => {
+        const fetchCurrentRanking = async () => {
             try {
                 const progressRef = collection(db, "desafioProgresso");
                 const progressSnapshot = await getDocs(progressRef);
@@ -37,28 +40,59 @@ export default function ChallengeRanking() {
                 for (const progressDoc of progressSnapshot.docs) {
                     usersProgress.push(progressDoc.data());
                 }
-                
+
 
                 const sortedUsers = usersProgress.sort((a, b) => b.fasesConcluidas - a.fasesConcluidas);
 
-                
+
                 const rankedUsers = sortedUsers.map((user, index) => ({
                     ...user,
                     position: index + 1,
                 }));
-                
+
                 const currentUser = rankedUsers.find((user) => user.userId === userId);
                 if (currentUser) {
-                    setUserPosition(currentUser);
+                    setCurrentUserPosition(currentUser);
                 }
 
-                setRankingData(rankedUsers);
+                setCurrentRankingData(rankedUsers);
             } catch (error) {
                 console.error("Erro ao buscar o ranking: ", error);
             }
         };
 
-        fetchRanking();
+        const fetchOldRanking = async () => {
+            try {
+                const progressRef = collection(db, "ultimoDesafioProgresso");
+                const progressSnapshot = await getDocs(progressRef);
+
+                const usersProgress = [];
+
+                for (const progressDoc of progressSnapshot.docs) {
+                    usersProgress.push(progressDoc.data());
+                }
+
+
+                const sortedUsers = usersProgress.sort((a, b) => b.fasesConcluidas - a.fasesConcluidas);
+
+
+                const rankedUsers = sortedUsers.map((user, index) => ({
+                    ...user,
+                    position: index + 1,
+                }));
+
+                const currentUser = rankedUsers.find((user) => user.userId === userId);
+                if (currentUser) {
+                    setOldUserPosition(currentUser);
+                }
+                setOldRankingData(rankedUsers);
+            } catch (error) {
+                console.error("Erro ao buscar o ranking: ", error);
+            }
+        };
+
+        fetchCurrentRanking();
+        fetchOldRanking();
     }, [db, userId]);
 
     return (
@@ -67,7 +101,25 @@ export default function ChallengeRanking() {
                 <Text style={Styles.headerText}>Ranking semanal</Text>
             </View>
 
-            
+
+            <TouchableOpacity
+                onPress={() =>
+                    setShowCurrentChallenge(!showCurrentChallenge)
+                }
+                style={Styles.challengeShow}
+            >
+                <Text
+                    style={[
+                        Styles.buttonText,
+                        showCurrentChallenge ? Styles.showActive : Styles.showInactive
+                    ]}>
+                    Atual
+                </Text>
+                <Text style={[
+                    Styles.buttonText,
+                    !showCurrentChallenge ? Styles.showActive : Styles.showInactive
+                ]}>Passado</Text>
+            </TouchableOpacity>
 
             <View style={Styles.tableHeader}>
                 <Text style={[Styles.cell, Styles.columnHeader]}>Posição</Text>
@@ -76,33 +128,51 @@ export default function ChallengeRanking() {
             </View>
 
             <ScrollView style={Styles.scrollContainer} persistentScrollbar={true}>
-                {rankingData.slice(0, 100).map((item) => (
-                    <RankingRow
-                        key={item.userId}
-                        position={item.position}
-                        nome={item.userName}
-                        fasesConcluidas={item.fasesConcluidas}
-                        isUser={item.userId === userId}
-                    />
-                ))}
+                {showCurrentChallenge ?
+                    (currentRankingData.slice(0, 100).map((item) => (
+                        <RankingRow
+                            key={item.userId}
+                            position={item.position}
+                            nome={item.userName}
+                            fasesConcluidas={item.fasesConcluidas}
+                            isUser={item.userId === userId}
+                        />
+                    ))) : (oldRankingData.slice(0, 100).map((item) => (
+                        <RankingRow
+                            key={item.userId}
+                            position={item.position}
+                            nome={item.userName}
+                            fasesConcluidas={item.fasesConcluidas}
+                            isUser={item.userId === userId}
+                        />
+                    )))
+                }
             </ScrollView>
 
-            {userPosition && (
-                <View style={[Styles.row, Styles.userRow]}>
-                    <Text style={[Styles.cell, Styles.positionCell]}>{userPosition.position}</Text>
-                    <Text style={[Styles.cell, Styles.nameCell]}>{userPosition.userName}</Text>
-                    <Text style={Styles.cell}>{userPosition.fasesConcluidas}</Text>
-                </View>
+            {showCurrentChallenge ? (
+                currentUserPosition && (
+                    <View style={[Styles.row, Styles.userRow]}>
+                        <Text style={[Styles.cell, Styles.positionCell]}>{currentUserPosition.position}</Text>
+                        <Text style={[Styles.cell, Styles.nameCell]}>{currentUserPosition.userName}</Text>
+                        <Text style={Styles.cell}>{currentUserPosition.fasesConcluidas}</Text>
+                    </View>
+                )) : (
+                oldUserPosition && (
+                    <View style={[Styles.row, Styles.userRow]}>
+                        <Text style={[Styles.cell, Styles.positionCell]}>{oldUserPosition.position}</Text>
+                        <Text style={[Styles.cell, Styles.nameCell]}>{oldUserPosition.userName}</Text>
+                        <Text style={Styles.cell}>{oldUserPosition.fasesConcluidas}</Text>
+                    </View>
+                )
             )}
 
-            
-            <TouchableOpacity
+            < TouchableOpacity
                 style={Styles.button}
                 onPress={() => navigation.goBack()}
             >
                 <Text style={Styles.buttonText}>Voltar</Text>
             </TouchableOpacity>
-        </View>
+        </View >
     );
 }
 
