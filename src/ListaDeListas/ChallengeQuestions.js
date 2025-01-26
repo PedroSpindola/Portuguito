@@ -13,7 +13,7 @@ import "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
-import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc } from "firebase/firestore";
+import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc, addDoc } from "firebase/firestore";
 
 
 
@@ -55,10 +55,10 @@ export default function ChallengeQuestions() {
 
             setQuestoes(challengeQuestions);
         };
-        
+
         setChallengeQuestions();
         setFaseAtual(fase);
-        
+
         setTimeout(() => {
             setShowInitialAnimation(false);
         }, 2050);
@@ -111,12 +111,12 @@ export default function ChallengeQuestions() {
 
                 const userRef = doc(db, "users", userId);
 
-                const collectionRef = collection(userRef, "desafioInfo");    
+                const collectionRef = collection(userRef, "desafioInfo");
                 const dayQuery = query(collectionRef, where("dia", "==", dayName));
 
                 const querySnapshot = await getDocs(dayQuery);
                 const subTemaDoc = querySnapshot.docs[0];
-                
+
                 const subTemaRef = doc(db, "users", userId, "desafioInfo", subTemaDoc.id);
 
                 const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
@@ -124,7 +124,34 @@ export default function ChallengeQuestions() {
 
                 if (currentFase > lastCompletedFase) {
                     await updateDoc(subTemaRef, { ultimaFaseConcluida: lastCompletedFase + 1 });
+
+                    const challengeInfoRef = collection(db, "desafioProgresso");
+                    const firstChallengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
+                    const firstChallengeInfoSnapshot = await getDocs(firstChallengeInfoQuery);
+
+                    const userRef = collection(db, "users");
+                    const userQuery = query(userRef, where("userId", "==", userId));
+                    const userSnapshot = await getDocs(userQuery);
+                    const userName = userSnapshot.docs[0].data().nome;
+
+                    if (firstChallengeInfoSnapshot.size === 0) {
+                        await addDoc(challengeInfoRef, {
+                            userId: userId,
+                            userName: userName,
+                            fasesConcluidas: 0,
+                        });
+                    }
+
+                    const challengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
+                    const challengeInfoSnapshot = await getDocs(challengeInfoQuery);
+                    const userProgressRef = challengeInfoSnapshot.docs[0].ref;
+                    const fasesConcluidas = challengeInfoSnapshot.docs[0].data().fasesConcluidas;
+
+                    await updateDoc(userProgressRef, {
+                        fasesConcluidas: fasesConcluidas + 1,
+                    });
                 }
+
             } catch (error) {
                 console.error("Erro ao atualizar a última fase concluída: ", error.message);
             }
