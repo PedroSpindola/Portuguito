@@ -118,7 +118,7 @@ export default function ChallengeRanking() {
                 <Text style={[
                     Styles.buttonText,
                     !showCurrentChallenge ? Styles.showActive : Styles.showInactive
-                ]}>Passado</Text>
+                ]}>Anterior</Text>
             </TouchableOpacity>
 
             <View style={Styles.tableHeader}>
