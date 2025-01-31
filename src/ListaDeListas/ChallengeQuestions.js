@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc, addDoc } from "firebase/firestore";
+import LoadingScreen from "../Componentes/LoadingScreen";
 
 
 
@@ -478,7 +479,7 @@ export default function ChallengeQuestions() {
                 <View
                     style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                 >
-                    <Image
+                    {/* <Image
                         style={{
                             flex: 1,
                             width: "100%",
@@ -487,7 +488,8 @@ export default function ChallengeQuestions() {
                         }}
                         source={require("../Imagens/TranFinal.gif")}
                         contentFit="contain"
-                    />
+                    /> */}
+                    <LoadingScreen />
                 </View>
             )}
         </LinearGradient>
