@@ -479,16 +479,6 @@ export default function ChallengeQuestions() {
                 <View
                     style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
                 >
-                    {/* <Image
-                        style={{
-                            flex: 1,
-                            width: "100%",
-                            height: undefined,
-                            aspectRatio: 1,
-                        }}
-                        source={require("../Imagens/TranFinal.gif")}
-                        contentFit="contain"
-                    /> */}
                     <LoadingScreen />
                 </View>
             )}
