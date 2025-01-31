@@ -49,7 +49,7 @@ export default StyleSheet.create({
     columnHeader: {
         verticalAlign: "middle",
         fontWeight: "bold",
-        fontSize: 16,
+        fontSize: 14,
         color: "#FFFFFF",
     },
     scrollContainer: {
@@ -78,7 +78,7 @@ export default StyleSheet.create({
         fontWeight: "bold",
     },
     nameCell: {
-        minWidth: "30%",
+        minWidth: "25%",
     },
     userRow: {
         width: "90%",
