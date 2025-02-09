@@ -38,4 +38,7 @@ export default StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 24,
   },
+  pickerItem: {
+    fontSize: 13,
+  },
 });

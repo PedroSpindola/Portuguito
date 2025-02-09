@@ -7,12 +7,14 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
 import Styles from "../Styles.js/StylesHome";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { doc, getFirestore, setDoc, collection } from "firebase/firestore";
+import { set } from "date-fns/set";
 
 export default function AdicionarQuestao() {
   const [pergunta, setPergunta] = useState("");
@@ -22,6 +24,7 @@ export default function AdicionarQuestao() {
   const [resposta4, setResposta4] = useState("");
   const [respostaCorreta, setRespostaCorreta] = useState("");
   const [urlImagem, setUrlImagem] = useState("");
+  const [descritor, setDescritor] = useState("");
 
   const navigation = useNavigation();
 
@@ -44,6 +47,7 @@ export default function AdicionarQuestao() {
     setResposta4("");
     setRespostaCorreta("");
     setUrlImagem("");
+    setDescritor("");
   };
 
   const saveData = async () => {
@@ -55,6 +59,7 @@ export default function AdicionarQuestao() {
       respostaCorreta,
       respostas: [resposta1, resposta2, resposta3, resposta4],
       urlImagem,
+      descritor,
     };
 
     try {
@@ -136,6 +141,37 @@ export default function AdicionarQuestao() {
           value={urlImagem}
           onChangeText={setUrlImagem}
         />
+      </View>
+
+      <View style={style.inputContainer}>
+        <Text style={Styles.txtInput}>Descritor:</Text>
+        <View style={Styles.input}>
+          <Picker
+            selectedValue={descritor}
+            onValueChange={(itemValue) => setDescritor(itemValue)}
+          >
+            <Picker.Item
+              value="procedimentosLeitura"
+              label="Procedimentos de leitura"
+              style={style.pickerItem}
+            />
+            <Picker.Item
+              value="coerenciaCoesaoTextual"
+              label="Coerência e Coesão textual"
+              style={style.pickerItem}
+            />
+            <Picker.Item
+              value="variacaoLinguistica"
+              label="Variação Linguística"
+              style={style.pickerItem}
+            />
+            <Picker.Item
+              value="implicacoesGeneroTextual"
+              label="Implicações do gênero textual"
+              style={style.pickerItem}
+            />
+          </Picker>
+        </View>
       </View>
 
       <View style={Styles.containerBotao}>
