@@ -151,22 +151,22 @@ export default function AdicionarQuestao() {
             onValueChange={(itemValue) => setDescritor(itemValue)}
           >
             <Picker.Item
-              value="procedimentosLeitura"
+              value="DD1"
               label="Procedimentos de leitura"
               style={style.pickerItem}
             />
             <Picker.Item
-              value="coerenciaCoesaoTextual"
+              value="DD2"
               label="Coerência e Coesão textual"
               style={style.pickerItem}
             />
             <Picker.Item
-              value="variacaoLinguistica"
+              value="DD3"
               label="Variação Linguística"
               style={style.pickerItem}
             />
             <Picker.Item
-              value="implicacoesGeneroTextual"
+              value="DD4"
               label="Implicações do gênero textual"
               style={style.pickerItem}
             />

@@ -81,7 +81,7 @@ export default function Menu() {
           <Botao
             titulo="Questões feitas por você"
             onPress={() => {
-              navigation.navigate("DescritorFeitasPorVoce", {
+              navigation.navigate("DescritorQuestoesAutorais", {
                 id,
               });
             }}

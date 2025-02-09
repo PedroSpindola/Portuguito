@@ -18,6 +18,7 @@ import EstatisticasAlunos from "../Views/EstatisticasAlunos";
 import EstatisticasQuestoes from "../Views/EstatisticasQuestoes";
 import Questao from "../Views/Questao";
 import AdicionarQuestaoLista from "../Views/AdicionarQuestaoLista";
+import DescritorQuestoesAutorais from "../Views/DescritorQuestoesAutorais";
 import { useTabDisplay } from "../hooks/useTabDisplay";
 
 const Stack = createStackNavigator();
@@ -57,6 +58,10 @@ export default function StackNav({ navigation, route }) {
       <Stack.Screen
         name="DescritorCoerenciaCoesaoTextual"
         component={DescritorCoerenciaCoesaoTextual}
+      />
+      <Stack.Screen
+        name="DescritorQuestoesAutorais"
+        component={DescritorQuestoesAutorais}
       />
       <Stack.Screen name="Questao" component={Questao} />
       <Stack.Screen name="Questoes" component={Questoes} />

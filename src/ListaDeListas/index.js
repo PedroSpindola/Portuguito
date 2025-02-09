@@ -3,8 +3,17 @@ import { View, TouchableOpacity, Text, Modal } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
-import { getFirestore, query, where, collection, getDocs, doc, getDoc, updateDoc, } from "firebase/firestore";
-import { FIREBASE_APP } from "../../FirebaseConfig";
+import {
+  getFirestore,
+  query,
+  where,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig";
 import { useRoute } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "react-native-vector-icons";
@@ -27,6 +36,8 @@ export default function Questoes() {
   const [totalQuestoes, setTotalQuestoes] = useState(0); // Total de questões
 
   const route = useRoute();
+  const auth = FIREBASE_AUTH;
+  const user = auth.currentUser.uid;
 
   const navigation = useNavigation();
 
@@ -35,21 +46,29 @@ export default function Questoes() {
 
   const db = getFirestore(FIREBASE_APP);
 
-  const collectionRef = collection(db, "questoes");
-
   const descritor = "descritor";
-
   const valorDescritor = route.params.questaoDescritor;
+  let q;
+  const arrayDescritoresAutorais = ["DD1", "DD2", "DD3", "DD4"];
 
-  const q = query(collectionRef, where(descritor, "==", valorDescritor));
+  if (arrayDescritoresAutorais.includes(valorDescritor)) {
+    if (!user) {
+      console.error("Usuário não autenticado");
+      return null;
+    }
+
+    const collectionRef = collection(db, "users", user, "createdQuestions");
+    q = query(collectionRef, where(descritor, "==", valorDescritor));
+  } else {
+    const collectionRef = collection(db, "questoes");
+    q = query(collectionRef, where(descritor, "==", valorDescritor));
+  }
 
   useEffect(() => {
-    // Obter o número total de questões
     const fetchQuestoes = async () => {
-
       try {
         const querySnapshot = await getDocs(q);
-        setTotalQuestoes(querySnapshot.size); // Define o total de questões
+        setTotalQuestoes(querySnapshot.size);
       } catch (error) {
         console.error("Erro ao buscar questões:", error);
       }
@@ -74,6 +93,7 @@ export default function Questoes() {
         urlImagem: data.urlImagem,
       };
     }
+
     return null;
   }
 
@@ -109,9 +129,14 @@ export default function Questoes() {
       // Obtém os dados atuais da lista
       const listaDoc = await getDoc(listaRef);
       const listaData = listaDoc.data();
-
+      console.log(q);
+      let questaoRef;
+      if (arrayDescritoresAutorais.includes(valorDescritor)) {
+        questaoRef = doc(db, "users", user, "createdQuestions", questaoId);
+      } else {
+        questaoRef = doc(db, "questoes", questaoId);
+      }
       // Verifica se a questão já está na lista
-      const questaoRef = doc(db, "questoes", questaoId);
 
       const questaoDoc = await getDoc(questaoRef);
 
@@ -150,7 +175,12 @@ export default function Questoes() {
     try {
       // Crie referências para a lista e a questão
       const listaRef = doc(db, "listas", idLista); // Utilize idLista aqui
-      const questaoRef = doc(db, "questoes", id);
+      let questaoRef;
+      if (arrayDescritoresAutorais.includes(valorDescritor)) {
+        questaoRef = doc(db, "users", user, "createdQuestions", questaoId);
+      } else {
+        questaoRef = doc(db, "questoes", id);
+      }
 
       // Obtenha os dados atuais da lista
       const listaDoc = await getDoc(listaRef);
@@ -178,8 +208,9 @@ export default function Questoes() {
   };
 
   function continuar() {
-    console.log(totalQuestoes)
-    if (indice < totalQuestoes - 1) { // Garante que o índice não ultrapasse o total
+    console.log(totalQuestoes);
+    if (indice < totalQuestoes - 1) {
+      // Garante que o índice não ultrapasse o total
       setIndice(indice + 1);
       setAtualizarDados(!atualizarDados);
     }
@@ -207,7 +238,6 @@ export default function Questoes() {
     atualizarEstadoQuestao();
   }, [id]);
 
-
   useEffect(() => {
     fetchData().then((result) => {
       setPergunta(result.pergunta);
@@ -232,24 +262,24 @@ export default function Questoes() {
   }, [atualizarDados]);
 
   const setQuestionImage = (question) => {
-    if (question.hasOwnProperty('urlImagem')) {
-      if (question.urlImagem !=
-        'https://firebasestorage.googleapis.com/v0/b/portuguito-6e8c8.appspot.com/o/aluno%2Fno_Image3.png?alt=media&token=7d319861-30ab-4f76-a3be-2060cd3f68b4'
+    if (question.hasOwnProperty("urlImagem")) {
+      if (
+        question.urlImagem !=
+        "https://firebasestorage.googleapis.com/v0/b/portuguito-6e8c8.appspot.com/o/aluno%2Fno_Image3.png?alt=media&token=7d319861-30ab-4f76-a3be-2060cd3f68b4"
       ) {
         setHasImage(true);
-        return (question.urlImagem);
+        return question.urlImagem;
       }
     }
 
     const noImageAnimations = [
-      require('../Imagens/noImageAnimations/Alertinha.gif'),
-      require('../Imagens/noImageAnimations/Lupinha.gif'),
-      require('../Imagens/noImageAnimations/Aflito.gif'),
+      require("../Imagens/noImageAnimations/Alertinha.gif"),
+      require("../Imagens/noImageAnimations/Lupinha.gif"),
+      require("../Imagens/noImageAnimations/Aflito.gif"),
     ];
 
-    const randomImage = noImageAnimations[
-      Math.floor(Math.random() * noImageAnimations.length)
-    ];
+    const randomImage =
+      noImageAnimations[Math.floor(Math.random() * noImageAnimations.length)];
 
     setHasImage(false);
     return randomImage;
@@ -260,7 +290,10 @@ export default function Questoes() {
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
       <View style={Styles.voltar}>
-        <TouchableOpacity style={styles.paginationButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.paginationButton}
+          onPress={() => navigation.goBack()}
+        >
           <Ionicons name="arrow-back" style={styles.iconStyle} />
         </TouchableOpacity>
       </View>
@@ -278,7 +311,11 @@ export default function Questoes() {
         <View style={styles.enunciado}>
           <View style={styles.backgroundImagem}>
             {hasImage ? (
-              <TouchableOpacity onPress={() => { setIsExpanded(true) }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setIsExpanded(true);
+                }}
+              >
                 <Image
                   style={styles.imagem}
                   source={{ uri: urlImagem }}
@@ -293,8 +330,7 @@ export default function Questoes() {
                   contentFit="contain"
                 />
               </TouchableOpacity>
-            )
-            }
+            )}
 
             {/* Modal para exibir a imagem expandida */}
             <Modal visible={isExpanded} transparent={true} animationType="fade">
@@ -304,7 +340,6 @@ export default function Questoes() {
                 </TouchableOpacity>
               </View>
             </Modal>
-
           </View>
           <Markdown
             style={{
@@ -436,13 +471,17 @@ export default function Questoes() {
                   <Text style={styles.label}>Voltar</Text>
                 </TouchableOpacity>
               )}
-              <TouchableOpacity onPress={continuar} disabled={indice >= totalQuestoes - 1}
+              <TouchableOpacity
+                onPress={continuar}
+                disabled={indice >= totalQuestoes - 1}
                 style={[
                   styles.btnContinuar, // Estilo base do botão
                   {
-                    backgroundColor: indice >= totalQuestoes - 1 ? "gray" : "#F54F59",
+                    backgroundColor:
+                      indice >= totalQuestoes - 1 ? "gray" : "#F54F59",
                   },
-                ]}>
+                ]}
+              >
                 <Text style={styles.label}>Continuar</Text>
               </TouchableOpacity>
             </View>
