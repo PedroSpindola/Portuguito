@@ -17,6 +17,46 @@ export default StyleSheet.create({
     ScrollViewContent: {
         marginLeft: "4%",
     },
+    progressContainerInfo: {
+        top: 55,
+        width: 300,
+        flexDirection: "row",
+        alignSelf: "center",
+    },
+    infoAcertos: {
+        padding: 10,
+        color: '#4CAF50'
+    },
+    infoErros: {
+        padding: 10,
+        color: '#F54F59'
+    },
+    progressContainer: {
+        width: 250,
+        height: 18,
+        backgroundColor: "#ddd",
+        borderRadius:98,
+        overflow: "hidden",
+        marginVertical: 10,
+    },
+    progressBar: {
+        height: "100%",
+        position: "absolute",
+    },
+    progressInfoWarning: {
+        fontSize: 16,
+        color: '#F54F59',
+        top: 55,
+        alignSelf: "center",
+        fontFamily: 'Inder_400Regular',
+    },
+    progressInfoSuccessful: {
+        fontSize: 16,
+        color: '#4CAF50',
+        top: 55,
+        alignSelf: "center",
+        fontFamily: 'Inder_400Regular',
+    },
     enunciado: {
         backgroundColor: '#ff8c90',
         height: 'auto',
