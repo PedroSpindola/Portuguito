@@ -62,7 +62,10 @@ export default function StackNav({ navigation, route }) {
       <Stack.Screen name="Questoes" component={Questoes} />
       <Stack.Screen name="QuestoesLista" component={QuestoesLista} />
       <Stack.Screen name="EstatisticasAlunos" component={EstatisticasAlunos} />
-      <Stack.Screen name="AdicionarQuestao" component={AdicionarQuestaoLista} />
+      <Stack.Screen
+        name="AdicionarQuestaoLista"
+        component={AdicionarQuestaoLista}
+      />
       <Stack.Screen
         name="EstatisticasQuestoes"
         component={EstatisticasQuestoes}
