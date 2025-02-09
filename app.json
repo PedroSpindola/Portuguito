@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/portugitaBase.png",
+        "foregroundImage": "./assets/portuguitaBase.jpeg",
         "backgroundColor": "#ffffff"
       },
       "package": "com.Portuguito",
