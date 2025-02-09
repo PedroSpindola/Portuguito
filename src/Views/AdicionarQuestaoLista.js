@@ -36,65 +36,65 @@ export default function AdicionarQuestao() {
           <Ionicons name="arrow-back" style={style.iconStyle} />
         </TouchableOpacity>
       </View>
-      <Text style={style.title}>Adicionar Questão</Text>
+      <Text style={Styles.frase}>Adicionar Questão</Text>
       <View style={style.inputContainer}>
-        <Text>Pergunta:</Text>
+        <Text style={Styles.txtInput}>Pergunta:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={pergunta}
           onChangeText={setPergunta}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>Resposta 1:</Text>
+        <Text style={Styles.txtInput}>Resposta 1:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={resposta1}
           onChangeText={setResposta1}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>Resposta 2:</Text>
+        <Text style={Styles.txtInput}>Resposta 2:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={resposta2}
           onChangeText={setResposta2}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>Resposta 3:</Text>
+        <Text style={Styles.txtInput}>Resposta 3:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={resposta3}
           onChangeText={setResposta3}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>Resposta 4:</Text>
+        <Text style={Styles.txtInput}>Resposta 4:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={resposta4}
           onChangeText={setResposta4}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>Resposta Correta:</Text>
+        <Text style={Styles.txtInput}>Resposta Correta:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={respostaCorreta}
           onChangeText={setRespostaCorreta}
           required
         />
       </View>
       <View style={style.inputContainer}>
-        <Text>URL da Imagem:</Text>
+        <Text style={Styles.txtInput}>URL da Imagem:</Text>
         <TextInput
-          style={style.input}
+          style={Styles.input}
           value={urlImagem}
           onChangeText={setUrlImagem}
         />
