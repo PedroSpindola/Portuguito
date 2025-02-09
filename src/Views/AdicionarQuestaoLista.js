@@ -6,6 +6,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
 import Styles from "../Styles.js/StylesHome";
@@ -31,7 +32,9 @@ export default function AdicionarQuestao() {
     console.log("Resposta 4:", resposta4);
     console.log("Resposta Correta:", respostaCorreta);
     console.log("URL da Imagem:", urlImagem);
+    Alert.alert("Questão Adicionada com Sucesso!");
     clearForm();
+    navigation.navigate("Listas");
   };
 
   const clearForm = () => {
