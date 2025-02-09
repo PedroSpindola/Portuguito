@@ -440,7 +440,10 @@ export default function Listas() {
 
           <TouchableOpacity
             style={Styles.addLista}
-            onPress={() => setVisible(true)}
+            onPress={navigation.navigate("StackNav", {
+              screen: "AdicionarQuestao",
+              params: { itemId },
+            })}
           >
             <Text style={Styles.criarLista}>Criar Questões</Text>
             <AntDesign name="plus" size={50} color="#F54F59" />
