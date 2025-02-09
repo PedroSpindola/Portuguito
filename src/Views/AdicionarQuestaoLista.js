@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
 import Styles from "../Styles.js/StylesHome";
 import { useNavigation } from "@react-navigation/native";
@@ -27,7 +34,7 @@ export default function AdicionarQuestao() {
   };
 
   return (
-    <View style={style.container}>
+    <ScrollView contentContainerStyle={style.container}>
       <View style={style.voltar}>
         <TouchableOpacity
           style={style.paginationButton}
@@ -100,6 +107,6 @@ export default function AdicionarQuestao() {
         />
       </View>
       <Button title="Enviar" onPress={handleSubmit} />
-    </View>
+    </ScrollView>
   );
 }
