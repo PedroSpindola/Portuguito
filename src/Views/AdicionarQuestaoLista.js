@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
+import Styles from "../Styles.js/StylesHome";
+import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function AdicionarQuestao() {
   const [pergunta, setPergunta] = useState("");
@@ -10,6 +13,8 @@ export default function AdicionarQuestao() {
   const [resposta4, setResposta4] = useState("");
   const [respostaCorreta, setRespostaCorreta] = useState("");
   const [urlImagem, setUrlImagem] = useState("");
+
+  const navigation = useNavigation();
 
   const handleSubmit = () => {
     console.log("Pergunta:", pergunta);
@@ -23,6 +28,14 @@ export default function AdicionarQuestao() {
 
   return (
     <View style={style.container}>
+      <View style={style.voltar}>
+        <TouchableOpacity
+          style={style.paginationButton}
+          onPress={() => navigation.navigate("Listas")}
+        >
+          <Ionicons name="arrow-back" style={style.iconStyle} />
+        </TouchableOpacity>
+      </View>
       <Text style={style.title}>Adicionar Questão</Text>
       <View style={style.inputContainer}>
         <Text>Pergunta:</Text>
