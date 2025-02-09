@@ -106,7 +106,12 @@ export default function AdicionarQuestao() {
           onChangeText={setUrlImagem}
         />
       </View>
-      <Button title="Enviar" onPress={handleSubmit} />
+
+      <View style={Styles.containerBotao}>
+        <TouchableOpacity style={Styles.botao} onPress={handleSubmit}>
+          <Text style={Styles.txtBotao}>Adicionar</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
