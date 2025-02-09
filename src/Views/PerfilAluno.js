@@ -1,50 +1,80 @@
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, Modal } from "react-native";
 import Styles from "../Styles.js/StylesPerfilAluno";
+import style from "../Styles.js/StylesModalIcon";
 import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
-import { format, differenceInCalendarDays } from "date-fns";
+import { format } from "date-fns";
 
 import { updateSequenceDays } from "../FuncoesFirebase/Funcoes";
-import { doc, updateDoc } from "firebase/firestore"; // Importar a função updateDoc
-import { getFirestore } from "firebase/firestore"; // Importar o Firestore
-
+import { doc, getDocs, updateDoc, collection, query } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import { Ionicons } from "react-native-vector-icons";
 
 export default function PerfilAluno() {
+  const db = getFirestore(FIREBASE_APP);
+
   const [user, setUser] = useState(null);
   const [sequenciaDias, setSequenciaDias] = useState(0);
+  const [icons, setIcons] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalIcon, setModalIcon] = useState(null);
+  const [modalDescription, setModalDescription] = useState(null);
+
+  const userIcons = {};
 
   useEffect(() => {
     const fetchUserData = async () => {
       const auth = FIREBASE_AUTH;
 
-      // Ouve as mudanças de autenticação
       const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
         if (currentUser) {
-          // Obtém os detalhes do usuário no Firestore
           const userInfo = await getInfoUser(currentUser.email);
           if (userInfo) {
             setUser(userInfo);
-            setSequenciaDias(userInfo.sequenciaDias || 0); // Atualiza sequência de dias
+            setSequenciaDias(userInfo.sequenciaDias || 0);
 
-            // Atualiza a sequência de dias
+            try {
+              const userRef = doc(db, "users", userInfo.userId);
+              const userIconsRef = collection(userRef, "userIcons");
+              const userIconsQuery = query(userIconsRef);
+              const dayInfoSnapshot = await getDocs(userIconsQuery);
+
+              const iconNames = [];
+              dayInfoSnapshot.forEach((icon) => {
+                iconNames.push((icon.data()).icon);
+              });
+
+              iconNames.forEach((iconName) => {
+                if (!userIcons[iconName]) {
+                  userIcons[iconName] = 1;
+                  return;
+                }
+                userIcons[iconName] += 1;
+              });
+
+              setIcons(userIcons);
+            } catch (error) {
+              console.error("Erro ao buscar ícones: ", error);
+            }
+
+
             try {
               await updateSequenceDays(currentUser.email);
             } catch (error) {
               console.error("Erro ao atualizar sequência de dias:", error);
             }
-
           } else {
             console.error("Usuário não encontrado no Firestore.");
           }
         } else {
-          setUser(null); // Nenhum usuário logado
+          setUser(null);
         }
       });
 
-      return () => unsubscribe(); // Limpa o listener ao desmontar
+      return () => unsubscribe();
     };
 
     fetchUserData();
@@ -58,20 +88,16 @@ export default function PerfilAluno() {
 
     try {
       const auth = FIREBASE_AUTH;
-      const db = getFirestore(FIREBASE_APP); // Referência ao Firestore
+      const db = getFirestore(FIREBASE_APP);
 
       console.log("UID do usuário:", user.userId);
-
-      // Criar referência ao documento
       const userRef = doc(db, "users", user.userId);
 
-      // Atualiza os dados do usuário no Firestore
       await updateDoc(userRef, {
-        sequenciaDias: 0, // Zera a sequência de dias
-        ultimoAcesso: null, // Define ultimoAcesso como null
+        sequenciaDias: 0,
+        ultimoAcesso: null,
       });
 
-      // Realiza o logout
       await auth.signOut();
       console.log("Logout realizado com sucesso.");
     } catch (error) {
@@ -79,11 +105,46 @@ export default function PerfilAluno() {
     }
   };
 
+  const openIconModal = (iconPath, descriptionText) => {
+    setModalIcon(iconPath);
+    setModalDescription(descriptionText);
+    setModalVisible(true);
+  };
+
+  function IconModal({ icon, description, visible, onClose }) {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}>
+        <View style={style.container}>
+          <View style={style.boxGeral}>
+            <View style={style.modalHeader}>
+              <Text style={style.modalTitle}>Conquista</Text>
+              <TouchableOpacity style={style.closeButton} onPress={onClose}>
+                <Ionicons name="close" style={style.iconeDelete} />
+              </TouchableOpacity>
+            </View>
+            <View style={style.modalBody}>
+              <Image source={icon} style={style.modalIcon} />
+              <Text style={style.modalDescription}>{description}</Text>
+            </View>
+          </View>
+        </View>
+      </Modal >
+    );
+  }
 
 
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
       <View style={Styles.container}>
+        <IconModal
+          icon={modalIcon}
+          description={modalDescription}
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+        />
         <View style={Styles.backgroundUser}>
           <Image
             style={Styles.image}
@@ -100,7 +161,9 @@ export default function PerfilAluno() {
 
         <View style={Styles.containerFilho}>
           <View style={Styles.viewOptions}>
-            <Text style={Styles.txtInput}>Nome: {user ? user.nome : ""}</Text>
+            <Text style={Styles.txtInput}>
+              Nome: {user ? user.nome : ""}
+            </Text>
           </View>
         </View>
 
@@ -128,7 +191,9 @@ export default function PerfilAluno() {
 
                 <View style={Styles.numberDays}>
                   <Text style={Styles.txtDate}>
-                    {user ? format(user.dataCadastro.toDate(), "dd/MM/yy") : ""}
+                    {user
+                      ? format(user.dataCadastro.toDate(), "dd/MM/yy")
+                      : ""}
                   </Text>
                 </View>
               </View>
@@ -138,9 +203,95 @@ export default function PerfilAluno() {
 
         <View style={Styles.containerFilho}>
           <View style={[Styles.viewOptions, Styles.campoEmail]}>
-            <Text style={Styles.txtInput}>E-mail: {user ? user.email : ""}</Text>
+            <Text style={Styles.txtInput}>
+              E-mail: {user ? user.email : ""}
+            </Text>
           </View>
         </View>
+
+        <Text style={Styles.txtAchievements}>Conquistas</Text>
+
+        {
+          (icons === null) ? (
+            <View style={Styles.containerFilho}>
+              <View style={Styles.playerIcons}>
+                <ActivityIndicator size="large" color="#EFEFFE"></ActivityIndicator>
+              </View>
+            </View>
+          ) : (
+            (icons.length <= 0) ? (
+              <View style={Styles.containerFilho}>
+                <View style={Styles.playerIcons}>
+                  <Text style={Styles.txtNoIcon}>
+                    Você ainda não possui nenhuma conquista
+                  </Text>
+                </View>
+              </View>
+            ) : (
+              <View style={Styles.containerFilho}>
+                <View style={Styles.playerIcons}>
+                  {icons?.primeiroDesafio &&
+                    <TouchableOpacity
+                      onPress={() => {
+                        openIconModal();
+                        setModalIcon(require('../Imagens/icons/firstMedal.png'));
+                        setModalDescription('1° lugar no desafio semanal');
+                      }
+                      }>
+                      <View style={Styles.iconContainer}>
+                        <Image
+                          style={Styles.iconFormat}
+                          source={require("../Imagens/icons/firstMedal.png")}
+                        />
+                        <View style={Styles.iconQuantity}>
+                          <Text style={Styles.txtNoIcon}>{icons.primeiroDesafio}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  }
+                  {icons?.segundoDesafio &&
+                    <TouchableOpacity
+                      onPress={() => {
+                        openIconModal();
+                        setModalIcon(require('../Imagens/icons/secondMedal.png'));
+                        setModalDescription('2° lugar no desafio semanal');
+                      }
+                      }>
+                      <View style={Styles.iconContainer}>
+                        <Image
+                          style={Styles.iconFormat}
+                          source={require("../Imagens/icons/secondMedal.png")}
+                        />
+                        <View style={Styles.iconQuantity}>
+                          <Text style={Styles.txtNoIcon}>{icons.segundoDesafio}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  }
+                  {icons?.terceiroDesafio &&
+                    <TouchableOpacity
+                      onPress={() => {
+                        openIconModal();
+                        setModalIcon(require('../Imagens/icons/thirdMedal.png'));
+                        setModalDescription('3° lugar no desafio semanal');
+                      }
+                      }>
+                      <View style={Styles.iconContainer}>
+                        <Image
+                          style={Styles.iconFormat}
+                          source={require("../Imagens/icons/thirdMedal.png")}
+                        />
+                        <View style={Styles.iconQuantity}>
+                          <Text style={Styles.txtNoIcon}>{icons.terceiroDesafio}</Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  }
+                </View>
+              </View>
+            )
+          )
+        }
       </View>
     </LinearGradient>
   );
