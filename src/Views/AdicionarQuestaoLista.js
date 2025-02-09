@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   TouchableOpacity,
   ScrollView,
   Alert,
@@ -12,6 +11,8 @@ import style from "../Styles.js/StylesAdicionarQuestaoLista";
 import Styles from "../Styles.js/StylesHome";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
+import { doc, getFirestore, setDoc, collection } from "firebase/firestore";
 
 export default function AdicionarQuestao() {
   const [pergunta, setPergunta] = useState("");
@@ -24,16 +25,14 @@ export default function AdicionarQuestao() {
 
   const navigation = useNavigation();
 
+  const db = getFirestore(FIREBASE_APP);
+  const auth = FIREBASE_AUTH;
+  const user = auth.currentUser.uid;
+
   const handleSubmit = () => {
-    console.log("Pergunta:", pergunta);
-    console.log("Resposta 1:", resposta1);
-    console.log("Resposta 2:", resposta2);
-    console.log("Resposta 3:", resposta3);
-    console.log("Resposta 4:", resposta4);
-    console.log("Resposta Correta:", respostaCorreta);
-    console.log("URL da Imagem:", urlImagem);
     Alert.alert("Questão Adicionada com Sucesso!");
     clearForm();
+    saveData();
     navigation.navigate("Listas");
   };
 
@@ -45,6 +44,24 @@ export default function AdicionarQuestao() {
     setResposta4("");
     setRespostaCorreta("");
     setUrlImagem("");
+  };
+
+  const saveData = async () => {
+    const refUser = doc(db, "users", user);
+    const refCreatedQuestions = collection(refUser, "createdQuestions");
+
+    const questionData = {
+      pergunta,
+      respostaCorreta,
+      respostas: [resposta1, resposta2, resposta3, resposta4],
+      urlImagem,
+    };
+
+    try {
+      await setDoc(doc(refCreatedQuestions), questionData);
+    } catch (error) {
+      console.error("Erro ao salvar dados:", error);
+    }
   };
 
   return (
