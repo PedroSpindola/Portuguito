@@ -31,6 +31,17 @@ export default function AdicionarQuestao() {
     console.log("Resposta 4:", resposta4);
     console.log("Resposta Correta:", respostaCorreta);
     console.log("URL da Imagem:", urlImagem);
+    clearForm();
+  };
+
+  const clearForm = () => {
+    setPergunta("");
+    setResposta1("");
+    setResposta2("");
+    setResposta3("");
+    setResposta4("");
+    setRespostaCorreta("");
+    setUrlImagem("");
   };
 
   return (
@@ -38,7 +49,7 @@ export default function AdicionarQuestao() {
       <View style={style.voltar}>
         <TouchableOpacity
           style={style.paginationButton}
-          onPress={() => navigation.navigate("Listas")}
+          onPress={() => clearForm() || navigation.navigate("Listas")}
         >
           <Ionicons name="arrow-back" style={style.iconStyle} />
         </TouchableOpacity>
