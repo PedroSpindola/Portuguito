@@ -173,29 +173,32 @@ export default function Questoes() {
 
   const verificarArray = async (id) => {
     try {
-      // Crie referências para a lista e a questão
-      const listaRef = doc(db, "listas", idLista); // Utilize idLista aqui
+      const listaRef = doc(db, "listas", idLista);
       let questaoRef;
       if (arrayDescritoresAutorais.includes(valorDescritor)) {
-        questaoRef = doc(db, "users", user, "createdQuestions", questaoId);
+        questaoRef = doc(db, "users", user, "createdQuestions", id);
       } else {
         questaoRef = doc(db, "questoes", id);
       }
 
-      // Obtenha os dados atuais da lista
       const listaDoc = await getDoc(listaRef);
 
       if (listaDoc.exists()) {
         const listaData = listaDoc.data();
 
-        // Verifique se a questão está na lista
-        const questaoEstaNaLista = listaData?.questoes?.some(
+        if (!listaData.questoes || !Array.isArray(listaData.questoes)) {
+          return false;
+        }
+
+        const questaoEstaNaLista = listaData.questoes.some(
           (questao) =>
             questao?.path === questaoRef.path && questaoRef.path !== null
         );
 
         return questaoEstaNaLista;
       }
+
+      return false;
     } catch (error) {
       console.error("Erro ao verificar a lista de questões:", error);
       return false;
