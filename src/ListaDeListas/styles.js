@@ -35,7 +35,7 @@ export default StyleSheet.create({
         width: 250,
         height: 18,
         backgroundColor: "#ddd",
-        borderRadius:98,
+        borderRadius: 98,
         overflow: "hidden",
         marginVertical: 10,
     },
@@ -198,5 +198,10 @@ export default StyleSheet.create({
         backgroundColor: "#ff8c90",
         justifyContent: "center",
         alignItems: "center",
+    },
+    loader: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

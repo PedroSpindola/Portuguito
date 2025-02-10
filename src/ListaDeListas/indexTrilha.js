@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Text, Modal } from "react-native";
+import { View, TouchableOpacity, Text, Modal, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -36,6 +36,7 @@ export default function QuestoesTrilha() {
   const [end, setEnd] = useState(false);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
   const [noImage, setNoImage] = useState(null);
+  const [loadingImage, setLoadingImage] = useState(true);
 
   const userId = route.params.params.info.userId;
 
@@ -65,6 +66,7 @@ export default function QuestoesTrilha() {
       ];
       setNoImage(randomImage);
     }
+    setLoadingImage(false);
   }, [indice]);
 
   const conferirQuestao = (respostaCorreta, respostaAluno) => {
@@ -85,6 +87,7 @@ export default function QuestoesTrilha() {
     } else {
       setEnd(true);
     }
+    setLoadingImage(false);
   };
 
   const finishActivity = async () => {
@@ -332,22 +335,27 @@ export default function QuestoesTrilha() {
           <View style={styles.container}>
             <View style={styles.enunciado}>
               <View style={styles.backgroundImagem}>
-                {questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
-                  <TouchableOpacity onPress={() => setIsExpanded(true)}>
-                    <Image
-                      style={styles.imagem}
-                      source={{ uri: questoes[indice].urlImagem }}
-                      contentFit="contain"
-                    />
-                  </TouchableOpacity>
+                {loadingImage ? (
+                  <ActivityIndicator size="large" color="#EFEFFE"></ActivityIndicator>
                 ) : (
-                  <TouchableOpacity>
-                    <Image
-                      style={styles.imagem}
-                      source={noImage}
-                      contentFit="contain"
-                    />
-                  </TouchableOpacity>
+                  questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
+                    <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                      <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader}></ActivityIndicator>
+                      <Image
+                        style={styles.imagem}
+                        source={{ uri: questoes[indice].urlImagem }}
+                        contentFit="contain"
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.imagem}
+                        source={noImage}
+                        contentFit="contain"
+                      />
+                    </TouchableOpacity>
+                  )
                 )
                 }
 
@@ -443,6 +451,7 @@ export default function QuestoesTrilha() {
                     style={[styles.confirmar, btnRadioClicado ? styles.btnDesativado : styles.btnAtivado]}
                     disabled={btnRadioClicado}
                     onPress={() => {
+                      setLoadingImage(true);
                       conferirQuestao(
                         questoes[indice].respostaCorreta,
                         value
