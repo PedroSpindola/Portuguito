@@ -379,7 +379,7 @@ export default function ChallengeQuestions() {
                             <Text style={styles.progressInfoWarning}>Não é mais possível avançar de fase</Text>
                         ) : (
                             acertos < 7 ? (
-                                <Text style={styles.progressInfoWarning}>Falta acertar {7 - acertos} para avançar de fase</Text>
+                                <Text style={styles.progressInfoWarning}>Faltam acertar {7 - acertos} para avançar de fase</Text>
                             ) : (
                                 <Text style={styles.progressInfoSuccessful}>Você já acertou o suficiente para passar de fase!</Text>
                             )
