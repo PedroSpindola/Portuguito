@@ -9,8 +9,8 @@ export default StyleSheet.create({
     },
     boxGeral: {
         backgroundColor: '#FF8D94',
-        height: 200,
-        width: '80%',
+        height: '25%',
+        width: '90%',
         borderRadius: 10,
         display: 'flex',
         justifyContent: 'center',
@@ -50,13 +50,13 @@ export default StyleSheet.create({
     },
     modalIcon: {
         verticalAlign: 'middle',
-        height: 110,
-        width: 70,
+        height: 100,
+        width: 65,
     },
     modalDescription: {
         color: '#EFEFFE',
         fontFamily: 'Inder_400Regular',
-        fontSize: 18,
+        fontSize: 16,
         marginLeft: 20,
         verticalAlign: 'middle',
     },
