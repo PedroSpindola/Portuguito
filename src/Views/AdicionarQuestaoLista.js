@@ -69,6 +69,8 @@ export default function AdicionarQuestao() {
     }
   };
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <ScrollView contentContainerStyle={style.container}>
       <View style={style.voltar}>
@@ -80,7 +82,7 @@ export default function AdicionarQuestao() {
         </TouchableOpacity>
       </View>
       <View style={style.infoContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
           <AntDesign name="infocirlceo" size={34} style={style.antDesign} />
         </TouchableOpacity>
       </View>
@@ -184,6 +186,24 @@ export default function AdicionarQuestao() {
           <Text style={Styles.txtBotao}>Adicionar</Text>
         </TouchableOpacity>
       </View>
+
+      {modalVisible && (
+        <View style={style.modalContainer}>
+          <View style={style.modalContent}>
+            <Text style={style.modalText}>
+              Uma URL de imagem é um endereço na internet que aponta para uma
+              imagem específica. No entanto, essa URL pode mudar ou ficar
+              inativa caso o site remova ou substitua a imagem. Se isso
+              acontecer, a imagem não será mais exibida na questão. Para evitar
+              problemas, prefira URLs de fontes confiáveis e verifique se a
+              imagem ainda está disponível antes de usá-la.
+            </Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={style.modalCloseButton}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }

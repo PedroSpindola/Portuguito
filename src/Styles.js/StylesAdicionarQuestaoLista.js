@@ -1,4 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
+import { fi } from "date-fns/locale";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -49,5 +50,29 @@ export default StyleSheet.create({
   },
   antDesign: {
     color: "#fff",
+  },
+  modalContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 1000,
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    width: "80%",
+    alignItems: "center",
+    position: "absolute",
+    top: "200",
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
   },
 });
