@@ -33,9 +33,23 @@ export default function AdicionarQuestao() {
   const user = auth.currentUser.uid;
 
   const handleSubmit = () => {
+    if (
+      !pergunta ||
+      !resposta1 ||
+      !resposta2 ||
+      !resposta3 ||
+      !resposta4 ||
+      !respostaCorreta
+    ) {
+      Alert.alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
+
+    const valorDescritor = descritor === "" ? "DD1" : descritor;
+
     Alert.alert("Questão Adicionada com Sucesso!");
     clearForm();
-    saveData();
+    saveData(valorDescritor);
     navigation.navigate("Listas");
   };
 
@@ -50,7 +64,7 @@ export default function AdicionarQuestao() {
     setDescritor("");
   };
 
-  const saveData = async () => {
+  const saveData = async (valorDescritor) => {
     const refUser = doc(db, "users", user);
     const refCreatedQuestions = collection(refUser, "createdQuestions");
 
@@ -59,7 +73,7 @@ export default function AdicionarQuestao() {
       respostaCorreta,
       respostas: [resposta1, resposta2, resposta3, resposta4],
       urlImagem,
-      descritor,
+      descritor: valorDescritor,
     };
 
     try {
@@ -157,11 +171,7 @@ export default function AdicionarQuestao() {
             selectedValue={descritor}
             onValueChange={(itemValue) => setDescritor(itemValue)}
           >
-            <Picker.Item
-              value="DD1"
-              label="Procedimentos de leitura"
-              style={style.pickerItem}
-            />
+            <Picker.Item value="DD1" label="Geral" style={style.pickerItem} />
             <Picker.Item
               value="DD2"
               label="Coerência e Coesão textual"
@@ -175,6 +185,11 @@ export default function AdicionarQuestao() {
             <Picker.Item
               value="DD4"
               label="Implicações do gênero textual"
+              style={style.pickerItem}
+            />
+            <Picker.Item
+              value="DD5"
+              label="Procedimentos de leitura"
               style={style.pickerItem}
             />
           </Picker>

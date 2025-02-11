@@ -50,7 +50,7 @@ export default function Questoes() {
   const descritor = "descritor";
   const valorDescritor = route.params.questaoDescritor;
   let q;
-  const arrayDescritoresAutorais = ["DD1", "DD2", "DD3", "DD4"];
+  const arrayDescritoresAutorais = ["DD1", "DD2", "DD3", "DD4", "DD5"];
 
   if (arrayDescritoresAutorais.includes(valorDescritor)) {
     if (!user) {

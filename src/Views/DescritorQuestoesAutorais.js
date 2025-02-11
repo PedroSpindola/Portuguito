@@ -31,11 +31,7 @@ export default function DescritorQuestoesAutorais() {
             <Ionicons name="arrow-back" style={Styles.iconStyle} />
           </TouchableOpacity>
         </View>
-        <Descritores
-          titulo="Procedimentos de Leitura"
-          descritor="DD1"
-          id={id}
-        />
+        <Descritores titulo="Geral" descritor="DD1" id={id} />
         <Descritores
           titulo="Coerência e Coesão Textual"
           descritor="DD2"
@@ -45,6 +41,11 @@ export default function DescritorQuestoesAutorais() {
         <Descritores
           titulo="Implicações do Gênero Textual"
           descritor="DD4"
+          id={id}
+        />{" "}
+        <Descritores
+          titulo="Procedimentos de Leitura"
+          descritor="DD5"
           id={id}
         />
       </View>
