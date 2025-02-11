@@ -133,7 +133,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Alternativa Correta:</Text>
+        <Text style={Styles.txtInput}>Gabarito:</Text>
         <TextInput
           style={Styles.input}
           value={respostaCorreta}
