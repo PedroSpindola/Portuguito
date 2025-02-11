@@ -331,6 +331,7 @@ export default function Questoes() {
                       setIsExpanded(true);
                     }}
                   >
+                    <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader}></ActivityIndicator>
                     <Image
                       style={styles.imagem}
                       source={{ uri: urlImagem }}
