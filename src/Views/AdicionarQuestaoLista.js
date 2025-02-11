@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { doc, getFirestore, setDoc, collection } from "firebase/firestore";
-import { set } from "date-fns/set";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function AdicionarQuestao() {
   const [pergunta, setPergunta] = useState("");
@@ -77,6 +77,11 @@ export default function AdicionarQuestao() {
           onPress={() => clearForm() || navigation.navigate("Listas")}
         >
           <Ionicons name="arrow-back" style={style.iconStyle} />
+        </TouchableOpacity>
+      </View>
+      <View style={style.infoContainer}>
+        <TouchableOpacity>
+          <AntDesign name="infocirlceo" size={34} style={style.antDesign} />
         </TouchableOpacity>
       </View>
       <Text style={Styles.frase}>Adicionar Questão</Text>

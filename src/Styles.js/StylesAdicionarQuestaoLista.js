@@ -1,3 +1,4 @@
+import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
@@ -40,5 +41,13 @@ export default StyleSheet.create({
   },
   pickerItem: {
     fontSize: 13,
+  },
+  infoContainer: {
+    position: "absolute",
+    right: 20,
+    top: 20,
+  },
+  antDesign: {
+    color: "#fff",
   },
 });
