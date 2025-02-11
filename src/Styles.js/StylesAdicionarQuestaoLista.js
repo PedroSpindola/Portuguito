@@ -74,5 +74,11 @@ export default StyleSheet.create({
   modalText: {
     fontSize: 18,
     marginBottom: 20,
+    fontFamily: "Inder_400Regular",
+    textAlign: "justify",
+  },
+  modalCloseButton: {
+    fontFamily: "Inder_400Regular",
+    fontSize: 15,
   },
 });

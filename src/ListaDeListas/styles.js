@@ -160,7 +160,9 @@ export default StyleSheet.create({
   },
   modalText: {
     fontSize: 18,
-    color: "#000",
+    marginBottom: 20,
+    fontFamily: "Inder_400Regular",
+    textAlign: "justify",
   },
   modalWarnContainer: {
     position: "absolute",
@@ -177,4 +179,5 @@ export default StyleSheet.create({
     paddingTop: 80,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
+  modalButton: { fontFamily: "Inder_400Regular", fontSize: 15 },
 });
