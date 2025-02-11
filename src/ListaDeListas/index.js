@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Text, Modal } from "react-native";
+import { View, TouchableOpacity, Text, Modal, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -34,6 +34,7 @@ export default function Questoes() {
   const [atualizarDados, setAtualizarDados] = useState(false);
   const [questaoEstaNaLista, setQuestaoEstaNaLista] = useState(false);
   const [totalQuestoes, setTotalQuestoes] = useState(0); // Total de questões
+  const [loading, setLoading] = useState(true);
 
   const route = useRoute();
   const auth = FIREBASE_AUTH;
@@ -65,6 +66,7 @@ export default function Questoes() {
   }
 
   useEffect(() => {
+    setLoading(false);
     const fetchQuestoes = async () => {
       try {
         const querySnapshot = await getDocs(q);
@@ -129,7 +131,6 @@ export default function Questoes() {
       // Obtém os dados atuais da lista
       const listaDoc = await getDoc(listaRef);
       const listaData = listaDoc.data();
-      console.log(q);
       let questaoRef;
       if (arrayDescritoresAutorais.includes(valorDescritor)) {
         questaoRef = doc(db, "users", user, "createdQuestions", questaoId);
@@ -211,7 +212,6 @@ export default function Questoes() {
   };
 
   function continuar() {
-    console.log(totalQuestoes);
     if (indice < totalQuestoes - 1) {
       // Garante que o índice não ultrapasse o total
       setIndice(indice + 1);
@@ -242,26 +242,31 @@ export default function Questoes() {
   }, [id]);
 
   useEffect(() => {
-    fetchData().then((result) => {
-      setPergunta(result.pergunta);
-      setRespostaCorreta(result.respostaCorreta);
-      setResposta(result.respostas);
-      setUrlImagem(result.urlImagem);
-      setId(result.id);
-    });
+    const atualizarQuestao = async () => {
+      fetchData().then((result) => {
+        setPergunta(result.pergunta);
+        setRespostaCorreta(result.respostaCorreta);
+        setResposta(result.respostas);
+        setUrlImagem(result.urlImagem);
+        setId(result.id);
+      });
 
-    const obterIdLista = async () => {
-      const idListaObtido = await obterIdPorCodigo(codigo, "listas");
-      setIdLista(idListaObtido);
-    };
+      const obterIdLista = async () => {
+        const idListaObtido = await obterIdPorCodigo(codigo, "listas");
+        setIdLista(idListaObtido);
+      };
 
-    // Utilize uma função async dentro do useEffect
-    const executarEfeitos = async () => {
-      await verificarEAtualizarEstado(); // Aguarde a verificação do estado
-      await obterIdLista(); // Aguarde a obtenção do idLista
-    };
+      // Utilize uma função async dentro do useEffect
+      const executarEfeitos = async () => {
+        await verificarEAtualizarEstado(); // Aguarde a verificação do estado
+        await obterIdLista(); // Aguarde a obtenção do idLista
+      };
 
-    executarEfeitos();
+      await executarEfeitos();
+      setLoading(false);
+    }
+
+    atualizarQuestao();
   }, [atualizarDados]);
 
   const setQuestionImage = (question) => {
@@ -292,205 +297,224 @@ export default function Questoes() {
 
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
-      <View style={Styles.voltar}>
-        <TouchableOpacity
-          style={styles.paginationButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons name="arrow-back" style={styles.iconStyle} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.containerSalvar}>
-          <TouchableOpacity
-            style={styles.btnSalvar}
-            onPress={() => selecionarQuestao(id)}
-          >
-            <Text style={styles.label}>
-              {questaoEstaNaLista ? "Excluir" : "Incluir"}
-            </Text>
-          </TouchableOpacity>
+      {loading ? (
+        <View style={Styles.loadingContainer}>
+          <ActivityIndicator size="50" color="#EFEFFE" style={Styles.loadingElement}></ActivityIndicator>
+          <Text style={Styles.loadingText}>Carregando Questão...</Text>
         </View>
-        <View style={styles.enunciado}>
-          <View style={styles.backgroundImagem}>
-            {hasImage ? (
+      ) : (
+        <>
+          <View style={styles.container}>
+            <View style={Styles.voltar}>
               <TouchableOpacity
-                onPress={() => {
-                  setIsExpanded(true);
-                }}
+                style={styles.paginationButton}
+                onPress={() => navigation.goBack()}
               >
-                <Image
-                  style={styles.imagem}
-                  source={{ uri: urlImagem }}
-                  contentFit="contain"
-                />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity>
-                <Image
-                  style={styles.imagem}
-                  source={urlImagem}
-                  contentFit="contain"
-                />
-              </TouchableOpacity>
-            )}
-
-            {/* Modal para exibir a imagem expandida */}
-            <Modal visible={isExpanded} transparent={true} animationType="fade">
-              <View style={styles.modalContainer}>
-                <TouchableOpacity onPress={() => setIsExpanded(false)}>
-                  <Image source={{ uri: urlImagem }} style={styles.fullImage} />
-                </TouchableOpacity>
-              </View>
-            </Modal>
-          </View>
-          <Markdown
-            style={{
-              body: {
-                fontSize: 16,
-                color: "#fff",
-                top: 0,
-                width: "90%",
-                left: 5,
-                padding: 5,
-                textAlign: "left",
-                fontFamily: "Inder_400Regular",
-              },
-            }}
-          >
-            {pergunta}
-          </Markdown>
-        </View>
-
-        <View style={styles.container}>
-          <ScrollView style={styles.ScrollViewContent}>
-            <TouchableOpacity
-              style={[
-                resposta[0] === respostaCorreta
-                  ? [styles.alternativas, styles.selectLabel]
-                  : styles.alternativas,
-              ]}
-            >
-              <Markdown
-                style={{
-                  body: {
-                    fontSize: 16,
-                    color: "#fff",
-                    top: 0,
-                    width: "90%",
-                    left: 5,
-                    padding: 5,
-                    textAlign: "left",
-                    fontFamily: "Inder_400Regular",
-                  },
-                }}
-              >
-                {resposta[0]}
-              </Markdown>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                resposta[1] === respostaCorreta
-                  ? [styles.alternativas, styles.selectLabel]
-                  : styles.alternativas,
-              ]}
-            >
-              <Markdown
-                style={{
-                  body: {
-                    fontSize: 16,
-                    color: "#fff",
-                    top: 0,
-                    width: "90%",
-                    left: 5,
-                    padding: 5,
-                    textAlign: "left",
-                    fontFamily: "Inder_400Regular",
-                  },
-                }}
-              >
-                {resposta[1]}
-              </Markdown>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                resposta[2] === respostaCorreta
-                  ? [styles.alternativas, styles.selectLabel]
-                  : styles.alternativas,
-              ]}
-            >
-              <Markdown
-                style={{
-                  body: {
-                    fontSize: 16,
-                    color: "#fff",
-                    top: 0,
-                    width: "90%",
-                    left: 5,
-                    padding: 5,
-                    textAlign: "left",
-                    fontFamily: "Inder_400Regular",
-                  },
-                }}
-              >
-                {resposta[2]}
-              </Markdown>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                resposta[3] === respostaCorreta
-                  ? [styles.alternativas, styles.selectLabel]
-                  : styles.alternativas,
-              ]}
-            >
-              <Markdown
-                style={{
-                  body: {
-                    fontSize: 16,
-                    color: "#fff",
-                    top: 0,
-                    width: "90%",
-                    left: 5,
-                    padding: 5,
-                    textAlign: "left",
-                    fontFamily: "Inder_400Regular",
-                  },
-                }}
-              >
-                {resposta[3]}
-              </Markdown>
-            </TouchableOpacity>
-            <View style={styles.containerContinuarProfessor}>
-              {indice > 0 ? (
-                <TouchableOpacity style={styles.btnContinuar} onPress={voltar}>
-                  <Text style={styles.label}>Voltar</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={[styles.btnContinuar, { backgroundColor: "#767577" }]}
-                  disabled={true}
-                  onPress={voltar}
-                >
-                  <Text style={styles.label}>Voltar</Text>
-                </TouchableOpacity>
-              )}
-              <TouchableOpacity
-                onPress={continuar}
-                disabled={indice >= totalQuestoes - 1}
-                style={[
-                  styles.btnContinuar, // Estilo base do botão
-                  {
-                    backgroundColor:
-                      indice >= totalQuestoes - 1 ? "gray" : "#F54F59",
-                  },
-                ]}
-              >
-                <Text style={styles.label}>Continuar</Text>
+                <Ionicons name="arrow-back" style={styles.iconStyle} />
               </TouchableOpacity>
             </View>
-          </ScrollView>
-        </View>
-      </View>
-    </LinearGradient>
+            <View style={styles.containerSalvar}>
+              <TouchableOpacity
+                style={styles.btnSalvar}
+                onPress={() => selecionarQuestao(id)}
+              >
+                <Text style={styles.label}>
+                  {questaoEstaNaLista ? "Excluir" : "Incluir"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.enunciado}>
+              <View style={styles.backgroundImagem}>
+                {hasImage ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setIsExpanded(true);
+                    }}
+                  >
+                    <Image
+                      style={styles.imagem}
+                      source={{ uri: urlImagem }}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.imagem}
+                      source={urlImagem}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
+                )}
+
+                {/* Modal para exibir a imagem expandida */}
+                <Modal visible={isExpanded} transparent={true} animationType="fade">
+                  <View style={styles.modalContainer}>
+                    <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                      <Image source={{ uri: urlImagem }} style={styles.fullImage} />
+                    </TouchableOpacity>
+                  </View>
+                </Modal>
+              </View>
+              <Markdown
+                style={{
+                  body: {
+                    fontSize: 16,
+                    color: "#fff",
+                    top: 0,
+                    width: "90%",
+                    left: 5,
+                    padding: 5,
+                    textAlign: "left",
+                    fontFamily: "Inder_400Regular",
+                  },
+                }}
+              >
+                {pergunta}
+              </Markdown>
+            </View>
+
+            <View style={styles.container}>
+              <ScrollView style={styles.ScrollViewContent}>
+                <TouchableOpacity
+                  style={[
+                    resposta[0] === respostaCorreta
+                      ? [styles.alternativas, styles.selectLabel]
+                      : styles.alternativas,
+                  ]}
+                >
+                  <Markdown
+                    style={{
+                      body: {
+                        fontSize: 16,
+                        color: "#fff",
+                        top: 0,
+                        width: "90%",
+                        left: 5,
+                        padding: 5,
+                        textAlign: "left",
+                        fontFamily: "Inder_400Regular",
+                      },
+                    }}
+                  >
+                    {resposta[0]}
+                  </Markdown>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    resposta[1] === respostaCorreta
+                      ? [styles.alternativas, styles.selectLabel]
+                      : styles.alternativas,
+                  ]}
+                >
+                  <Markdown
+                    style={{
+                      body: {
+                        fontSize: 16,
+                        color: "#fff",
+                        top: 0,
+                        width: "90%",
+                        left: 5,
+                        padding: 5,
+                        textAlign: "left",
+                        fontFamily: "Inder_400Regular",
+                      },
+                    }}
+                  >
+                    {resposta[1]}
+                  </Markdown>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    resposta[2] === respostaCorreta
+                      ? [styles.alternativas, styles.selectLabel]
+                      : styles.alternativas,
+                  ]}
+                >
+                  <Markdown
+                    style={{
+                      body: {
+                        fontSize: 16,
+                        color: "#fff",
+                        top: 0,
+                        width: "90%",
+                        left: 5,
+                        padding: 5,
+                        textAlign: "left",
+                        fontFamily: "Inder_400Regular",
+                      },
+                    }}
+                  >
+                    {resposta[2]}
+                  </Markdown>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    resposta[3] === respostaCorreta
+                      ? [styles.alternativas, styles.selectLabel]
+                      : styles.alternativas,
+                  ]}
+                >
+                  <Markdown
+                    style={{
+                      body: {
+                        fontSize: 16,
+                        color: "#fff",
+                        top: 0,
+                        width: "90%",
+                        left: 5,
+                        padding: 5,
+                        textAlign: "left",
+                        fontFamily: "Inder_400Regular",
+                      },
+                    }}
+                  >
+                    {resposta[3]}
+                  </Markdown>
+                </TouchableOpacity>
+                <View style={styles.containerContinuarProfessor}>
+                  {indice > 0 ? (
+                    <TouchableOpacity
+                      style={styles.btnContinuar}
+                      onPress={() => {
+                        setLoading(true);
+                        voltar();
+                      }}>
+                      <Text style={styles.label}>Voltar</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[styles.btnContinuar, { backgroundColor: "#767577" }]}
+                      disabled={true}
+                      onPress={voltar}
+                    >
+                      <Text style={styles.label}>Voltar</Text>
+                    </TouchableOpacity>
+                  )}
+                  {indice < totalQuestoes - 1 ? (
+                    <TouchableOpacity
+                      style={styles.btnContinuar}
+                      onPress={() => {
+                        setLoading(true);
+                        continuar();
+                      }}>
+                      <Text style={styles.label}>Continuar</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={[styles.btnContinuar, { backgroundColor: "#767577" }]}
+                      disabled={true}
+                      onPress={continuar}
+                    >
+                      <Text style={styles.label}>Continuar</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </ScrollView>
+            </View>
+          </View >
+        </>
+      )}
+    </LinearGradient >
   );
 }
