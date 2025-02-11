@@ -1,16 +1,34 @@
 import React, { useState, useCallback } from "react";
-import { View, Text, TouchableOpacity, TextInput, Modal, Alert, FlatList, } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+  Alert,
+  FlatList,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Styles from "../Styles.js/StylesLista";
 import style from "../Styles.js/StylesModalLista";
 import { AntDesign } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { doc, getFirestore, where } from "firebase/firestore";
-import { addDoc, collection, query, getDocs, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  query,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-import { EvilIcons, FontAwesome5 } from '@expo/vector-icons';
+import { EvilIcons, FontAwesome5 } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
-import { validateListName, deleteList, fetchQuestionIdByTitle } from '../FuncoesFirebase/Funcoes'
+import {
+  validateListName,
+  deleteList,
+  fetchQuestionIdByTitle,
+} from "../FuncoesFirebase/Funcoes";
 import { nanoid } from "nanoid";
 import "react-native-get-random-values";
 import { userReference } from "../FuncoesFirebase/Funcoes";
@@ -22,12 +40,12 @@ export default function Listas() {
   const collectionRef = collection(db, "listas");
 
   const [visible, setVisible] = useState(false);
-  const [visibleEdit, setVisibleEdit] = useState(false)
-  const [visibleCodigo, setVisibleCodigo] = useState(false)
-  const [itemId, setItemId] = useState('')
-  const [itemFinalizado, setItemFinalizado] = useState(false)
+  const [visibleEdit, setVisibleEdit] = useState(false);
+  const [visibleCodigo, setVisibleCodigo] = useState(false);
+  const [itemId, setItemId] = useState("");
+  const [itemFinalizado, setItemFinalizado] = useState(false);
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [listas, setListas] = useState([]);
 
@@ -38,12 +56,14 @@ export default function Listas() {
 
   //A função recupera as listas criadas pelo usuário logado
   async function buscarListasDoFirestore() {
-
     try {
       const usuarioLogadoReference = await userReference();
 
       const listasCollection = collection(getFirestore(), "listas");
-      const listasQuery = query(listasCollection, where("criador", "==", usuarioLogadoReference));
+      const listasQuery = query(
+        listasCollection,
+        where("criador", "==", usuarioLogadoReference)
+      );
 
       const listasSnapshot = await getDocs(listasQuery);
 
@@ -86,7 +106,6 @@ export default function Listas() {
         finalizado: false,
       };
 
-
       await addDoc(collectionRef, novaLista);
 
       carregarListas();
@@ -98,32 +117,42 @@ export default function Listas() {
   }
 
   const carregarItemId = (id, finalizado) => {
-    setVisibleEdit(true)
-    setItemId(id)
-    setItemFinalizado(finalizado)
-  }
+    setVisibleEdit(true);
+    setItemId(id);
+    setItemFinalizado(finalizado);
+  };
 
   const carregarLista = (id) => {
-    setItemId(id)
-    navigation.navigate('StackNav', { screen: 'QuestoesLista', params: { itemId: id } })
-  }
+    setItemId(id);
+    navigation.navigate("StackNav", {
+      screen: "QuestoesLista",
+      params: { itemId: id },
+    });
+  };
 
   useFocusEffect(
     useCallback(() => {
-      carregarListas()
+      carregarListas();
     }, [atualizarDados])
   );
 
-  const BotaoLista = ({ titulo, finalizado, questoes, onBotaoPress, onPressOne }) => {
-
+  const BotaoLista = ({
+    titulo,
+    finalizado,
+    questoes,
+    onBotaoPress,
+    onPressOne,
+  }) => {
     const handleBotaoPress = async () => {
       onBotaoPress();
     };
 
-
     const handleListNavigation = async () => {
       if (questoes.length === 0) {
-        Alert.alert("Lista Vazia", "Esta lista não contém questões e portanto não pode ser acessada.");
+        Alert.alert(
+          "Lista Vazia",
+          "Esta lista não contém questões e portanto não pode ser acessada."
+        );
         return;
       }
 
@@ -131,12 +160,14 @@ export default function Listas() {
     };
 
     const fetchId = async () => {
-      const id = await fetchQuestionIdByTitle(titulo, 'listas', referenciaCriador);
+      const id = await fetchQuestionIdByTitle(
+        titulo,
+        "listas",
+        referenciaCriador
+      );
 
       return id;
-    }
-
-
+    };
 
     const handleDelete = async () => {
       const listId = await fetchId();
@@ -145,18 +176,22 @@ export default function Listas() {
       carregarListas();
 
       Alert.alert("Lista excluída com sucesso");
-    }
+    };
 
     return (
       <TouchableOpacity style={Styles.lista} onPress={handleListNavigation}>
         <View style={Styles.containerInfo}>
-          <TouchableOpacity style={{ marginLeft: 5, marginTop: 0 }} onPress={(handleBotaoPress)}>
+          <TouchableOpacity
+            style={{ marginLeft: 5, marginTop: 0 }}
+            onPress={handleBotaoPress}
+          >
             <FontAwesome5 name="ellipsis-h" size={20} color="#fff" />
           </TouchableOpacity>
-          <Text style={Styles.txtLista}>
-            {titulo}
-          </Text>
-          <TouchableOpacity style={{ backgroundColor: '#F54F59' }} onPress={handleDelete}>
+          <Text style={Styles.txtLista}>{titulo}</Text>
+          <TouchableOpacity
+            style={{ backgroundColor: "#F54F59" }}
+            onPress={handleDelete}
+          >
             <EvilIcons name="close" size={30} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -167,10 +202,9 @@ export default function Listas() {
         </View>
       </TouchableOpacity>
     );
-  }
+  };
 
   function Lista({ titulo1, finalizado, questoes, onBotaoPress, onPressOne }) {
-
     return (
       <View style={Styles.containerFilho}>
         <BotaoLista
@@ -181,7 +215,7 @@ export default function Listas() {
           onPressOne={onPressOne}
         />
       </View>
-    )
+    );
   }
 
   function ModalLista() {
@@ -248,13 +282,19 @@ export default function Listas() {
     const finalizarLista = async () => {
       try {
         const listasCollection = collection(getFirestore(), "listas");
-        const listasQuery = query(listasCollection, where("codigo", "==", itemId));
+        const listasQuery = query(
+          listasCollection,
+          where("codigo", "==", itemId)
+        );
         const listasSnapshot = await getDocs(listasQuery);
         const docData = listasSnapshot.docs[0].data();
         const ref = listasSnapshot.docs[0].ref;
 
         if (docData.questoes.length === 0) {
-          Alert.alert("Lista Incompleta", "Esta lista não contém questões e portanto não pode ser finalizada.");
+          Alert.alert(
+            "Lista Incompleta",
+            "Esta lista não contém questões e portanto não pode ser finalizada."
+          );
           return;
         }
 
@@ -278,35 +318,60 @@ export default function Listas() {
                   <>
                     <TouchableOpacity
                       style={style.botaoEditar}
-                      onPress={() => { navigation.navigate('StackNav', { screen: 'EstatisticasAlunos', params: { itemId } }); setVisibleEdit(false)
+                      onPress={() => {
+                        navigation.navigate("StackNav", {
+                          screen: "EstatisticasAlunos",
+                          params: { itemId },
+                        });
+                        setVisibleEdit(false);
                       }}
                     >
-                      <Text style={style.txtEditar}>Exibir estatísticas dos alunos</Text>
+                      <Text style={style.txtEditar}>
+                        Exibir estatísticas dos alunos
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={style.botaoEditar}
-                      onPress={() => { navigation.navigate('StackNav', { screen: 'EstatisticasQuestoes', params: { itemId } }); setVisibleEdit(false)
+                      onPress={() => {
+                        navigation.navigate("StackNav", {
+                          screen: "EstatisticasQuestoes",
+                          params: { itemId },
+                        });
+                        setVisibleEdit(false);
                       }}
                     >
-                      <Text style={style.txtEditar}>Exibir estatísticas das questões</Text>
+                      <Text style={style.txtEditar}>
+                        Exibir estatísticas das questões
+                      </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                       style={style.botaoEditar}
-                      onPress={() => { setVisibleEdit(false); setVisibleCodigo(true) }}
+                      onPress={() => {
+                        setVisibleEdit(false);
+                        setVisibleCodigo(true);
+                      }}
                     >
                       <Text style={style.txtEditar}>Exibir código</Text>
-                    </TouchableOpacity>          
+                    </TouchableOpacity>
                   </>
                 ) : (
                   <>
                     <TouchableOpacity
                       style={style.botaoEditar}
-                      onPress={() => { navigation.navigate('StackNav', { screen: 'Menu', params: { itemId } }); setVisibleEdit(false) }}
+                      onPress={() => {
+                        navigation.navigate("StackNav", {
+                          screen: "Menu",
+                          params: { itemId },
+                        });
+                        setVisibleEdit(false);
+                      }}
                     >
-                      <Text style={style.txtEditar}>Adicionar/Remover questões</Text>
-                    </TouchableOpacity >
+                      <Text style={style.txtEditar}>
+                        Adicionar/Remover questões
+                      </Text>
+                    </TouchableOpacity>
 
                     <TouchableOpacity
                       style={style.botaoEditar}
@@ -323,7 +388,6 @@ export default function Listas() {
                 >
                   <Text style={style.txtEditar}>Fechar</Text>
                 </TouchableOpacity>
-
               </View>
             </View>
           </View>
@@ -333,31 +397,31 @@ export default function Listas() {
   };
 
   const ModalCodigo = () => {
-
     return (
       <Modal animationType="slide" transparent={true} visible={visibleCodigo}>
         <View style={style.container}>
           <View style={style.boxGeral}>
             <View style={{ alignItems: "center" }}>
-
               <View style={{ justifyContent: "center", height: 185 }}>
-                <TouchableOpacity style={style.botaoEditar} >
+                <TouchableOpacity style={style.botaoEditar}>
                   <Text style={style.txtEditar}>Código: {itemId}</Text>
-                </TouchableOpacity >
-                <TouchableOpacity style={style.botaoEditar} onPress={() => { setVisibleCodigo(false); setVisibleEdit(false) }} >
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={style.botaoEditar}
+                  onPress={() => {
+                    setVisibleCodigo(false);
+                    setVisibleEdit(false);
+                  }}
+                >
                   <Text style={style.txtEditar}>Fechar</Text>
-                </TouchableOpacity >
-
+                </TouchableOpacity>
               </View>
-
             </View>
-
           </View>
         </View>
       </Modal>
     );
   };
-
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
       <ModalLista />
@@ -371,6 +435,19 @@ export default function Listas() {
             onPress={() => setVisible(true)}
           >
             <Text style={Styles.criarLista}>Criar lista</Text>
+            <AntDesign name="plus" size={50} color="#F54F59" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={Styles.addLista}
+            onPress={() =>
+              navigation.navigate("StackNav", {
+                screen: "AdicionarQuestaoLista",
+                // params: { itemId },
+              })
+            }
+          >
+            <Text style={Styles.criarLista}>Criar Questões</Text>
             <AntDesign name="plus" size={50} color="#F54F59" />
           </TouchableOpacity>
         </View>
