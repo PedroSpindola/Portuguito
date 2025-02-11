@@ -162,7 +162,7 @@ export default StyleSheet.create({
     fontSize: 18,
     color: "#000",
   },
-  modalContainer: {
+  modalWarnContainer: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -172,5 +172,9 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     zIndex: 1000,
+  },
+  modalContainer: {
+    paddingTop: 80,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
   },
 });

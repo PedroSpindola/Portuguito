@@ -501,7 +501,7 @@ export default function Questoes() {
       </View>
 
       {isModalVisible && (
-        <View style={styles.modalContainer}>
+        <View style={styles.modalWarnContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>Nenhuma questão cadastrada.</Text>
             <TouchableOpacity onPress={() => closeModalNoQuestions()}>
