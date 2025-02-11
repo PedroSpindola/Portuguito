@@ -88,7 +88,7 @@ export default function AdicionarQuestao() {
       </View>
       <Text style={Styles.frase}>Adicionar Questão</Text>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Pergunta:</Text>
+        <Text style={Styles.txtInput}>Enunciado:</Text>
         <TextInput
           style={Styles.input}
           value={pergunta}
@@ -97,7 +97,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 1:</Text>
+        <Text style={Styles.txtInput}>Alternativa 1:</Text>
         <TextInput
           style={Styles.input}
           value={resposta1}
@@ -106,7 +106,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 2:</Text>
+        <Text style={Styles.txtInput}>Alternativa 2:</Text>
         <TextInput
           style={Styles.input}
           value={resposta2}
@@ -115,7 +115,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 3:</Text>
+        <Text style={Styles.txtInput}>Alternativa 3:</Text>
         <TextInput
           style={Styles.input}
           value={resposta3}
@@ -124,7 +124,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 4:</Text>
+        <Text style={Styles.txtInput}>Alternativa 4:</Text>
         <TextInput
           style={Styles.input}
           value={resposta4}
@@ -133,7 +133,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta Correta:</Text>
+        <Text style={Styles.txtInput}>Alternativa Correta:</Text>
         <TextInput
           style={Styles.input}
           value={respostaCorreta}
