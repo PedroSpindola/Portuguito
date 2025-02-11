@@ -1,162 +1,176 @@
-import { StyleSheet } from "react-native"
-
-
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-    gradient: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    container: {
-        marginTop: 10,
-        alignItems: 'center',
-        flex: 1,
-    },
-    questoes: {
-        marginLeft: "4%",
-    },
-    ScrollViewContent: {
-        marginLeft: "4%",
-    },
-    enunciado: {
-        backgroundColor: '#ff8c90',
-        height: 'auto',
-        width: 300,
-        marginTop: 60,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    backgroundImagem: {
-        backgroundColor: '#F54F59',
-        height: 250,
-        width: 250,
-        marginTop: 8,
-        borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    txtEnunciado: {
-        fontSize: 16,
-        color: '#fff',
-        top: 0,
-        width: '90%',
-        left: 5,
-        padding: 10,
-        textAlign: 'left',
-        fontFamily: 'Inder_400Regular',
-    },
-    resposta: {
-        backgroundColor: '#ff8c90',
-        marginTop: 10
-    },
-    imagem: {
-        height: 240,
-        width: 240,
-        borderRadius: 10,
-    },
-    alternativas: {
-        flexDirection: 'row-reverse',
-        backgroundColor: '#ffb9bd',
-        borderRadius: 50,
-        width: 300,
-        marginTop: 5,
-        height: 'auto',
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  container: {
+    marginTop: 10,
+    alignItems: "center",
+    flex: 1,
+  },
+  questoes: {
+    marginLeft: "4%",
+  },
+  ScrollViewContent: {
+    marginLeft: "4%",
+  },
+  enunciado: {
+    backgroundColor: "#ff8c90",
+    height: "auto",
+    width: 300,
+    marginTop: 60,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backgroundImagem: {
+    backgroundColor: "#F54F59",
+    height: 250,
+    width: 250,
+    marginTop: 8,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  txtEnunciado: {
+    fontSize: 16,
+    color: "#fff",
+    top: 0,
+    width: "90%",
+    left: 5,
+    padding: 10,
+    textAlign: "left",
+    fontFamily: "Inder_400Regular",
+  },
+  resposta: {
+    backgroundColor: "#ff8c90",
+    marginTop: 10,
+  },
+  imagem: {
+    height: 240,
+    width: 240,
+    borderRadius: 10,
+  },
+  alternativas: {
+    flexDirection: "row-reverse",
+    backgroundColor: "#ffb9bd",
+    borderRadius: 50,
+    width: 300,
+    marginTop: 5,
+    height: "auto",
+  },
+  label: {
+    fontFamily: "Inder_400Regular",
+    color: "#fff",
+    textAlign: "auto",
+    borderWidth: 0,
+  },
+  selectLabel: {
+    backgroundColor: "#F54F59",
+  },
+  btnContinuar: {
+    backgroundColor: "#F54F59",
+    width: 100,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+  containerContinuarProfessor: {
+    width: "100%",
+    top: 2,
+    alignItems: "flex-end",
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    flex: 1,
+    position: "relative",
+    marginVertical: 14,
+  },
+  containerContinuar: {
+    top: 5,
+    height: 45,
+    marginBottom: 35,
+  },
+  btnSalvar: {
+    backgroundColor: "#F54F59",
+    width: 100,
+    height: 35,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    marginLeft: 10,
+  },
+  containerSalvar: {
+    width: "100%",
+    right: 15,
+    top: 15,
+    alignItems: "flex",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+  },
+  confirmar: {
+    width: 300,
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    marginVertical: 20,
+  },
 
-    },
-    label: {
-        fontFamily: 'Inder_400Regular',
-        color: '#fff',
-        textAlign: "auto",
-        borderWidth: 0
-    },
-    selectLabel: {
-        backgroundColor: '#F54F59'
-    },
-    btnContinuar: {
-        backgroundColor: '#F54F59',
-        width: 100,
-        height: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
+  btnAtivado: {
+    backgroundColor: "#F54F59",
+  },
 
-    },
-    containerContinuarProfessor: {
-        width: '100%',
-        top: 2,
-        alignItems: 'flex-end',
-        justifyContent: 'space-evenly',
-        flexDirection: 'row',
-        flex: 1,
-        position: "relative",
-        marginVertical: 14,
-    },
-    containerContinuar: {
-        top: 5,
-        height: 45,
-        marginBottom: 35,
-    },
-    btnSalvar: {
-        backgroundColor: '#F54F59',
-        width: 100,
-        height: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 10,
-        marginLeft: 10
-    },
-    containerSalvar: {
-        width: '100%',
-        right: 15,
-        top: 15,
-        alignItems: 'flex',
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-    },
-    confirmar: {
-        width: 300,
-        height: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 20,
-        marginVertical: 20
-    },
+  btnDesativado: {
+    backgroundColor: "#848484",
+  },
 
-    btnAtivado: {
-        backgroundColor: '#F54F59'
-    },
+  containerResposta: {
+    backgroundColor: "red",
+  },
 
-    btnDesativado: {
-        backgroundColor: '#848484'
-    },
+  fullImage: {
+    marginTop: "15%",
+    height: "100%",
+    resizeMode: "contain",
+    top: -200,
+  },
+  iconStyle: {
+    color: "#FFFFFF",
+    fontSize: 24,
+  },
 
-    containerResposta: {
-        backgroundColor: 'red'
-    },
+  paginationButton: {
+    marginTop: 5,
+    width: 42,
+    height: 42,
+    borderRadius: 25,
+    backgroundColor: "#ff8c90",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
-    modalContainer: {
-        paddingTop: 80,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-    },
-
-    fullImage: {
-        marginTop: "15%",
-        height: '100%',
-        resizeMode: 'contain',
-        top: -200
-    },
-    iconStyle: {
-        color: "#FFFFFF",
-        fontSize: 24,
-    },
-
-    paginationButton: {
-        marginTop: 5,
-        width: 42,
-        height: 42,
-        borderRadius: 25,
-        backgroundColor: "#ff8c90",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-})
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    color: "#000",
+  },
+  modalContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    zIndex: 1000,
+  },
+});

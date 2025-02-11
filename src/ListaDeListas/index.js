@@ -33,7 +33,8 @@ export default function Questoes() {
   const [indice, setIndice] = useState(0);
   const [atualizarDados, setAtualizarDados] = useState(false);
   const [questaoEstaNaLista, setQuestaoEstaNaLista] = useState(false);
-  const [totalQuestoes, setTotalQuestoes] = useState(0); // Total de questões
+  const [totalQuestoes, setTotalQuestoes] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
 
   const route = useRoute();
   const auth = FIREBASE_AUTH;
@@ -94,6 +95,8 @@ export default function Questoes() {
       };
     }
 
+    console.log("n tem questão");
+    setIsModalVisible(true); // Exibe o modal quando não há questão
     return null;
   }
 
@@ -243,11 +246,13 @@ export default function Questoes() {
 
   useEffect(() => {
     fetchData().then((result) => {
-      setPergunta(result.pergunta);
-      setRespostaCorreta(result.respostaCorreta);
-      setResposta(result.respostas);
-      setUrlImagem(result.urlImagem);
-      setId(result.id);
+      if (result) {
+        setPergunta(result.pergunta);
+        setRespostaCorreta(result.respostaCorreta);
+        setResposta(result.respostas);
+        setUrlImagem(result.urlImagem);
+        setId(result.id);
+      }
     });
 
     const obterIdLista = async () => {
@@ -274,7 +279,6 @@ export default function Questoes() {
         return question.urlImagem;
       }
     }
-
     const noImageAnimations = [
       require("../Imagens/noImageAnimations/Alertinha.gif"),
       require("../Imagens/noImageAnimations/Lupinha.gif"),
@@ -288,6 +292,10 @@ export default function Questoes() {
     return randomImage;
   };
 
+  const closeModalNoQuestions = () => {
+    setIsModalVisible(false);
+    navigation.goBack();
+  };
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -491,6 +499,17 @@ export default function Questoes() {
           </ScrollView>
         </View>
       </View>
+
+      {isModalVisible && (
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Nenhuma questão cadastrada.</Text>
+            <TouchableOpacity onPress={() => closeModalNoQuestions()}>
+              <Text style={styles.modalButton}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </LinearGradient>
   );
 }
