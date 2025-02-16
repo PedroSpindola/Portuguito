@@ -4,7 +4,7 @@
     "slug": "Portuguito",
     "version": "3.1.0",
     "orientation": "portrait",
-    "icon": "./src/Imagens/icons/portuguitaBase.jpeg",
+    "icon": "./assets/portuguitaBase.jpeg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/iconePortuguito4.png",
+        "foregroundImage": "./assets/portuguitaBase.jpeg",
         "backgroundColor": "#ffffff"
       },
       "package": "com.Portuguito",

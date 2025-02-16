@@ -4,15 +4,14 @@ export default StyleSheet.create({
     gradient: {
         ...StyleSheet.absoluteFillObject,
     },
+
     container: {
         flex: 1,
-        marginTop: 60,
+        marginTop: 50,
         alignItems: 'center',
 
     },
-    containerFilho: {
-        marginTop: 10,
-    },
+
     containerSonAux: {
         height: 140,
         width: 315,
@@ -80,10 +79,10 @@ export default StyleSheet.create({
     },
 
     backgroundUser: {
-        width: 200, 
+        width: 200,
         height: 200,
         borderRadius: 100,
-        overflow: 'hidden', 
+        overflow: 'hidden',
         backgroundColor: '#00000000',
     },
 
@@ -94,7 +93,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        marginTop: 20,
+        margin: 14,
     },
 
     sombra: {
@@ -126,7 +125,8 @@ export default StyleSheet.create({
         width: 300,
         borderRadius: 10,
         justifyContent: "center",
-        padding: 10
+        padding: 10,
+        borderRadius: 10
     },
 
     campoEmail: {
@@ -138,5 +138,54 @@ export default StyleSheet.create({
         color: '#ff8c90',
         padding: 2,
         fontFamily: 'Inder_400Regular',
+    },
+
+    playerIcons: {
+        borderWidth: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
+        minHeight: '13%',
+        width: 300,
+        borderColor: '#EFEFFE',
+        borderWidth: 2,
+        borderRadius: 10,
+        justifyContent: "center",
+        padding: 10
+    },
+
+    txtNoIcon: {
+        color: '#EFEFFE',
+        padding: 2,
+        fontFamily: 'Inder_400Regular',
+    },
+
+    txtAchievements: {
+        fontSize: 16,
+        color: '#EFEFFE',
+        fontFamily: 'Inder_400Regular',
+        marginTop: 16,
+    },
+
+    iconContainer: {
+        margin: 5,
+        paddingRight: 20,
+        paddingBottom: 16,
+    },
+
+    iconFormat: {
+        width: 52,
+        height: 80
+    },
+
+    iconQuantity: {
+        backgroundColor: "#ff8c90",
+        position: 'absolute',
+        alignItems: 'center',
+        right: 0,
+        bottom: 0,
+        borderRadius: 5,
+        width: 22,
+        height: 22
     }
 })

@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { View, TouchableOpacity, Text, Alert, Modal } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View, TouchableOpacity, Text, Alert, Modal, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -25,6 +25,7 @@ export default function QuestoesLista() {
   const [atualizar, setAtualizar] = useState(true);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
   const [noImage, setNoImage] = useState(null);
+  const [loadingImage, setLoadingImage] = useState(true);
 
   const navigation = useNavigation();
 
@@ -84,6 +85,7 @@ export default function QuestoesLista() {
         } else {
           setQuestoesCarregadas(false)
         }
+        setLoadingImage(false);
       } else {
         console.log("Documento não encontrado.");
       }
@@ -147,12 +149,18 @@ export default function QuestoesLista() {
         { cancelable: false }
       );
     }
+    setTimeout(() => {
+      setLoadingImage(false)
+    }, 100);
   }
 
   function voltar() {
     if (indice > 0) {
       setIndice(indice - 1);
     }
+    setTimeout(() => {
+      setLoadingImage(false)
+    }, 100);
   }
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -175,22 +183,27 @@ export default function QuestoesLista() {
           <View style={styles.containerSalvar}></View>
           <View style={styles.enunciado}>
             <View style={styles.backgroundImagem}>
-              {questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
-                <TouchableOpacity onPress={() => { setIsExpanded(true) }}>
-                  <Image
-                    style={styles.imagem}
-                    source={{ uri: questoes[indice].urlImagem }}
-                    contentFit="contain"
-                  />
-                </TouchableOpacity>
+              {loadingImage ? (
+                <ActivityIndicator size="large" color="#EFEFFE"></ActivityIndicator>
               ) : (
-                <TouchableOpacity>
-                  <Image
-                    style={styles.imagem}
-                    source={noImage}
-                    contentFit="contain"
-                  />
-                </TouchableOpacity>
+                questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
+                  <TouchableOpacity onPress={() => { setIsExpanded(true) }}>
+                    <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader}></ActivityIndicator>
+                    <Image
+                      style={styles.imagem}
+                      source={{ uri: questoes[indice].urlImagem }}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.imagem}
+                      source={noImage}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
+                )
               )
               }
 
@@ -257,28 +270,39 @@ export default function QuestoesLista() {
                 {indice > 0 ? (
                   <TouchableOpacity
                     style={styles.btnContinuar}
-                    onPress={voltar}
-                  >
+                    onPress={() => {
+                      setLoadingImage(true);
+                      voltar();
+                    }}>
                     <Text style={styles.label}>Voltar</Text>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
-                    style={[
-                      styles.btnContinuar,
-                      { backgroundColor: "#767577" },
-                    ]}
+                    style={[styles.btnContinuar, { backgroundColor: "#767577" }]}
                     disabled={true}
                     onPress={voltar}
                   >
                     <Text style={styles.label}>Voltar</Text>
                   </TouchableOpacity>
                 )}
-                <TouchableOpacity
-                  style={styles.btnContinuar}
-                  onPress={continuar}
-                >
-                  <Text style={styles.label}>Continuar</Text>
-                </TouchableOpacity>
+                {indice < questoes.length - 1 ? (
+                  <TouchableOpacity
+                    style={styles.btnContinuar}
+                    onPress={() => {
+                      setLoadingImage(true);
+                      continuar();
+                    }}>
+                    <Text style={styles.label}>Continuar</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    style={[styles.btnContinuar, { backgroundColor: "#767577" }]}
+                    disabled={true}
+                    onPress={continuar}
+                  >
+                    <Text style={styles.label}>Continuar</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </ScrollView>
           </View>
