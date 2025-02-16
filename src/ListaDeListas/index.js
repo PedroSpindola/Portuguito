@@ -33,7 +33,8 @@ export default function Questoes() {
   const [indice, setIndice] = useState(0);
   const [atualizarDados, setAtualizarDados] = useState(false);
   const [questaoEstaNaLista, setQuestaoEstaNaLista] = useState(false);
-  const [totalQuestoes, setTotalQuestoes] = useState(0); // Total de questões
+  const [totalQuestoes, setTotalQuestoes] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
   const [loading, setLoading] = useState(true);
 
   const route = useRoute();
@@ -50,7 +51,7 @@ export default function Questoes() {
   const descritor = "descritor";
   const valorDescritor = route.params.questaoDescritor;
   let q;
-  const arrayDescritoresAutorais = ["DD1", "DD2", "DD3", "DD4"];
+  const arrayDescritoresAutorais = ["DD1", "DD2", "DD3", "DD4", "DD5"];
 
   if (arrayDescritoresAutorais.includes(valorDescritor)) {
     if (!user) {
@@ -96,6 +97,8 @@ export default function Questoes() {
       };
     }
 
+    console.log("n tem questão");
+    setIsModalVisible(true); // Exibe o modal quando não há questão
     return null;
   }
 
@@ -242,19 +245,21 @@ export default function Questoes() {
   }, [id]);
 
   useEffect(() => {
-    const atualizarQuestao = async () => {
-      fetchData().then((result) => {
+    fetchData().then((result) => {
+      if (result) {
         setPergunta(result.pergunta);
         setRespostaCorreta(result.respostaCorreta);
         setResposta(result.respostas);
         setUrlImagem(result.urlImagem);
         setId(result.id);
-      });
+      }
+      }
+    });
 
-      const obterIdLista = async () => {
-        const idListaObtido = await obterIdPorCodigo(codigo, "listas");
-        setIdLista(idListaObtido);
-      };
+    const obterIdLista = async () => {
+      const idListaObtido = await obterIdPorCodigo(codigo, "listas");
+      setIdLista(idListaObtido);
+    };
 
       // Utilize uma função async dentro do useEffect
       const executarEfeitos = async () => {
@@ -279,7 +284,6 @@ export default function Questoes() {
         return question.urlImagem;
       }
     }
-
     const noImageAnimations = [
       require("../Imagens/noImageAnimations/Alertinha.gif"),
       require("../Imagens/noImageAnimations/Lupinha.gif"),
@@ -293,6 +297,10 @@ export default function Questoes() {
     return randomImage;
   };
 
+  const closeModalNoQuestions = () => {
+    setIsModalVisible(false);
+    navigation.goBack();
+  };
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -513,9 +521,20 @@ export default function Questoes() {
                 </View>
               </ScrollView>
             </View>
-          </View >
-        </>
+          </ScrollView>
+        </View>
+      </View>
+
+      {isModalVisible && (
+        <View style={styles.modalWarnContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>Nenhuma questão cadastrada.</Text>
+            <TouchableOpacity onPress={() => closeModalNoQuestions()}>
+              <Text style={styles.modalButton}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
-    </LinearGradient >
+    </LinearGradient>
   );
 }

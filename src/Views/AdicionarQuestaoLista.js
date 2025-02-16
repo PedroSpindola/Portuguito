@@ -14,7 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { doc, getFirestore, setDoc, collection } from "firebase/firestore";
-import { set } from "date-fns/set";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function AdicionarQuestao() {
   const [pergunta, setPergunta] = useState("");
@@ -33,9 +33,23 @@ export default function AdicionarQuestao() {
   const user = auth.currentUser.uid;
 
   const handleSubmit = () => {
+    if (
+      !pergunta ||
+      !resposta1 ||
+      !resposta2 ||
+      !resposta3 ||
+      !resposta4 ||
+      !respostaCorreta
+    ) {
+      Alert.alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
+
+    const valorDescritor = descritor === "" ? "DD1" : descritor;
+
     Alert.alert("Questão Adicionada com Sucesso!");
     clearForm();
-    saveData();
+    saveData(valorDescritor);
     navigation.navigate("Listas");
   };
 
@@ -50,7 +64,7 @@ export default function AdicionarQuestao() {
     setDescritor("");
   };
 
-  const saveData = async () => {
+  const saveData = async (valorDescritor) => {
     const refUser = doc(db, "users", user);
     const refCreatedQuestions = collection(refUser, "createdQuestions");
 
@@ -59,7 +73,7 @@ export default function AdicionarQuestao() {
       respostaCorreta,
       respostas: [resposta1, resposta2, resposta3, resposta4],
       urlImagem,
-      descritor,
+      descritor: valorDescritor,
     };
 
     try {
@@ -68,6 +82,8 @@ export default function AdicionarQuestao() {
       console.error("Erro ao salvar dados:", error);
     }
   };
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={style.container}>
@@ -79,9 +95,14 @@ export default function AdicionarQuestao() {
           <Ionicons name="arrow-back" style={style.iconStyle} />
         </TouchableOpacity>
       </View>
+      <View style={style.infoContainer}>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <AntDesign name="infocirlceo" size={34} style={style.antDesign} />
+        </TouchableOpacity>
+      </View>
       <Text style={Styles.frase}>Adicionar Questão</Text>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Pergunta:</Text>
+        <Text style={Styles.txtInput}>Enunciado:</Text>
         <TextInput
           style={Styles.input}
           value={pergunta}
@@ -90,7 +111,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 1:</Text>
+        <Text style={Styles.txtInput}>Alternativa 1:</Text>
         <TextInput
           style={Styles.input}
           value={resposta1}
@@ -99,7 +120,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 2:</Text>
+        <Text style={Styles.txtInput}>Alternativa 2:</Text>
         <TextInput
           style={Styles.input}
           value={resposta2}
@@ -108,7 +129,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 3:</Text>
+        <Text style={Styles.txtInput}>Alternativa 3:</Text>
         <TextInput
           style={Styles.input}
           value={resposta3}
@@ -117,7 +138,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta 4:</Text>
+        <Text style={Styles.txtInput}>Alternativa 4:</Text>
         <TextInput
           style={Styles.input}
           value={resposta4}
@@ -126,7 +147,7 @@ export default function AdicionarQuestao() {
         />
       </View>
       <View style={style.inputContainer}>
-        <Text style={Styles.txtInput}>Resposta Correta:</Text>
+        <Text style={Styles.txtInput}>Gabarito:</Text>
         <TextInput
           style={Styles.input}
           value={respostaCorreta}
@@ -150,11 +171,7 @@ export default function AdicionarQuestao() {
             selectedValue={descritor}
             onValueChange={(itemValue) => setDescritor(itemValue)}
           >
-            <Picker.Item
-              value="DD1"
-              label="Procedimentos de leitura"
-              style={style.pickerItem}
-            />
+            <Picker.Item value="DD1" label="Geral" style={style.pickerItem} />
             <Picker.Item
               value="DD2"
               label="Coerência e Coesão textual"
@@ -170,6 +187,11 @@ export default function AdicionarQuestao() {
               label="Implicações do gênero textual"
               style={style.pickerItem}
             />
+            <Picker.Item
+              value="DD5"
+              label="Procedimentos de leitura"
+              style={style.pickerItem}
+            />
           </Picker>
         </View>
       </View>
@@ -179,6 +201,24 @@ export default function AdicionarQuestao() {
           <Text style={Styles.txtBotao}>Adicionar</Text>
         </TouchableOpacity>
       </View>
+
+      {modalVisible && (
+        <View style={style.modalContainer}>
+          <View style={style.modalContent}>
+            <Text style={style.modalText}>
+              Uma URL de imagem é um endereço na internet que aponta para uma
+              imagem específica. No entanto, essa URL pode mudar ou ficar
+              inativa caso o site remova ou substitua a imagem. Se isso
+              acontecer, a imagem não será mais exibida na questão. Para evitar
+              problemas, prefira URLs de fontes confiáveis e verifique se a
+              imagem ainda está disponível antes de usá-la.
+            </Text>
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={style.modalCloseButton}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }
