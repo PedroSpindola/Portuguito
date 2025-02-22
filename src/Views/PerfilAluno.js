@@ -20,7 +20,7 @@ export default function PerfilAluno() {
   const [sequenciaDias, setSequenciaDias] = useState(0);
   const [icons, setIcons] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalIcon, setModalIcon] = useState(null);
+  const [modalIconColor, setModalIconColor] = useState(null);
   const [modalDescription, setModalDescription] = useState(null);
 
   const userIcons = {};
@@ -106,12 +106,12 @@ export default function PerfilAluno() {
   };
 
   const openIconModal = (iconPath, descriptionText) => {
-    setModalIcon(iconPath);
+    setModalIconColor(iconPath);
     setModalDescription(descriptionText);
     setModalVisible(true);
   };
 
-  function IconModal({ icon, description, visible, onClose }) {
+  function IconModalThrophy({ iconColor, description, visible, onClose }) {
     return (
       <Modal
         animationType="slide"
@@ -126,7 +126,7 @@ export default function PerfilAluno() {
               </TouchableOpacity>
             </View>
             <View style={style.modalBody}>
-              <Image source={icon} style={style.modalIcon} />
+              <Ionicons name="trophy" size={55} color={iconColor} />
               <Text style={style.modalDescription}>{description}</Text>
             </View>
           </View>
@@ -139,8 +139,8 @@ export default function PerfilAluno() {
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
       <View style={Styles.container}>
-        <IconModal
-          icon={modalIcon}
+        <IconModalThrophy
+          iconColor={modalIconColor}
           description={modalDescription}
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
@@ -234,15 +234,12 @@ export default function PerfilAluno() {
                     <TouchableOpacity
                       onPress={() => {
                         openIconModal();
-                        setModalIcon(require('../Imagens/icons/firstMedal.png'));
+                        setModalIconColor("#FFD700");
                         setModalDescription('1° lugar no desafio semanal');
                       }
                       }>
                       <View style={Styles.iconContainer}>
-                        <Image
-                          style={Styles.iconFormat}
-                          source={require("../Imagens/icons/firstMedal.png")}
-                        />
+                        <Ionicons name="trophy" size={55} color="#FFD700" />
                         <View style={Styles.iconQuantity}>
                           <Text style={Styles.txtNoIcon}>{icons.primeiroDesafio}</Text>
                         </View>
@@ -253,15 +250,12 @@ export default function PerfilAluno() {
                     <TouchableOpacity
                       onPress={() => {
                         openIconModal();
-                        setModalIcon(require('../Imagens/icons/secondMedal.png'));
+                        setModalIconColor("#E9E9E9");
                         setModalDescription('2° lugar no desafio semanal');
                       }
                       }>
                       <View style={Styles.iconContainer}>
-                        <Image
-                          style={Styles.iconFormat}
-                          source={require("../Imagens/icons/secondMedal.png")}
-                        />
+                        <Ionicons name="trophy" size={55} color="#E9E9E9" />
                         <View style={Styles.iconQuantity}>
                           <Text style={Styles.txtNoIcon}>{icons.segundoDesafio}</Text>
                         </View>
@@ -272,15 +266,12 @@ export default function PerfilAluno() {
                     <TouchableOpacity
                       onPress={() => {
                         openIconModal();
-                        setModalIcon(require('../Imagens/icons/thirdMedal.png'));
+                        setModalIconColor("#CD853F");
                         setModalDescription('3° lugar no desafio semanal');
                       }
                       }>
                       <View style={Styles.iconContainer}>
-                        <Image
-                          style={Styles.iconFormat}
-                          source={require("../Imagens/icons/thirdMedal.png")}
-                        />
+                        <Ionicons name="trophy" size={55} color="#CD853F" />
                         <View style={Styles.iconQuantity}>
                           <Text style={Styles.txtNoIcon}>{icons.terceiroDesafio}</Text>
                         </View>
