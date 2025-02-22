@@ -245,21 +245,21 @@ export default function Questoes() {
   }, [id]);
 
   useEffect(() => {
-    fetchData().then((result) => {
-      if (result) {
-        setPergunta(result.pergunta);
-        setRespostaCorreta(result.respostaCorreta);
-        setResposta(result.respostas);
-        setUrlImagem(result.urlImagem);
-        setId(result.id);
-      }
-      }
-    });
+    const atualizarQuestao = async () => {
+      fetchData().then((result) => {
+        if (result) {
+          setPergunta(result.pergunta);
+          setRespostaCorreta(result.respostaCorreta);
+          setResposta(result.respostas);
+          setUrlImagem(result.urlImagem);
+          setId(result.id);
+        }
+      });
 
-    const obterIdLista = async () => {
-      const idListaObtido = await obterIdPorCodigo(codigo, "listas");
-      setIdLista(idListaObtido);
-    };
+      const obterIdLista = async () => {
+        const idListaObtido = await obterIdPorCodigo(codigo, "listas");
+        setIdLista(idListaObtido);
+      };
 
       // Utilize uma função async dentro do useEffect
       const executarEfeitos = async () => {
@@ -521,19 +521,22 @@ export default function Questoes() {
                 </View>
               </ScrollView>
             </View>
-          </ScrollView>
-        </View>
-      </View>
-
-      {isModalVisible && (
-        <View style={styles.modalWarnContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>Nenhuma questão cadastrada.</Text>
-            <TouchableOpacity onPress={() => closeModalNoQuestions()}>
-              <Text style={styles.modalButton}>Fechar</Text>
-            </TouchableOpacity>
           </View>
-        </View>
+
+
+          {
+            isModalVisible && (
+              <View style={styles.modalWarnContainer}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalText}>Nenhuma questão cadastrada.</Text>
+                  <TouchableOpacity onPress={() => closeModalNoQuestions()}>
+                    <Text style={styles.modalButton}>Fechar</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )
+          }
+        </>
       )}
     </LinearGradient>
   );
