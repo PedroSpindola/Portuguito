@@ -84,6 +84,7 @@ export default StyleSheet.create({
         borderRadius: 100,
         overflow: 'hidden',
         backgroundColor: '#00000000',
+        marginBottom: 16,
     },
 
     botao: {
@@ -93,7 +94,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        margin: 14,
+        marginBottom: 16,
     },
 
     sombra: {
@@ -155,6 +156,7 @@ export default StyleSheet.create({
     },
 
     txtNoIcon: {
+        fontSize: 14,
         color: '#EFEFFE',
         padding: 2,
         fontFamily: 'Inder_400Regular',
@@ -187,5 +189,25 @@ export default StyleSheet.create({
         borderRadius: 5,
         width: 22,
         height: 22
-    }
+    },
+    voltar: {
+        alignSelf: "baseline",
+        height: 50,
+        width: 50,
+        zIndex: 1,
+        marginLeft: 20,
+        marginBottom: 10,
+    },
+    iconStyle: {
+        color: "#FFFFFF",
+        fontSize: 24,
+    },
+    paginationButton: {
+        width: 42,
+        height: 42,
+        borderRadius: 25,
+        backgroundColor: "#ff8c90",
+        justifyContent: "center",
+        alignItems: "center",
+    },
 })
