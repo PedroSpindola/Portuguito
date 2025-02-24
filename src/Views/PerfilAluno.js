@@ -9,7 +9,7 @@ import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { format } from "date-fns";
 
 import { updateSequenceDays } from "../FuncoesFirebase/Funcoes";
-import { doc, getDocs, updateDoc, collection, query } from "firebase/firestore";
+import { doc, getDocs, collection, query } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { Ionicons } from "react-native-vector-icons";
 
@@ -88,15 +88,8 @@ export default function PerfilAluno() {
 
     try {
       const auth = FIREBASE_AUTH;
-      const db = getFirestore(FIREBASE_APP);
 
       console.log("UID do usuário:", user.userId);
-      const userRef = doc(db, "users", user.userId);
-
-      await updateDoc(userRef, {
-        sequenciaDias: 0,
-        ultimoAcesso: null,
-      });
 
       await auth.signOut();
       console.log("Logout realizado com sucesso.");
@@ -219,7 +212,7 @@ export default function PerfilAluno() {
               </View>
             </View>
           ) : (
-            (icons.length <= 0) ? (
+            (Object.keys(icons).length === 0) ? (
               <View style={Styles.containerFilho}>
                 <View style={Styles.playerIcons}>
                   <Text style={Styles.txtNoIcon}>
