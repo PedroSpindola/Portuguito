@@ -1,22 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
 import Styles from "../Styles.js/StyleChallengeRanking";
 import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig.js";
 
-const RankingRow = ({ position, nome, fasesConcluidas, isUser = false }) => (
-    <View
-        style={[
-            Styles.row,
-            isUser && { backgroundColor: "#E89CA3" },
-        ]}
-    >
-        <Text style={[Styles.cell, Styles.positionCell]}>{position}</Text>
-        <Text style={[Styles.cell, Styles.nameCell]}>{nome}</Text>
-        <Text style={Styles.cell}>{fasesConcluidas}</Text>
-    </View>
-);
+const RankingRow = ({ position, nome, fasesConcluidas, userId, otherUserId, isUser = false }) => {
+    const navigation = useNavigation();
+
+    return (
+        <TouchableOpacity
+            onPress={() => {
+                if (userId === otherUserId) {
+                    return;
+                }
+                navigation.navigate("UserProfile", {
+                    screen: "UserProfile",
+                    params: { userId: otherUserId },
+                })
+            }}
+            style={[
+                Styles.row,
+                isUser && { ba1kgroundColor: "#E89CA3" },
+            ]}
+        >
+            <Text style={[Styles.cell, Styles.positionCell]}>{position}</Text>
+            <Text style={[Styles.cell, Styles.nameCell]}>{nome}</Text>
+            <Text style={Styles.cell}>{fasesConcluidas}</Text>
+        </TouchableOpacity>
+    );
+};
 
 export default function ChallengeRanking() {
     const db = getFirestore(FIREBASE_APP);
@@ -135,6 +148,8 @@ export default function ChallengeRanking() {
                             position={item.position}
                             nome={item.userName}
                             fasesConcluidas={item.fasesConcluidas}
+                            userId={userId}
+                            otherUserId={item.userId}
                             isUser={item.userId === userId}
                         />
                     ))) : (oldRankingData.slice(0, 100).map((item) => (
@@ -143,6 +158,8 @@ export default function ChallengeRanking() {
                             position={item.position}
                             nome={item.userName}
                             fasesConcluidas={item.fasesConcluidas}
+                            userId={userId}
+                            otherUserId={item.userId}
                             isUser={item.userId === userId}
                         />
                     )))
