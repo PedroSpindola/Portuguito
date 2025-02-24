@@ -207,7 +207,7 @@ export default function Cadastro() {
 
             <TextInput
               style={Styles.input}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => setEmail(text.toLocaleLowerCase())}
             />
           </View>
 
@@ -216,7 +216,7 @@ export default function Cadastro() {
 
             <TextInput
               style={Styles.input}
-              onChangeText={(text) => setConfirmarEmail(text)}
+              onChangeText={(text) => setConfirmarEmail(text.toLocaleLowerCase())}
             />
           </View>
 
