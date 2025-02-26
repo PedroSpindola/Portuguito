@@ -76,8 +76,10 @@ export default function Cadastro() {
       if (!souProfessor) {
         await cadastroFases(resposta.user.uid)
         await cadastroWeekChallenge(resposta.user.uid)
+        await setStudentProfiles(resposta.user.uid)
+        return;
       }
-
+      await setTeacherProfiles(resposta.user.uid)
     } catch (error) {
       if (error.code === "auth/invalid-email") {
         Alert.alert("Email inválido.")
@@ -102,7 +104,7 @@ export default function Cadastro() {
       nome,
       email,
       souProfessor,
-      urlImagemPerfil,
+      urlImagemPerfil: 'baseProfile',
       dataCadastro: data,
       ultimoAcesso: data,
     });
@@ -162,6 +164,42 @@ export default function Cadastro() {
       const docRef = doc(desafioInfoRef);
       await setDoc(docRef, desafioInfoData);
     }));
+  }
+
+  const setStudentProfiles = async (userId) => {
+    const studentProfiles = [
+      {
+        profileName: 'baseProfile',
+        has: true,
+      },
+      {
+        profileName: 'studentProfile',
+        has: false,
+      },
+    ]
+
+    const desafioInfoRef = collection(db, "users", userId, "userProfiles");
+
+    for (const profile of studentProfiles) {
+      const docRef = doc(desafioInfoRef);
+      await setDoc(docRef, profile);
+    }
+  }
+
+  const setTeacherProfiles = async (userId) => {
+    const teacherProfiles = [
+      {
+        profileName: 'baseProfile',
+        has: true,
+      },
+    ]
+
+    const desafioInfoRef = collection(db, "users", userId, "userProfiles");
+
+    for (const profile of teacherProfiles) {
+      const docRef = doc(desafioInfoRef);
+      await setDoc(docRef, profile);
+    }
   }
 
   const validarEmail = (email) => {
