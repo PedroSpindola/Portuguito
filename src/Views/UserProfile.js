@@ -140,7 +140,7 @@ export default function UserProfile() {
         <View style={Styles.backgroundUser}>
           <Image
             style={Styles.image}
-            source={require("../Imagens/portuguita_profile.jpg")}
+            source={require("../Imagens/profile/profileBase.jpg")}
           />
         </View>
 
