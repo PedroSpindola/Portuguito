@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Perfil from "../Views/Perfil";
+import StackNavTeacher from "./StackNavTeacher";
 import Listas from "../Views/Listas";
 import StackNav from "./StackNav";
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
@@ -11,7 +11,7 @@ export default function TabNav() {
 
     return (
         <Tab.Navigator
-            initialRouteName="Perfil"
+            initialRouteName="StackNavTeacher"
             screenOptions={{
                 tabBarActiveTintColor: '#fff',
                 tabBarActiveBackgroundColor: '#F54F59',
@@ -27,7 +27,7 @@ export default function TabNav() {
 
             }}>
 
-            <Tab.Screen name='Perfil' component={Perfil} options={{
+            <Tab.Screen name='StackNavTeacher' component={StackNavTeacher} options={{
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => {
                     if (focused) {
