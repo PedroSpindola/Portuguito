@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Text, Modal, ActivityIndicator } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Modal,
+  ActivityIndicator,
+} from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -13,11 +19,12 @@ import "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 
 import Markdown from "react-native-markdown-display";
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
-
-
+import {
+  RadioButtonGroup,
+  RadioButtonItem,
+} from "../Componentes/RadioButtonGroup";
 
 export default function QuestoesTrilha() {
   const route = useRoute();
@@ -53,17 +60,14 @@ export default function QuestoesTrilha() {
 
   useEffect(() => {
     const noImageAnimations = [
-      require('../Imagens/noImageAnimations/Alertinha.gif'),
-      require('../Imagens/noImageAnimations/Lupinha.gif'),
-      require('../Imagens/noImageAnimations/Aflito.gif'),
+      require("../Imagens/noImageAnimations/Alertinha.gif"),
+      require("../Imagens/noImageAnimations/Lupinha.gif"),
+      require("../Imagens/noImageAnimations/Aflito.gif"),
     ];
 
-    if (
-      !questoes[indice]?.urlImagem
-    ) {
-      const randomImage = noImageAnimations[
-        Math.floor(Math.random() * noImageAnimations.length)
-      ];
+    if (!questoes[indice]?.urlImagem) {
+      const randomImage =
+        noImageAnimations[Math.floor(Math.random() * noImageAnimations.length)];
       setNoImage(randomImage);
     }
     setLoadingImage(false);
@@ -98,16 +102,27 @@ export default function QuestoesTrilha() {
         const userId = route.params.params.userId;
         const subTemaDoc = route.params.params.subTemaDoc;
 
-        const subTemaRef = doc(db, "users", userId, "trilhaInfo", subTemaDoc.id);
+        const subTemaRef = doc(
+          db,
+          "users",
+          userId,
+          "trilhaInfo",
+          subTemaDoc.id
+        );
 
         const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
         const faseAtual = questoes[0].fase;
 
         if (faseAtual > lastCompletedFase) {
-          await updateDoc(subTemaRef, { ultimaFaseConcluida: lastCompletedFase + 1 });
+          await updateDoc(subTemaRef, {
+            ultimaFaseConcluida: lastCompletedFase + 1,
+          });
         }
       } catch (error) {
-        console.error("Erro ao atualizar a última fase concluída: ", error.message);
+        console.error(
+          "Erro ao atualizar a última fase concluída: ",
+          error.message
+        );
       }
     }
 
@@ -125,7 +140,7 @@ export default function QuestoesTrilha() {
             <View style={Styles.boxTitle}>
               <Text style={Styles.Title}>
                 QUE PENA
-                <Text style={Styles.SubTitle}>{'\n'}Resposta Incorreta</Text>
+                <Text style={Styles.SubTitle}>{"\n"}Resposta Incorreta</Text>
               </Text>
             </View>
 
@@ -173,7 +188,7 @@ export default function QuestoesTrilha() {
             <View style={Styles.boxTitle}>
               <Text style={Styles.Title}>
                 MUITO BEM!
-                <Text style={Styles.SubTitle}>{'\n'}Certa Resposta</Text>
+                <Text style={Styles.SubTitle}>{"\n"}Certa Resposta</Text>
               </Text>
             </View>
 
@@ -214,7 +229,7 @@ export default function QuestoesTrilha() {
   };
 
   const ModalEnd = () => {
-    const acertouTodas = acertos === questoes.length
+    const acertouTodas = acertos === questoes.length;
     return (
       <Modal animationType="fade" transparent={false} visible={end}>
         <LinearGradient
@@ -227,23 +242,21 @@ export default function QuestoesTrilha() {
                 <Text style={StylesEnd.Title}>
                   PERFEITO!
                   <Text style={StylesEnd.SubTitle}>
-                    {'\n'}Você acertou todas as questões e passou de fase!
+                    {"\n"}Você acertou todas as questões e passou de fase!
                   </Text>
                 </Text>
               ) : acertos > 6 ? (
                 <Text style={StylesEnd.Title}>
                   PARABÉNS!
                   <Text style={StylesEnd.SubTitle}>
-                    {'\n'}Você passou de fase!
+                    {"\n"}Você passou de fase!
                   </Text>
                 </Text>
               ) : (
                 <View>
-                  <Text style={StylesEnd.Title}>
-                    FOI POR POUCO
-                  </Text>
+                  <Text style={StylesEnd.Title}>FOI POR POUCO</Text>
                   <Text style={StylesEnd.SubTitle}>
-                    {'\n'}Tente novamente...
+                    {"\n"}Tente novamente...
                   </Text>
                 </View>
               )}
@@ -267,7 +280,6 @@ export default function QuestoesTrilha() {
                     source={require("../Imagens/animations/AnimacoesMascoteErrouMaioria.gif")}
                   />
                 )}
-
               </View>
 
               <View style={StylesEnd.subDivTag}>
@@ -302,9 +314,7 @@ export default function QuestoesTrilha() {
 
   const [btnRadioClicado, setbtnRadioClicado] = useState(true);
 
-
   return (
-
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
       <ModalHappy />
       <ModalSad />
@@ -314,56 +324,87 @@ export default function QuestoesTrilha() {
           <View style={styles.progressContainerInfo}>
             <Text style={styles.infoAcertos}>{acertos}</Text>
             <View style={styles.progressContainer}>
-              <View style={[styles.progressBar, { width: `${(acertos / questoes.length) * 100}%`, backgroundColor: '#4CAF50' }]} />
-              <View style={[styles.progressBar, { width: `${(erros / questoes.length) * 100}%`, backgroundColor: '#F54F59', left: `${100 - (erros / questoes.length) * 100}%` }]} />
+              <View
+                style={[
+                  styles.progressBar,
+                  {
+                    width: `${(acertos / questoes.length) * 100}%`,
+                    backgroundColor: "#4CAF50",
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.progressBar,
+                  {
+                    width: `${(erros / questoes.length) * 100}%`,
+                    backgroundColor: "#F54F59",
+                    left: `${100 - (erros / questoes.length) * 100}%`,
+                  },
+                ]}
+              />
             </View>
             <Text style={styles.infoErros}>{erros}</Text>
           </View>
 
-          {
-            erros > 3 ? (
-              <Text style={styles.progressInfoWarning}>Não é mais possível avançar de fase</Text>
-            ) : (
-              acertos < 7 ? (
-                <Text style={styles.progressInfoWarning}>Faltam acertar {7 - acertos} para avançar de fase</Text>
-              ) : (
-                <Text style={styles.progressInfoSuccessful}>Você já acertou o suficiente para passar de fase!</Text>
-              )
-            )
-          }
+          {erros > 3 ? (
+            <Text style={styles.progressInfoWarning}>
+              Não é mais possível avançar de fase
+            </Text>
+          ) : acertos < 7 ? (
+            <Text style={styles.progressInfoWarning}>
+              Faltam acertar {7 - acertos} para avançar de fase
+            </Text>
+          ) : (
+            <Text style={styles.progressInfoSuccessful}>
+              Você já acertou o suficiente para passar de fase!
+            </Text>
+          )}
 
           <View style={styles.container}>
             <View style={styles.enunciado}>
               <View style={styles.backgroundImagem}>
                 {loadingImage ? (
-                  <ActivityIndicator size="large" color="#EFEFFE"></ActivityIndicator>
+                  <ActivityIndicator
+                    size="large"
+                    color="#EFEFFE"
+                  ></ActivityIndicator>
+                ) : questoes[indice]?.urlImagem &&
+                  questoes[indice].urlImagem.startsWith("http") ? (
+                  <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                    <ActivityIndicator
+                      size="large"
+                      color="#EFEFFE"
+                      style={styles.loader}
+                    ></ActivityIndicator>
+                    <Image
+                      style={styles.imagem}
+                      source={{ uri: questoes[indice].urlImagem }}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
                 ) : (
-                  questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
-                    <TouchableOpacity onPress={() => setIsExpanded(true)}>
-                      <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader}></ActivityIndicator>
-                      <Image
-                        style={styles.imagem}
-                        source={{ uri: questoes[indice].urlImagem }}
-                        contentFit="contain"
-                      />
-                    </TouchableOpacity>
-                  ) : (
-                    <TouchableOpacity>
-                      <Image
-                        style={styles.imagem}
-                        source={noImage}
-                        contentFit="contain"
-                      />
-                    </TouchableOpacity>
-                  )
-                )
-                }
+                  <TouchableOpacity>
+                    <Image
+                      style={styles.imagem}
+                      source={noImage}
+                      contentFit="contain"
+                    />
+                  </TouchableOpacity>
+                )}
 
                 {/* Modal para exibir a imagem expandida */}
-                <Modal visible={isExpanded} transparent={true} animationType="fade">
+                <Modal
+                  visible={isExpanded}
+                  transparent={true}
+                  animationType="fade"
+                >
                   <View style={styles.modalContainer}>
                     <TouchableOpacity onPress={() => setIsExpanded(false)}>
-                      <Image source={{ uri: questoes[indice].urlImagem }} style={styles.fullImage} />
+                      <Image
+                        source={{ uri: questoes[indice].urlImagem }}
+                        style={styles.fullImage}
+                      />
                     </TouchableOpacity>
                   </View>
                 </Modal>
@@ -391,12 +432,11 @@ export default function QuestoesTrilha() {
                 <RadioButtonGroup
                   selected={value}
                   onSelected={(value) => {
-                    setValue(value)
-                    setbtnRadioClicado(false)
+                    setValue(value);
+                    setbtnRadioClicado(false);
                   }}
                   radioBackground="#F54F59"
                 >
-
                   {questoes[indice].respostas.map((resposta, index) => (
                     <RadioButtonItem
                       key={index}
@@ -439,7 +479,7 @@ export default function QuestoesTrilha() {
                         borderColor: "#fff",
                         left: 7,
                         top: 3,
-                        backgroundColor: '#fff',
+                        backgroundColor: "#fff",
                         width: 25,
                         height: 25,
                       }}
@@ -448,15 +488,17 @@ export default function QuestoesTrilha() {
                 </RadioButtonGroup>
                 <View style={styles.containerContinuar}>
                   <TouchableOpacity
-                    style={[styles.confirmar, btnRadioClicado ? styles.btnDesativado : styles.btnAtivado]}
+                    style={[
+                      styles.confirmar,
+                      btnRadioClicado
+                        ? styles.btnDesativado
+                        : styles.btnAtivado,
+                    ]}
                     disabled={btnRadioClicado}
                     onPress={() => {
                       setLoadingImage(true);
-                      conferirQuestao(
-                        questoes[indice].respostaCorreta,
-                        value
-                      )
-                      setbtnRadioClicado(true)
+                      conferirQuestao(questoes[indice].respostaCorreta, value);
+                      setbtnRadioClicado(true);
                     }}
                   >
                     <Text style={styles.label}>Confirmar</Text>

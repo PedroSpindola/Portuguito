@@ -12,7 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup"
 import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc, addDoc } from "firebase/firestore";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
