@@ -14,7 +14,6 @@ export default StyleSheet.create({
         borderRadius: 10,
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center',
     },
     modalHeader: {
         position: 'absolute',
@@ -45,19 +44,36 @@ export default StyleSheet.create({
     },
     modalBody: {
         display: 'flex',
+        padding: 30,
         flexDirection: 'row',
         marginTop: 30,
     },
     modalIcon: {
         verticalAlign: 'middle',
-        height: 100,
-        width: 65,
     },
     modalDescription: {
+        flex: 1,
         color: '#EFEFFE',
+        flexWrap: 'wrap',
         fontFamily: 'Inder_400Regular',
         fontSize: 16,
         marginLeft: 20,
         verticalAlign: 'middle',
+    },
+    backgroundUserModal: {
+        width: 120,
+        height: 120,
+        borderRadius: 70,
+        marginBottom: 10,
+        borderColor: '#FFFFFF',
+        borderWidth: 4,
+        overflow: 'hidden',
+        backgroundColor: '#00000000',
+    },
+    imageModal: {
+        width: null,
+        height: 'auto',
+        flex: 1,
+        resizeMode: "cover"
     },
 })
