@@ -23,6 +23,8 @@ export default StyleSheet.create({
         width: 200,
         height: 200,
         borderRadius: 100,
+        borderColor: '#ff8c90',
+        borderWidth: 4,
         overflow: 'hidden',
         backgroundColor: '#00000000',
     },
