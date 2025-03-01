@@ -24,8 +24,18 @@ export default function UserProfile() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalIconColor, setModalIconColor] = useState(null);
   const [modalDescription, setModalDescription] = useState(null);
+  const [profileImage, setProfileImage] = useState(undefined);
 
   const userIcons = {};
+
+  const profileImages = {
+    "baseProfile": require("../Imagens/profile/profileBase.jpg"),
+    "oldProfile": require("../Imagens/profile/profileOld.png"),
+    "coguProfile": require("../Imagens/profile/profileCogu.png"),
+    "studentProfile": require("../Imagens/profile/profileLibrary.png"),
+    "pirateProfile": require("../Imagens/profile/profilePirate.png"),
+    "podioProfile": require("../Imagens/profile/profilePodio.png"),
+  };
 
   useEffect(() => {
     const getUserById = async (id) => {
@@ -42,6 +52,11 @@ export default function UserProfile() {
 
         setUser(userData);
         setSequenciaDias(userData.sequenciaDias);
+        if (userData.urlImagemPerfil === "") {
+          setProfileImage(profileImages["baseProfile"]);
+        } else {
+          setProfileImage(profileImages[userData.urlImagemPerfil]);
+        }
       } catch (error) {
         console.error("(Error) User not found: ", error);
       }
@@ -138,10 +153,18 @@ export default function UserProfile() {
           onClose={() => setModalVisible(false)}
         />
         <View style={Styles.backgroundUser}>
-          <Image
-            style={Styles.image}
-            source={require("../Imagens/profile/profileBase.jpg")}
-          />
+          {
+            profileImage === undefined ? (
+              <View style={Styles.loadingProfile}>
+                <ActivityIndicator size="large" color="#ffffff"></ActivityIndicator>
+              </View>
+            ) : (
+              <Image
+                style={Styles.image}
+                source={profileImage}
+              />
+            )
+          }
         </View>
 
         <View style={Styles.containerFilho}>
