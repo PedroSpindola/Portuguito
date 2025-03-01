@@ -93,4 +93,9 @@ export default StyleSheet.create({
         fontSize: 18,
         padding: 2.5,
     },
+    loader: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 })
