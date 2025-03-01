@@ -66,7 +66,7 @@ export default StyleSheet.create({
         width: null,
         height: 'auto',
         flex: 1,
-        resizeMode: "cover"
+        resizeMode: "cover",
     },
 
     ViewDados: {
@@ -82,8 +82,21 @@ export default StyleSheet.create({
         width: 200,
         height: 200,
         borderRadius: 100,
+        marginBottom: 15,
+        borderColor: '#ff8c90',
+        borderWidth: 4,
         overflow: 'hidden',
-        backgroundColor: '#00000000',
+        backgroundColor: '#fca9ac',
+    },
+
+    loadingProfile: {
+        padding: 75,
+        verticalAlign: 'middle'
+    },
+
+    profileFrame: {
+        width: 200,
+        height: 200,
         marginBottom: 16,
     },
 
@@ -201,6 +214,21 @@ export default StyleSheet.create({
     iconStyle: {
         color: "#FFFFFF",
         fontSize: 24,
+    },
+    editIconFrame: {
+        zIndex: 1,
+        position: 'absolute',
+        right: 0,
+        height: 40,
+        width: 40,
+        borderRadius: 25,
+        marginTop: 10,
+        backgroundColor: "#ff8c90",
+    },
+    editIcon: {
+        color: "#FFFFFF",
+        fontSize: 25,
+        padding: 7.5,
     },
     paginationButton: {
         width: 42,

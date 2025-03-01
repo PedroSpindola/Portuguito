@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, TouchableOpacity, Image, ActivityIndicator, Modal } from "react-native";
 import Styles from "../Styles.js/StylesPerfilAluno";
-import style from "../Styles.js/StylesModalIcon";
+import stylesModalIcon from "../Styles.js/StylesModalIcon";
 import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
@@ -12,72 +12,104 @@ import { updateSequenceDays } from "../FuncoesFirebase/Funcoes";
 import { doc, getDocs, collection, query } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
 import { Ionicons } from "react-native-vector-icons";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 export default function PerfilAluno() {
   const db = getFirestore(FIREBASE_APP);
 
   const [user, setUser] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [sequenciaDias, setSequenciaDias] = useState(0);
   const [icons, setIcons] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalIconVisible, setModalIconVisible] = useState(false);
   const [modalIconColor, setModalIconColor] = useState(null);
   const [modalDescription, setModalDescription] = useState(null);
+  const [profileImage, setProfileImage] = useState(undefined);
+
+  const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
+
+  const profileImages = {
+    "baseProfile": require("../Imagens/profile/profileBase.jpg"),
+    "studentProfile": require("../Imagens/profile/profileLibrary.png")
+  };
 
   const userIcons = {};
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const auth = FIREBASE_AUTH;
-
-      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        if (currentUser) {
-          const userInfo = await getInfoUser(currentUser.email);
-          if (userInfo) {
-            setUser(userInfo);
-            setSequenciaDias(userInfo.sequenciaDias || 0);
-
-            try {
-              const userRef = doc(db, "users", userInfo.userId);
-              const userIconsRef = collection(userRef, "userIcons");
-              const userIconsQuery = query(userIconsRef);
-              const dayInfoSnapshot = await getDocs(userIconsQuery);
-
-              const iconNames = [];
-              dayInfoSnapshot.forEach((icon) => {
-                iconNames.push((icon.data()).icon);
-              });
-
-              iconNames.forEach((iconName) => {
-                if (!userIcons[iconName]) {
-                  userIcons[iconName] = 1;
-                  return;
-                }
-                userIcons[iconName] += 1;
-              });
-
-              setIcons(userIcons);
-            } catch (error) {
-              console.error("Erro ao buscar ícones: ", error);
-            }
-
-
-            try {
-              await updateSequenceDays(currentUser.email);
-            } catch (error) {
-              console.error("Erro ao atualizar sequência de dias:", error);
-            }
+  const fetchUserData = async () => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const userInfo = await getInfoUser(currentUser.email);
+        if (userInfo) {
+          setUser(userInfo);
+          setUserId(userInfo.userId);
+          setSequenciaDias(userInfo.sequenciaDias || 0);
+          if (userInfo.urlImagemPerfil === "") {
+            setProfileImage(profileImages["baseProfile"]);
           } else {
-            console.error("Usuário não encontrado no Firestore.");
+            setProfileImage(profileImages[userInfo.urlImagemPerfil]);
+          }
+
+          try {
+            await updateSequenceDays(currentUser.email);
+          } catch (error) {
+            console.error("Erro ao atualizar sequência de dias:", error);
           }
         } else {
-          setUser(null);
+          console.error("Usuário não encontrado no Firestore.");
+        }
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  };
+
+  useFocusEffect(
+
+    useCallback(() => {
+      setProfileImage(undefined);
+      fetchUserData();
+    }, [])
+  );
+
+  useEffect(() => {
+    const fetchUserAchieviments = async () => {
+      const fetch = onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          const userInfo = await getInfoUser(currentUser.email);
+          try {
+            const userRef = doc(db, "users", userInfo.userId);
+            const userIconsRef = collection(userRef, "userIcons");
+            const userIconsQuery = query(userIconsRef);
+            const dayInfoSnapshot = await getDocs(userIconsQuery);
+
+            const iconNames = [];
+            dayInfoSnapshot.forEach((icon) => {
+              iconNames.push((icon.data()).icon);
+            });
+
+            iconNames.forEach((iconName) => {
+              if (!userIcons[iconName]) {
+                userIcons[iconName] = 1;
+                return;
+              }
+              userIcons[iconName] += 1;
+            });
+
+            setIcons(userIcons);
+          } catch (error) {
+            console.error("Erro ao buscar ícones: ", error);
+          }
         }
       });
 
       return () => unsubscribe();
-    };
+    }
 
-    fetchUserData();
+    fetchUserAchieviments();
   }, []);
 
   const logout = async () => {
@@ -101,7 +133,7 @@ export default function PerfilAluno() {
   const openIconModal = (iconPath, descriptionText) => {
     setModalIconColor(iconPath);
     setModalDescription(descriptionText);
-    setModalVisible(true);
+    setModalIconVisible(true);
   };
 
   function IconModalThrophy({ iconColor, description, visible, onClose }) {
@@ -110,17 +142,17 @@ export default function PerfilAluno() {
         animationType="slide"
         transparent={true}
         visible={visible}>
-        <View style={style.container}>
-          <View style={style.boxGeral}>
-            <View style={style.modalHeader}>
-              <Text style={style.modalTitle}>Conquista</Text>
-              <TouchableOpacity style={style.closeButton} onPress={onClose}>
-                <Ionicons name="close" style={style.iconeDelete} />
+        <View style={stylesModalIcon.container}>
+          <View style={stylesModalIcon.boxGeral}>
+            <View style={stylesModalIcon.modalHeader}>
+              <Text style={stylesModalIcon.modalTitle}>Conquista</Text>
+              <TouchableOpacity style={stylesModalIcon.closeButton} onPress={onClose}>
+                <Ionicons name="close" style={stylesModalIcon.iconeDelete} />
               </TouchableOpacity>
             </View>
-            <View style={style.modalBody}>
+            <View style={stylesModalIcon.modalBody}>
               <Ionicons name="trophy" size={55} color={iconColor} />
-              <Text style={style.modalDescription}>{description}</Text>
+              <Text style={stylesModalIcon.modalDescription}>{description}</Text>
             </View>
           </View>
         </View>
@@ -128,21 +160,38 @@ export default function PerfilAluno() {
     );
   }
 
-
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
       <View style={Styles.container}>
         <IconModalThrophy
           iconColor={modalIconColor}
           description={modalDescription}
-          visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          visible={modalIconVisible}
+          onClose={() => setModalIconVisible(false)}
         />
-        <View style={Styles.backgroundUser}>
-          <Image
-            style={Styles.image}
-            source={require("../Imagens/portuguita_profile.jpg")}
-          />
+        <View style={Styles.profileFrame}>
+          <TouchableOpacity
+            style={Styles.editIconFrame}
+            onPress={() => {
+              navigation.navigate('ProfileImage', { userId })
+            }}
+          >
+            <Ionicons name="add-outline" style={Styles.editIcon} />
+          </TouchableOpacity>
+          <View style={Styles.backgroundUser}>
+            {
+              profileImage === undefined ? (
+                <View style={Styles.loadingProfile}>
+                  <ActivityIndicator size="large" color="#ffffff"></ActivityIndicator>
+                </View>
+              ) : (
+                <Image
+                  style={Styles.image}
+                  source={profileImage}
+                />
+              )
+            }
+          </View>
         </View>
 
         <TouchableOpacity
@@ -277,6 +326,6 @@ export default function PerfilAluno() {
           )
         }
       </View>
-    </LinearGradient>
+    </LinearGradient >
   );
 }
