@@ -1,6 +1,4 @@
-import { StyleSheet } from "react-native"
-
-
+import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
     gradient: {
@@ -16,6 +14,46 @@ export default StyleSheet.create({
     },
     ScrollViewContent: {
         marginLeft: "4%",
+    },
+    progressContainerInfo: {
+        top: 55,
+        width: 300,
+        flexDirection: "row",
+        alignSelf: "center",
+    },
+    infoAcertos: {
+        padding: 10,
+        color: '#4CAF50'
+    },
+    infoErros: {
+        padding: 10,
+        color: '#F54F59'
+    },
+    progressContainer: {
+        width: 250,
+        height: 18,
+        backgroundColor: "#ddd",
+        borderRadius: 98,
+        overflow: "hidden",
+        marginVertical: 10,
+    },
+    progressBar: {
+        height: "100%",
+        position: "absolute",
+    },
+    progressInfoWarning: {
+        fontSize: 16,
+        color: '#F54F59',
+        top: 55,
+        alignSelf: "center",
+        fontFamily: 'Inder_400Regular',
+    },
+    progressInfoSuccessful: {
+        fontSize: 16,
+        color: '#4CAF50',
+        top: 55,
+        alignSelf: "center",
+        fontFamily: 'Inder_400Regular',
     },
     enunciado: {
         backgroundColor: '#ff8c90',
@@ -122,34 +160,67 @@ export default StyleSheet.create({
         marginVertical: 20
     },
 
-    btnAtivado: {
-        backgroundColor: '#F54F59'
-    },
+  btnAtivado: {
+    backgroundColor: "#F54F59",
+  },
 
-    btnDesativado: {
-        backgroundColor: '#848484'
-    },
+  btnDesativado: {
+    backgroundColor: "#848484",
+  },
 
-    containerResposta: {
-        backgroundColor: 'red'
-    },
+  containerResposta: {
+    backgroundColor: "red",
+  },
 
-    modalContainer: {
-        paddingTop: 80,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-    },
+  fullImage: {
+    marginTop: "15%",
+    height: "100%",
+    resizeMode: "contain",
+    top: -200,
+  },
+  iconStyle: {
+    color: "#FFFFFF",
+    fontSize: 24,
+  },
 
-    fullImage: {
-        marginTop: "15%",
-        height: '100%',
-        resizeMode: 'contain',
-        top: -200
-    },
-    iconStyle: {
-        color: "#FFFFFF",
-        fontSize: 24,
-    },
-
+  paginationButton: {
+    marginTop: 5,
+    width: 42,
+    height: 42,
+    borderRadius: 25,
+    backgroundColor: "#ff8c90",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+    fontFamily: "Inder_400Regular",
+    textAlign: "justify",
+  },
+  modalWarnContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    zIndex: 1000,
+  },
+  modalContainer: {
+    paddingTop: 80,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+  },
+  modalButton: { fontFamily: "Inder_400Regular", fontSize: 15 },
     paginationButton: {
         marginTop: 5,
         width: 42,
@@ -158,5 +229,10 @@ export default StyleSheet.create({
         backgroundColor: "#ff8c90",
         justifyContent: "center",
         alignItems: "center",
+    },
+    loader: {
+        ...StyleSheet.absoluteFillObject,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

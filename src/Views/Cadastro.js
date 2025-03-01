@@ -76,8 +76,10 @@ export default function Cadastro() {
       if (!souProfessor) {
         await cadastroFases(resposta.user.uid)
         await cadastroWeekChallenge(resposta.user.uid)
+        await setStudentProfiles(resposta.user.uid)
+        return;
       }
-
+      await setTeacherProfiles(resposta.user.uid)
     } catch (error) {
       if (error.code === "auth/invalid-email") {
         Alert.alert("Email inválido.")
@@ -102,7 +104,7 @@ export default function Cadastro() {
       nome,
       email,
       souProfessor,
-      urlImagemPerfil,
+      urlImagemPerfil: 'baseProfile',
       dataCadastro: data,
       ultimoAcesso: data,
     });
@@ -164,6 +166,62 @@ export default function Cadastro() {
     }));
   }
 
+  const setStudentProfiles = async (userId) => {
+    const studentProfiles = [
+      {
+        profileName: 'baseProfile',
+        has: true,
+      },
+      {
+        profileName: 'studentProfile',
+        has: false,
+      },
+      {
+        profileName: 'oldProfile',
+        has: true,
+      },
+      {
+        profileName: 'coguProfile',
+        has: false,
+      },
+      {
+        profileName: 'pirateProfile',
+        has: false,
+      },
+      {
+        profileName: 'podioProfile',
+        has: false,
+      },
+    ]
+
+    const desafioInfoRef = collection(db, "users", userId, "userProfiles");
+
+    for (const profile of studentProfiles) {
+      const docRef = doc(desafioInfoRef);
+      await setDoc(docRef, profile);
+    }
+  }
+
+  const setTeacherProfiles = async (userId) => {
+    const teacherProfiles = [
+      {
+        profileName: 'baseProfile',
+        has: true,
+      },
+      {
+        profileName: 'oldProfile',
+        has: true,
+      },
+    ]
+
+    const desafioInfoRef = collection(db, "users", userId, "userProfiles");
+
+    for (const profile of teacherProfiles) {
+      const docRef = doc(desafioInfoRef);
+      await setDoc(docRef, profile);
+    }
+  }
+
   const validarEmail = (email) => {
     const regex = new RegExp(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/);
     console.log(regex.test(email))
@@ -207,7 +265,7 @@ export default function Cadastro() {
 
             <TextInput
               style={Styles.input}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => setEmail(text.toLocaleLowerCase())}
             />
           </View>
 
@@ -216,7 +274,7 @@ export default function Cadastro() {
 
             <TextInput
               style={Styles.input}
-              onChangeText={(text) => setConfirmarEmail(text)}
+              onChangeText={(text) => setConfirmarEmail(text.toLocaleLowerCase())}
             />
           </View>
 

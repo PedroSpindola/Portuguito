@@ -103,24 +103,38 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
-  voltar:{
+  voltar: {
     height: 50,
     width: 50,
     zIndex: 1,
     marginBottom: 10,
-},
+  },
 
-iconStyle:{
+  iconStyle: {
     color: "#FFFFFF",
     fontSize: 24,
-},
+  },
 
-paginationButton:{
+  paginationButton: {
     width: 42,
     height: 42,
     borderRadius: 25,
     backgroundColor: "#ff8c90",
     justifyContent: "center",
     alignItems: "center",
-},
+  },
+  loadingContainer: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+  },
+  loadingElement: {
+    marginTop: '90%'
+  },
+  loadingText: {
+    color: '#fff',
+    marginTop: 20,
+    fontFamily: 'Inder_400Regular',
+    fontSize: 20
+  },
 });

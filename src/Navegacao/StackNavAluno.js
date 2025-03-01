@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import MenuAluno from "../Views/MenuAluno";
-import PerfilAluno from "../Views/PerfilAluno";
 import MenuTrilha from "../Views/MenuTrilhaAluno";
 import AcertouQuestao from "../Views/AcertouQuestaoAluno"
 import ErrouQuestao from "../Views/ErrouQuestaoAluno"
@@ -11,26 +9,19 @@ import SubMenu2 from "../Views/SubMenu2"
 import SubMenu3 from "../Views/SubMenu3"
 import QuestoesAluno from "../ListaDeListas/indexAluno";
 
-
-
-import {useTabDisplay} from "../hooks/useTabDisplay"
-import { useNavigation } from "@react-navigation/native";
+import { useTabDisplay } from "../hooks/useTabDisplay"
 
 const Stack = createStackNavigator();
 
-export default function StackNavAluno({navigation, route}) {
+export default function StackNavAluno({ navigation, route }) {
 
-  useTabDisplay({navigation, route, screens: ['MenuTrilha','StackNavAluno','PerfilAluno','MenuAluno']})
-
-  
+  useTabDisplay({ navigation, route, screens: ['MenuTrilha', 'StackNavAluno', 'PerfilAluno', 'MenuAluno'] })
 
   return (
     <Stack.Navigator
       initialRouteName="MenuTrilha"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="MenuAluno" component={MenuAluno} />
-      <Stack.Screen name="PerfilAluno" component={PerfilAluno} />
       <Stack.Screen name="MenuTrilha" component={MenuTrilha} />
       <Stack.Screen name="AcertouQuestao" component={AcertouQuestao} />
       <Stack.Screen
@@ -53,6 +44,6 @@ export default function StackNavAluno({navigation, route}) {
         name="QuestoesAluno"
         component={QuestoesAluno}
       />
-      </Stack.Navigator>
+    </Stack.Navigator>
   );
 }
