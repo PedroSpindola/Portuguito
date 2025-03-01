@@ -14,7 +14,7 @@ import { BackHandler } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Markdown from "react-native-markdown-display";
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup";
 
 import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";

@@ -117,15 +117,8 @@ export default function PerfilAluno() {
   }, []);
 
   const logout = async () => {
-    if (!user) {
-      console.error("Usuário não autenticado.");
-      return;
-    }
-
     try {
       const auth = FIREBASE_AUTH;
-
-      console.log("UID do usuário:", user.userId);
 
       await auth.signOut();
       console.log("Logout realizado com sucesso.");
