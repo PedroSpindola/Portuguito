@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import PerfilAluno from "../Views/PerfilAluno";
+import ProfileImage from "../Views/ProfileImage";
 
 import { useTabDisplay } from "../hooks/useTabDisplay"
 
@@ -17,6 +18,7 @@ export default function StackNavStudent({ navigation, route }) {
             screenOptions={{ headerShown: false }}
         >
             <Stack.Screen name="PerfilAluno" component={PerfilAluno} />
+            <Stack.Screen name="ProfileImage" component={ProfileImage} />
         </Stack.Navigator>
     );
 }
