@@ -176,6 +176,22 @@ export default function Cadastro() {
         profileName: 'studentProfile',
         has: false,
       },
+      {
+        profileName: 'oldProfile',
+        has: true,
+      },
+      {
+        profileName: 'coguProfile',
+        has: false,
+      },
+      {
+        profileName: 'pirateProfile',
+        has: false,
+      },
+      {
+        profileName: 'podioProfile',
+        has: false,
+      },
     ]
 
     const desafioInfoRef = collection(db, "users", userId, "userProfiles");
@@ -190,6 +206,10 @@ export default function Cadastro() {
     const teacherProfiles = [
       {
         profileName: 'baseProfile',
+        has: true,
+      },
+      {
+        profileName: 'oldProfile',
         has: true,
       },
     ]
