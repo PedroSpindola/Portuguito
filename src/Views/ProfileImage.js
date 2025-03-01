@@ -8,6 +8,7 @@ import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig.js";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { ActivityIndicator } from "react-native";
 
 export default function ProfileImage() {
     const db = getFirestore(FIREBASE_APP);
@@ -18,6 +19,7 @@ export default function ProfileImage() {
     const [modalProfileTitle, setModalProfileTitle] = useState(null);
     const [modalProfileImage, setModalProfileImage] = useState(null);
     const [modalProfileDescription, setModalProfileDescription] = useState(null);
+    const [modalNotHaveVisible, setModalNotHaveVisible] = useState(false);
 
     const navigation = useNavigation();
 
@@ -25,7 +27,11 @@ export default function ProfileImage() {
 
     const profileImages = {
         "baseProfile": require("../Imagens/profile/profileBase.jpg"),
-        "studentProfile": require("../Imagens/profile/profileLibrary.png")
+        "oldProfile": require("../Imagens/profile/profileOld.png"),
+        "coguProfile": require("../Imagens/profile/profileCogu.png"),
+        "studentProfile": require("../Imagens/profile/profileLibrary.png"),
+        "pirateProfile": require("../Imagens/profile/profilePirate.png"),
+        "podioProfile": require("../Imagens/profile/profilePodio.png"),
     };
 
     const updateProfileImage = async () => {
@@ -43,7 +49,6 @@ export default function ProfileImage() {
 
     useEffect(() => {
         const backAction = () => {
-            updateProfileImage()
             return true;
         };
 
@@ -93,7 +98,10 @@ export default function ProfileImage() {
         return (
             <TouchableOpacity
                 style={Styles.profileContainer}
-                onPress={() => has && setCurrentProfile(image)}
+                onPress={() => {
+                    !has && openIconModal('Bloqueada', null, 'Você pode desbloquear durante sua jornada no Portuguito!');
+                    has && setCurrentProfile(image)
+                }}
             >
                 {image === 'baseProfile' &&
                     <>
@@ -117,7 +125,67 @@ export default function ProfileImage() {
                             <TouchableOpacity
                                 style={Styles.infoButton}
                                 onPress={() => {
-                                    openIconModal('Padrão', 'baseProfile', 'Portuguita Padrão,\nObtida ao criar uma conta no Portuguito');
+                                    openIconModal('Padrão', 'baseProfile', 'Portuguita Padrão;\nObtida ao criar uma conta no Portuguito');
+                                }}
+                            >
+                                <Ionicons name="information-outline" style={Styles.infoIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
+                {image === 'oldProfile' &&
+                    <>
+                        {
+                            currentProfile === 'oldProfile' &&
+                            <View
+                                style={Styles.selectIconFrame}
+                            >
+                                <Ionicons name="checkmark-outline" style={Styles.selectIcon} />
+                            </View>
+                        }
+                        <View style={[
+                            Styles.backgroundUser,
+                            currentProfile === 'oldProfile' && Styles.selectedProfile
+                        ]}>
+                            <Image style={Styles.image} source={profileImages['oldProfile']} />
+                            {!has && <View style={Styles.overlay} />}
+                        </View>
+                        <View style={Styles.textContainer}>
+                            <Text style={Styles.profileText}>Antigo</Text>
+                            <TouchableOpacity
+                                style={Styles.infoButton}
+                                onPress={() => {
+                                    openIconModal('Antigo', 'oldProfile', 'Aluno Antigo;\nObtida apenas por usuários antigos do Portuguito');
+                                }}
+                            >
+                                <Ionicons name="information-outline" style={Styles.infoIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
+                {image === 'coguProfile' &&
+                    <>
+                        {
+                            currentProfile === 'coguProfile' &&
+                            <View
+                                style={Styles.selectIconFrame}
+                            >
+                                <Ionicons name="checkmark-outline" style={Styles.selectIcon} />
+                            </View>
+                        }
+                        <View style={[
+                            Styles.backgroundUser,
+                            currentProfile === 'coguProfile' && Styles.selectedProfile
+                        ]}>
+                            <Image style={Styles.image} source={profileImages['coguProfile']} />
+                            {!has && <View style={Styles.overlay} />}
+                        </View>
+                        <View style={Styles.textContainer}>
+                            <Text style={Styles.profileText}>Trilha</Text>
+                            <TouchableOpacity
+                                style={Styles.infoButton}
+                                onPress={() => {
+                                    openIconModal('Trilha', 'coguProfile', 'Portuguita na Trilha;\nObtida por usuários que completaram todas as fases de uma trilha');
                                 }}
                             >
                                 <Ionicons name="information-outline" style={Styles.infoIcon} />
@@ -148,7 +216,69 @@ export default function ProfileImage() {
                             <TouchableOpacity
                                 style={Styles.infoButton}
                                 onPress={() => {
-                                    openIconModal('Estudante', 'studentProfile', 'Portuguita Estudante,\nObtida ao acertar todas as questões da lista de um professor');
+                                    openIconModal('Estudante', 'studentProfile', 'Portuguita Estudante;\nObtida ao acertar todas as questões da lista de um professor');
+                                }}
+                            >
+                                <Ionicons name="information-outline" style={Styles.infoIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
+                {
+                    image === 'pirateProfile' &&
+                    <>
+                        {
+                            currentProfile === 'pirateProfile' &&
+                            <View
+                                style={Styles.selectIconFrame}
+                            >
+                                <Ionicons name="checkmark-outline" style={Styles.selectIcon} />
+                            </View>
+                        }
+                        <View style={[
+                            Styles.backgroundUser,
+                            currentProfile === 'pirateProfile' && Styles.selectedProfile
+                        ]}>
+                            <Image style={Styles.image} source={profileImages['pirateProfile']} />
+                            {!has && <View style={Styles.overlay} />}
+                        </View>
+                        <View style={Styles.textContainer}>
+                            <Text style={Styles.profileText}>Pirata</Text>
+                            <TouchableOpacity
+                                style={Styles.infoButton}
+                                onPress={() => {
+                                    openIconModal('Pirata', 'pirateProfile', 'Portuguita Pirata;\nObtida ao completar todas as fases de um dos dias do desafio semanal');
+                                }}
+                            >
+                                <Ionicons name="information-outline" style={Styles.infoIcon} />
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
+                {
+                    image === 'podioProfile' &&
+                    <>
+                        {
+                            currentProfile === 'podioProfile' &&
+                            <View
+                                style={Styles.selectIconFrame}
+                            >
+                                <Ionicons name="checkmark-outline" style={Styles.selectIcon} />
+                            </View>
+                        }
+                        <View style={[
+                            Styles.backgroundUser,
+                            currentProfile === 'podioProfile' && Styles.selectedProfile
+                        ]}>
+                            <Image style={Styles.image} source={profileImages['podioProfile']} />
+                            {!has && <View style={Styles.overlay} />}
+                        </View>
+                        <View style={Styles.textContainer}>
+                            <Text style={Styles.profileText}>Campeã</Text>
+                            <TouchableOpacity
+                                style={Styles.infoButton}
+                                onPress={() => {
+                                    openIconModal('Campeã', 'podioProfile', 'Portuguita Campeã;\nObtida ao ficar no top 3 do ranking do desafio semanal');
                                 }}
                             >
                                 <Ionicons name="information-outline" style={Styles.infoIcon} />
@@ -177,9 +307,11 @@ export default function ProfileImage() {
                             </TouchableOpacity>
                         </View>
                         <View style={stylesModalIcon.modalBody}>
-                            <View style={stylesModalIcon.backgroundUserModal}>
-                                <Image style={stylesModalIcon.imageModal} source={profileImages[image]} />
-                            </View>
+                            {image != null &&
+                                <View style={stylesModalIcon.backgroundUserModal}>
+                                    <Image style={stylesModalIcon.imageModal} source={profileImages[image]} />
+                                </View>
+                            }
                             <Text style={stylesModalIcon.modalDescription}>{description}</Text>
                         </View>
                     </View>
@@ -205,28 +337,36 @@ export default function ProfileImage() {
                     visible={modalProfileVisible}
                     onClose={() => setModalProfileVisible(false)}
                 />
-                <FlatList
-                    style={Styles.profilesContainer}
-                    data={profileImagesData}
-                    numColumns={2}
-                    keyExtractor={(item) => item.profileName}
-                    renderItem={({ item }) => (
-                        <ImageProfile
-                            image={item.profileName}
-                            has={item.has}
-                        />
-                    )}
-                />
+                {
+                    profileImagesData.length === 0 ? (
+                        <ActivityIndicator size={50} color="#EFEFFE" style={Styles.loader}>
+                        </ActivityIndicator>
+                    ) : (
+                        <>
+                            <FlatList
+                                style={Styles.profilesContainer}
+                                data={profileImagesData}
+                                numColumns={2}
+                                renderItem={({ item }) => (
+                                    <ImageProfile
+                                        image={item.profileName}
+                                        has={item.has}
+                                    />
+                                )}
+                            />
+                            < TouchableOpacity
+                                style={Styles.button}
+                                onPress={() => {
+                                    updateProfileImage();
+                                }}
+                            >
+                                <Text style={Styles.buttonText}>Salvar</Text>
+                            </TouchableOpacity>
+                        </>
+                    )
+                }
 
 
-                < TouchableOpacity
-                    style={Styles.button}
-                    onPress={() => {
-                        updateProfileImage();
-                    }}
-                >
-                    <Text style={Styles.buttonText}>Salvar</Text>
-                </TouchableOpacity>
             </View >
         </LinearGradient>
     );

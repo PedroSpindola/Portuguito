@@ -32,7 +32,11 @@ export default function PerfilAluno() {
 
   const profileImages = {
     "baseProfile": require("../Imagens/profile/profileBase.jpg"),
-    "studentProfile": require("../Imagens/profile/profileLibrary.png")
+    "oldProfile": require("../Imagens/profile/profileOld.png"),
+    "coguProfile": require("../Imagens/profile/profileCogu.png"),
+    "studentProfile": require("../Imagens/profile/profileLibrary.png"),
+    "pirateProfile": require("../Imagens/profile/profilePirate.png"),
+    "podioProfile": require("../Imagens/profile/profilePodio.png"),
   };
 
   const userIcons = {};
