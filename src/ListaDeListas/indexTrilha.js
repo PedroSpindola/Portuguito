@@ -128,8 +128,12 @@ export default function QuestoesTrilha() {
                         
                         await updateDoc(docSnap.ref, { has: true });
                         setShowUnlockModal(true);
+                    }else{
+                      navigation.goBack({reload: true})
                     }
                 });
+            }else {
+              navigation.goBack({reload: true})
             }
         }
     } catch (error) {
@@ -143,11 +147,10 @@ export default function QuestoesTrilha() {
     setCorrect(false);
     setIncorrect(false);
     if (acertos > 6) {
-      unlockImage();
       try {
         const userId = route.params.params.userId;
         const subTemaDoc = route.params.params.subTemaDoc;
-
+        
         const subTemaRef = doc(
           db,
           "users",
@@ -155,10 +158,10 @@ export default function QuestoesTrilha() {
           "trilhaInfo",
           subTemaDoc.id
         );
-
+        
         const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
         const faseAtual = questoes[0].fase;
-
+        
         if (faseAtual > lastCompletedFase) {
           await updateDoc(subTemaRef, {
             ultimaFaseConcluida: lastCompletedFase + 1,
@@ -170,6 +173,9 @@ export default function QuestoesTrilha() {
           error.message
         );
       }
+      unlockImage();
+    } else{
+      navigation.goBack({reload: true})
     }
 
     setEnd(false);
