@@ -15,6 +15,7 @@ import Markdown from "react-native-markdown-display";
 import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup"
 import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc, addDoc } from "firebase/firestore";
 import LoadingScreen from "../Componentes/LoadingScreen";
+import { reload } from "firebase/auth";
 
 export default function ChallengeQuestions() {
     const [questoes, setQuestoes] = useState([]);
@@ -130,6 +131,8 @@ export default function ChallengeQuestions() {
             }else{
                 navigation.goBack({reload: true})
             }
+        } else{
+            navigation.goBack({reload: true})
         }
     }
 
@@ -137,36 +140,35 @@ export default function ChallengeQuestions() {
         setCorrect(false);
         setIncorrect(false);
         if (acertos > 6) {
-            unlockImage();
             try {
                 const userId = route.params.params.userId;
                 const dayName = route.params.params.dayName;
-
+                
                 const userRef = doc(db, "users", userId);
-
+                
                 const collectionRef = collection(userRef, "desafioInfo");
                 const dayQuery = query(collectionRef, where("dia", "==", dayName));
-
+                
                 const querySnapshot = await getDocs(dayQuery);
                 const subTemaDoc = querySnapshot.docs[0];
-
+                
                 const subTemaRef = doc(db, "users", userId, "desafioInfo", subTemaDoc.id);
-
+                
                 const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
                 const currentFase = fase;
-
+                
                 if (currentFase > lastCompletedFase) {
                     await updateDoc(subTemaRef, { ultimaFaseConcluida: lastCompletedFase + 1 });
 
                     const challengeInfoRef = collection(db, "desafioProgresso");
                     const firstChallengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
                     const firstChallengeInfoSnapshot = await getDocs(firstChallengeInfoQuery);
-
+                    
                     const userRef = collection(db, "users");
                     const userQuery = query(userRef, where("userId", "==", userId));
                     const userSnapshot = await getDocs(userQuery);
                     const userName = userSnapshot.docs[0].data().nome;
-
+                    
                     if (firstChallengeInfoSnapshot.size === 0) {
                         await addDoc(challengeInfoRef, {
                             userId: userId,
@@ -174,22 +176,23 @@ export default function ChallengeQuestions() {
                             fasesConcluidas: 0,
                         });
                     }
-
+                    
                     const challengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
                     const challengeInfoSnapshot = await getDocs(challengeInfoQuery);
                     const userProgressRef = challengeInfoSnapshot.docs[0].ref;
                     const fasesConcluidas = challengeInfoSnapshot.docs[0].data().fasesConcluidas;
-
+                    
                     await updateDoc(userProgressRef, {
                         fasesConcluidas: fasesConcluidas + 1,
                     });
                 }
-
+                
             } catch (error) {
                 console.error("Erro ao atualizar a última fase concluída: ", error.message);
             }
+            unlockImage();
         }
-
+        navigation.goBack({reload: true})
         setEnd(false)
     };
     const close = () => {
