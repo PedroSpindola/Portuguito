@@ -4,14 +4,14 @@ export default StyleSheet.create({
     gradient: {
         ...StyleSheet.absoluteFillObject,
     },
-    container:{
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        
-        
+
+
     },
-    botao:{
+    botao: {
         backgroundColor: '#FFB9BD',
         padding: 20,
         borderRadius: 10,
@@ -22,32 +22,32 @@ export default StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-        
+
     },
-    txtDescritor:{
+    txtDescritor: {
         color: '#fff',
         flex: 2,
         fontFamily: 'Inder_400Regular',
         fontSize: 16
-        
-        
+
+
     },
-    voltar:{
+    voltar: {
         position: 'absolute',
         top: 10,
         height: 50,
         width: 50,
         left: 30,
         zIndex: 1,
-        
+
     },
 
-    iconStyle:{
+    iconStyle: {
         color: "#FFFFFF",
         fontSize: 24,
     },
 
-    paginationButton:{
+    paginationButton: {
         marginTop: 12,
         width: 42,
         height: 42,
@@ -55,5 +55,19 @@ export default StyleSheet.create({
         backgroundColor: "#ff8c90",
         justifyContent: "center",
         alignItems: "center",
+    },
+    loadingContainer: {
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+    },
+    loadingElement: {
+        marginTop: '90%'
+    },
+    loadingText: {
+        color: '#fff',
+        marginTop: 20,
+        fontFamily: 'Inder_400Regular',
+        fontSize: 20
     },
 })

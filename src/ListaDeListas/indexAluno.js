@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, TouchableOpacity, Text, Modal } from "react-native";
+import { View, TouchableOpacity, Text, Modal, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
@@ -14,9 +14,9 @@ import { BackHandler } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Markdown from "react-native-markdown-display";
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup";
 
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 
 export default function QuestoesAluno() {
@@ -35,6 +35,8 @@ export default function QuestoesAluno() {
   const [atualizar, setAtualizar] = useState(true);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
   const [noImage, setNoImage] = useState(null);
+  const [loadingImage, setLoadingImage] = useState(true);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   const auth = FIREBASE_AUTH;
 
@@ -54,7 +56,7 @@ export default function QuestoesAluno() {
 
     return () => backHandler.remove();
   }, [navigation]);
-  
+
   useEffect(() => {
     setShowInitialAnimation(true);
     codigoLista = route.params.itemId;
@@ -101,6 +103,7 @@ export default function QuestoesAluno() {
           }
         } catch (error) {
         }
+        setLoadingImage(false);
       };
 
       obterQuestoes();
@@ -164,6 +167,25 @@ export default function QuestoesAluno() {
     } else {
       setEnd(true);
     }
+    setLoadingImage(false);
+  };
+
+  const unlockImage = async () => {
+    if (questoes.length == acertos) {
+      const db = getFirestore(FIREBASE_APP);
+      const userRef = doc(db, "users", aluno);
+      const userProfilesRef = collection(userRef, "userProfiles");
+      const imageQuery = query(userProfilesRef, where("profileName", "==", "studentProfile"));
+      const querySnapshot = await getDocs(imageQuery);
+  
+      querySnapshot.forEach(async (docSnap) => {
+        const data = docSnap.data();
+        if (data.has === false) {
+          await updateDoc(docSnap.ref, { has: true });
+          setShowUnlockModal(true); // Mostrar o modal após atualizar o documento
+        }
+      });
+    }
   };
 
   const finishList = async () => {
@@ -175,6 +197,8 @@ export default function QuestoesAluno() {
     setAcertoQuestoes([]);
     setEnd(false);
 
+    unlockImage();
+
     try {
       const db = getFirestore(FIREBASE_APP);
       const listaDocRef = doc(db, "ListaAluno", codigoLista);
@@ -183,7 +207,7 @@ export default function QuestoesAluno() {
       const oldAcertos = listaDocSnapshot.data().acertos;
       console.log(oldAcertos);
 
-      if(oldAcertos >= acertos) {
+      if (oldAcertos >= acertos) {
         navigation.goBack({ reload: true });
         return;
       }
@@ -194,14 +218,51 @@ export default function QuestoesAluno() {
           erros: erros,
           acertoQuestoes: acertoQuestoes,
         });
-        
+
       }
     } catch (error) {
       console.log(error)
     }
 
-    navigation.goBack({ reload: true });
+
+    setEnd(false);
+
+    // navigation.goBack({ reload: true });
   };
+
+  const ModalUnlock = () => {
+    return (
+      <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
+        <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
+          <View style={Styles.container}>
+            <View style={Styles.boxTitle}>
+              <Text style={Styles.Title}>
+                PARABÉNS!
+                <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
+              </Text>
+            </View>
+  
+            <View style={Styless.boxImage}>
+              <Image
+                style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
+                source={require("../Imagens/profile/profileLibrary.png")}
+              />
+            </View>
+  
+            <View style={Styles.buttomBox}>
+              <TouchableOpacity
+                style={Styles.buttom}
+                onPress={() => setShowUnlockModal(false)}
+              >
+                <Text style={[Styles.FontFormatButtom, Styles.shadow]}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </LinearGradient>
+      </Modal>
+    );
+  };
+  
 
   const ModalSad = () => {
     return (
@@ -397,119 +458,152 @@ export default function QuestoesAluno() {
       <ModalHappy />
       <ModalSad />
       <ModalEnd />
+      <ModalUnlock />
       {questoesCarregadas && questaoAtual && !showInitialAnimation ? (
-        <View style={styles.container}>
-          <View style={styles.enunciado}>
-            <View style={styles.backgroundImagem}>
-              {questaoAtual?.urlImagem && questaoAtual.urlImagem.startsWith('http') ? (
-                <TouchableOpacity onPress={() => setIsExpanded(true)}>
-                  <Image
-                    style={styles.imagem}
-                    source={{ uri: questaoAtual.urlImagem }}
-                    contentFit="contain"
-                  />
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity>
-                  <Image
-                    style={styles.imagem}
-                    source={ noImage }
-                    contentFit="contain"
-                  />
-                </TouchableOpacity>
-              )
-              }
-
-              {/* Modal para exibir a imagem expandida */}
-              <Modal visible={isExpanded} transparent={true} animationType="fade">
-                <View style={styles.modalContainer}>
-                  <TouchableOpacity onPress={() => setIsExpanded(false)}>
-                    <Image source={{ uri: questaoAtual.urlImagem }} style={styles.fullImage} />
-                  </TouchableOpacity>
-                </View>
-              </Modal>
+        <>
+          <View style={styles.progressContainerInfo}>
+            <Text style={styles.infoAcertos}>{acertos}</Text>
+            <View style={styles.progressContainer}>
+              <View style={[styles.progressBar, { width: `${(acertos / questoes.length) * 100}%`, backgroundColor: '#4CAF50' }]} />
+              <View style={[styles.progressBar, { width: `${(erros / questoes.length) * 100}%`, backgroundColor: '#F54F59', left: `${100 - (erros / questoes.length) * 100}%` }]} />
             </View>
-            <Markdown
-              style={{
-                body: {
-                  fontSize: 16,
-                  color: "#fff",
-                  top: 0,
-                  width: "90%",
-                  left: 5,
-                  padding: 5,
-                  textAlign: "left",
-                  fontFamily: "Inder_400Regular",
-                },
-              }}
-            >
-              {questaoAtual.pergunta}
-            </Markdown>
+            <Text style={styles.infoErros}>{erros}</Text>
           </View>
 
           <View style={styles.container}>
-            <ScrollView style={styles.questoes}>
-              <RadioButtonGroup
-                selected={value}
-                onSelected={(value) => {
-                  setValue(value)
-                  setbtnRadioClicado(false)
+            <View style={styles.enunciado}>
+              <View style={styles.backgroundImagem}>
+                {loadingImage ? (
+                  <ActivityIndicator size="large" color="#EFEFFE"></ActivityIndicator>
+                ) : (
+                  questoes[indice]?.urlImagem && questoes[indice].urlImagem.startsWith('http') ? (
+                    <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                      <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader}></ActivityIndicator>
+                      <Image
+                        style={styles.imagem}
+                        source={{ uri: questoes[indice].urlImagem }}
+                        contentFit="contain"
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.imagem}
+                        source={noImage}
+                        contentFit="contain"
+                      />
+                    </TouchableOpacity>
+                  )
+                )
+                }
+
+                {/* Modal para exibir a imagem expandida */}
+                <Modal visible={isExpanded} transparent={true} animationType="fade">
+                  <View style={styles.modalContainer}>
+                    <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                      <Image source={{ uri: questoes[indice].urlImagem }} style={styles.fullImage} />
+                    </TouchableOpacity>
+                  </View>
+                </Modal>
+              </View>
+              <Markdown
+                style={{
+                  body: {
+                    fontSize: 16,
+                    color: "#fff",
+                    top: 0,
+                    width: "90%",
+                    left: 5,
+                    padding: 5,
+                    textAlign: "left",
+                    fontFamily: "Inder_400Regular",
+                  },
                 }}
-                radioBackground="#F54F59"
               >
-                {questaoAtual.respostas.map((resposta, index) => (
-                  <RadioButtonItem
-                    key={index}
-                    label={
-                      <View
-                        style={{
-                          flexDirection: "row-reverse",
-                          backgroundColor: "#ffb9bd",
-                          borderRadius: 50,
-                          width: 300,
-                          marginTop: 5,
-                          height: "auto",
-                          left: -24,
-                          position: "relative",
-                          zIndex: -1,
-                        }}
-                      >
-                        <Markdown
+                {questoes[indice].pergunta}
+              </Markdown>
+            </View>
+
+            <View style={styles.container}>
+              <ScrollView style={styles.questoes}>
+                <RadioButtonGroup
+                  selected={value}
+                  onSelected={(value) => {
+                    setValue(value)
+                    setbtnRadioClicado(false)
+                  }}
+                  radioBackground="#F54F59"
+                >
+
+                  {questoes[indice].respostas.map((resposta, index) => (
+                    <RadioButtonItem
+                      key={index}
+                      label={
+                        <View
                           style={{
-                            body: {
-                              fontSize: 16,
-                              color: "#fff",
-                              top: 0,
-                              width: "90%",
-                              left: -0.5,
-                              padding: 5,
-                              textAlign: "center",
-                              fontFamily: "Inder_400Regular",
-                            },
+                            flexDirection: "row-reverse",
+                            backgroundColor: "#ffb9bd",
+                            borderRadius: 50,
+                            width: 300,
+                            marginTop: 5,
+                            height: "auto",
+                            left: -24,
+                            position: "relative",
+                            zIndex: -1,
                           }}
                         >
-                          {resposta}
-                        </Markdown>
-                      </View>
-                    }
-                    value={resposta}
-                    style={{ borderWidth: 1, borderColor: "#fff", left: 4, top: 3, backgroundColor: '#fff', width: 25, height: 25 }}
-                  />
-                ))}
-              </RadioButtonGroup>
-              <TouchableOpacity
-                style={[styles.confirmar, btnRadioClicado ? styles.btnDesativado : styles.btnAtivado]}
-                onPress={() => {
-                  conferirQuestao(questaoAtual.respostaCorreta, value)
-                  setbtnRadioClicado(true)
-                }}
-                disabled={btnRadioClicado}
-              >
-                <Text style={styles.label}>Confirmar</Text>
-              </TouchableOpacity>
-            </ScrollView>
+                          <Markdown
+                            style={{
+                              body: {
+                                fontSize: 16,
+                                color: "#fff",
+                                top: 0,
+                                width: "90%",
+                                left: -0.5,
+                                padding: 5,
+                                textAlign: "center",
+                                fontFamily: "Inder_400Regular",
+                              },
+                            }}
+                          >
+                            {resposta}
+                          </Markdown>
+                        </View>
+                      }
+                      value={resposta}
+                      style={{
+                        borderWidth: 1,
+                        borderRadius: 12.5,
+                        borderColor: "#fff",
+                        left: 7,
+                        top: 3,
+                        backgroundColor: '#fff',
+                        width: 25,
+                        height: 25,
+                      }}
+                    />
+                  ))}
+                </RadioButtonGroup>
+                <View style={styles.containerContinuar}>
+                  <TouchableOpacity
+                    style={[styles.confirmar, btnRadioClicado ? styles.btnDesativado : styles.btnAtivado]}
+                    disabled={btnRadioClicado}
+                    onPress={() => {
+                      setLoadingImage(true);
+                      conferirQuestao(
+                        questoes[indice].respostaCorreta,
+                        value
+                      )
+                      setbtnRadioClicado(true)
+                    }}
+                  >
+                    <Text style={styles.label}>Confirmar</Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
+            </View>
           </View>
-        </View>
+        </>
       ) : (
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}

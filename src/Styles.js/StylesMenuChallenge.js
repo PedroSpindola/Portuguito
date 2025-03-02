@@ -10,8 +10,8 @@ export default StyleSheet.create({
         position: "absolute",
         width: 125,
         height: 125,
-        bottom: 720,
-        left: 284,
+        bottom: 680,
+        left: 264,
     },
     rankingIconImage: {
         width: 125,

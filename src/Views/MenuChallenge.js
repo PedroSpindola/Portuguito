@@ -71,7 +71,7 @@ export default function MenuChallenge() {
         />
         <FaseIcon
           style={Styles.centerFaseIcon}
-          faseDay={7 + '°'}
+          faseDay={'S'}
         />
       </TouchableOpacity>
     );
@@ -89,7 +89,7 @@ export default function MenuChallenge() {
         />
         <FaseIcon
           style={[Styles.centerFaseIcon, Styles.lastDayClosed]}
-          faseDay={7 + '°'}
+          faseDay={'S'}
         />
       </TouchableOpacity>
     );
@@ -106,69 +106,89 @@ export default function MenuChallenge() {
           })
         }
       >
-        {
-          index % 2 === 0 ? (
-            <>
-              <Image
-                source={require("../Imagens/BarcoClaro.png")}
-                style={[Styles.boxImageImage, Styles.rotatedFase]}
-              />
-              <FaseIcon
-                style={[Styles.leftFaseIcon, Styles.activeIcon]}
-                faseDay={(index + 1) + '°'}
-              />
-            </>
-          ) : (
-            <>
-              <Image
-                source={require("../Imagens/BarcoClaro.png")}
-                style={Styles.boxImageImage}
-              />
-              <FaseIcon
-                style={[Styles.rightFaseIcon, Styles.activeIcon]}
-                faseDay={(index + 1) + '°'}
-              />
-            </>
-          )
-        }
+        {index === 0 ? (
+          <>
+            <Image
+              source={require("../Imagens/BarcoClaro.png")}
+              style={[Styles.boxImageImage, Styles.rotatedFase]}
+            />
+            <FaseIcon
+              style={[Styles.leftFaseIcon, Styles.activeIcon]}
+              faseDay="D"
+            />
+          </>
+        ) : index % 2 === 0 ? (
+          <>
+            <Image
+              source={require("../Imagens/BarcoClaro.png")}
+              style={[Styles.boxImageImage, Styles.rotatedFase]}
+            />
+            <FaseIcon
+              style={[Styles.leftFaseIcon, Styles.activeIcon]}
+              faseDay={(index + 1) + 'ª'}
+            />
+          </>
+        ) : (
+          <>
+            <Image
+              source={require("../Imagens/BarcoClaro.png")}
+              style={Styles.boxImageImage}
+            />
+            <FaseIcon
+              style={[Styles.rightFaseIcon, Styles.activeIcon]}
+              faseDay={(index + 1) + 'ª'}
+            />
+          </>
+        )}
       </TouchableOpacity>
     );
   };
+  
 
-  const ClosedDay = ({ index }) => {
-    return (
-      <TouchableOpacity
-        style={Styles.boxImageButton}
-        activeOpacity={1}
-      >
-        {
-          index % 2 === 0 ? (
-            <>
-              <Image
-                source={require("../Imagens/BarcoEscuro.png")}
-                style={[Styles.boxImageImage, Styles.rotatedFase]}
-              />
-              <FaseIcon
-                style={Styles.leftFaseIcon}
-                faseDay={(index + 1) + '°'}
-              />
-            </>
-          ) : (
-            <>
-              <Image
-                source={require("../Imagens/BarcoEscuro.png")}
-                style={Styles.boxImageImage}
-              />
-              <FaseIcon
-                style={Styles.rightFaseIcon}
-                faseDay={(index + 1) + '°'}
-              />
-            </>
-          )
-        }
-      </TouchableOpacity>
-    );
-  };
+const ClosedDay = ({ index }) => {
+  return (
+    <TouchableOpacity
+      style={Styles.boxImageButton}
+      activeOpacity={1}
+    >
+      {index === 0 ? (
+        <>
+          <Image
+            source={require("../Imagens/BarcoEscuro.png")}
+            style={[Styles.boxImageImage, Styles.rotatedFase]}
+          />
+          <FaseIcon
+            style={Styles.leftFaseIcon}
+            faseDay="D"
+          />
+        </>
+      ) : index % 2 === 0 ? (
+        <>
+          <Image
+            source={require("../Imagens/BarcoEscuro.png")}
+            style={[Styles.boxImageImage, Styles.rotatedFase]}
+          />
+          <FaseIcon
+            style={Styles.leftFaseIcon}
+            faseDay={(index + 1) + 'ª'}
+          />
+        </>
+      ) : (
+        <>
+          <Image
+            source={require("../Imagens/BarcoEscuro.png")}
+            style={Styles.boxImageImage}
+          />
+          <FaseIcon
+            style={Styles.rightFaseIcon}
+            faseDay={(index + 1) + 'ª'}
+          />
+        </>
+      )}
+    </TouchableOpacity>
+  );
+};
+
 
   return (
     <ImageBackground

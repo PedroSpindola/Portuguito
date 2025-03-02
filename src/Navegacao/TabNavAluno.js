@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import StackNavAluno from "./StackNavAluno";
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import PerfilAluno from "../Views/PerfilAluno";
+import StackNavStudent from "./StackNavStudent";
 import StackNavTrilha from "./StackNavTrilha";
 import StackNavChallenge from "./StackNavChallenge";
 import MenuAluno from "../Views/MenuAluno";
@@ -14,7 +14,7 @@ export default function TabNavAluno() {
 
     return (
         <Tab.Navigator
-            initialRouteName="PerfilAluno"
+            initialRouteName="StackNavStudent"
             screenOptions={{
                 tabBarActiveTintColor: '#fff',
                 tabBarActiveBackgroundColor: '#F54F59',
@@ -30,7 +30,7 @@ export default function TabNavAluno() {
 
             }}>
 
-            <Tab.Screen name='PerfilAluno' component={PerfilAluno} options={{
+            <Tab.Screen name='StackNavStudent' component={StackNavStudent} options={{
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => {
                     if (focused) {
