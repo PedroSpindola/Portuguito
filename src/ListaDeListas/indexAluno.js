@@ -182,7 +182,7 @@ export default function QuestoesAluno() {
         const data = docSnap.data();
         if (data.has === false) {
           await updateDoc(docSnap.ref, { has: true });
-          setShowUnlockModal(true); // Mostrar o modal após atualizar o documento
+          setShowUnlockModal(true);
         }
       });
     }
