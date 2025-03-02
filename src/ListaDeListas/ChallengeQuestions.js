@@ -29,6 +29,7 @@ export default function ChallengeQuestions() {
     const [showInitialAnimation, setShowInitialAnimation] = useState(true);
     const [noImage, setNoImage] = useState(null);
     const [loadingImage, setLoadingImage] = useState(true);
+    const [showUnlockModal, setShowUnlockModal] = useState(false);
 
 
     const route = useRoute();
@@ -104,10 +105,39 @@ export default function ChallengeQuestions() {
         setLoadingImage(false);
     };
 
+    const unlockImage = async () => {
+        
+        const currentFase = fase;
+        let numFases = 0
+        if (day == 7) {
+            numFases = 30
+        } else{
+            numFases = 15
+        }
+
+        if (currentFase == numFases) {
+            const userId = route.params.params.userId;
+            const userRef = doc(db, "users", userId);
+            const collectionRef = collection(userRef, "userProfiles");
+            const imageQuery = query(collectionRef, where("profileName", "==", "pirateProfile"));
+            const querySnapshot = await getDocs(imageQuery);
+            const imageDoc = querySnapshot.docs[0]; 
+            const hasImage = imageDoc.data().has
+
+            if (hasImage == false) {
+                await updateDoc(imageDoc.ref, {has: true})
+                setShowUnlockModal(true);
+            }else{
+                navigation.goBack({reload: true})
+            }
+        }
+    }
+
     const finishActivity = async () => {
         setCorrect(false);
         setIncorrect(false);
         if (acertos > 6) {
+            unlockImage();
             try {
                 const userId = route.params.params.userId;
                 const dayName = route.params.params.dayName;
@@ -160,9 +190,47 @@ export default function ChallengeQuestions() {
             }
         }
 
-        navigation.goBack({ reload: true });
+        setEnd(false)
+    };
+    const close = () => {
+        setShowUnlockModal(false);
+        navigation.goBack({reload: true})
+    }
+
+    const ModalUnlock = () => {
+        return (
+            <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
+            <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
+                <View style={Styles.container}>
+                <View style={Styles.boxTitle}>
+                    <Text style={Styles.Title}>
+                    PARABÉNS!
+                    <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
+                    </Text>
+                </View>
+
+                <View style={Styless.boxImage}>
+                    <Image
+                    style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
+                    source={require("../Imagens/profile/profilePirate.png")}
+                    />
+                </View>
+
+                <View style={Styles.buttomBox}>
+                    <TouchableOpacity
+                    style={Styles.buttom}
+                    onPress={() => close()}
+                    >
+                    <Text style={[Styles.FontFormatButtom, Styles.shadow]}>Fechar</Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
+            </LinearGradient>
+            </Modal>
+        );
     };
 
+    
     const ModalSad = () => {
         return (
             <Modal animationType="fade" transparent={false} visible={incorrect}>
@@ -361,6 +429,7 @@ export default function ChallengeQuestions() {
             <ModalHappy />
             <ModalSad />
             <ModalEnd />
+            <ModalUnlock />
 
             {questoes && questoes[indice] && !showInitialAnimation ? (
                 <>
