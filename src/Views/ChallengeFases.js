@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
-import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, Image, BackHandler } from "react-native";
 import { Ionicons } from "react-native-vector-icons";
 import Styles from "../Styles.js/StyleChallengeFases.js";
 import { useRoute } from "@react-navigation/native";
@@ -14,6 +14,17 @@ export default function ChallengeFases() {
   const db = getFirestore(FIREBASE_APP);
   const route = useRoute();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate("MenuChallenge");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    return () => backHandler.remove();
+  }, [navigation]);
 
   const getDayName = (day) => {
     switch (day) {

@@ -14,7 +14,7 @@ import { BackHandler } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import Markdown from "react-native-markdown-display";
-import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup";
+import { RadioButtonGroup, RadioButtonItem } from "../Componentes/RadioButtonGroup";
 
 import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
@@ -177,7 +177,7 @@ export default function QuestoesAluno() {
       const userProfilesRef = collection(userRef, "userProfiles");
       const imageQuery = query(userProfilesRef, where("profileName", "==", "studentProfile"));
       const querySnapshot = await getDocs(imageQuery);
-  
+
       querySnapshot.forEach(async (docSnap) => {
         const data = docSnap.data();
         if (data.has === false) {
@@ -188,17 +188,7 @@ export default function QuestoesAluno() {
     }
   };
 
-  const finishList = async () => {
-    setIndice(0);
-    setCorrect(false);
-    setIncorrect(false);
-    setAcertos(0);
-    setErros(0);
-    setAcertoQuestoes([]);
-    setEnd(false);
-
-    unlockImage();
-
+  const finishActivity = async () => {
     try {
       const db = getFirestore(FIREBASE_APP);
       const listaDocRef = doc(db, "ListaAluno", codigoLista);
@@ -208,7 +198,6 @@ export default function QuestoesAluno() {
       console.log(oldAcertos);
 
       if (oldAcertos >= acertos) {
-        navigation.goBack({ reload: true });
         return;
       }
 
@@ -223,11 +212,21 @@ export default function QuestoesAluno() {
     } catch (error) {
       console.log(error)
     }
+  }
 
+  const finishList = async () => {
+    setIndice(0);
+    setCorrect(false);
+    setIncorrect(false);
+    setAcertos(0);
+    setErros(0);
+    setAcertoQuestoes([]);
+
+    unlockImage();
+    finishActivity();
 
     setEnd(false);
-
-    // navigation.goBack({ reload: true });
+    navigation.navigate("MenuAluno");
   };
 
   const ModalUnlock = () => {
@@ -241,14 +240,14 @@ export default function QuestoesAluno() {
                 <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
               </Text>
             </View>
-  
+
             <View style={Styless.boxImage}>
               <Image
                 style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
                 source={require("../Imagens/profile/profileLibrary.png")}
               />
             </View>
-  
+
             <View style={Styles.buttomBox}>
               <TouchableOpacity
                 style={Styles.buttom}
@@ -262,7 +261,7 @@ export default function QuestoesAluno() {
       </Modal>
     );
   };
-  
+
 
   const ModalSad = () => {
     return (
