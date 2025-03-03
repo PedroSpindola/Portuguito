@@ -20,11 +20,13 @@ import { useNavigation } from "@react-navigation/native";
 
 import Markdown from "react-native-markdown-display";
 
-import { getFirestore, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, updateDoc, collection, query, where, orderBy, limit, getDocs, Firestore } from "firebase/firestore";
+
 import {
   RadioButtonGroup,
   RadioButtonItem,
 } from "../Componentes/RadioButtonGroup";
+import { reload } from "firebase/auth";
 
 export default function QuestoesTrilha() {
   const route = useRoute();
@@ -44,6 +46,7 @@ export default function QuestoesTrilha() {
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
   const [noImage, setNoImage] = useState(null);
   const [loadingImage, setLoadingImage] = useState(true);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   const userId = route.params.params.info.userId;
 
@@ -94,6 +97,53 @@ export default function QuestoesTrilha() {
     setLoadingImage(false);
   };
 
+
+  const unlockImage = async () => {
+    const db = getFirestore(FIREBASE_APP);
+    const subTemaDoc = route.params.params?.subTemaDoc;
+    const subTemaData = subTemaDoc.data();
+    const subTema = subTemaData.subtema;
+    try {
+        const questoesAlunoRef = collection(db, "questoesAluno");
+        const faseQuery = query(
+            questoesAlunoRef,
+            where("subTema", "==", subTema),
+            limit(1000)
+        );
+        const faseSnapshot = await getDocs(faseQuery);
+        if (!faseSnapshot.empty) {
+            const fases = faseSnapshot.docs.map(doc => doc.data());
+            const ultimaFase = fases.reduce((max, fase) => fase.fase > max.fase ? fase : max, { fase: -Infinity });
+            if (Number(faseAtual) === Number(ultimaFase.fase)) {
+                const userId = route.params.params.userId;
+
+                const userRef = doc(db, "users", userId);
+
+                const userProfilesRef = collection(userRef, "userProfiles");
+                const imageQuery = query(userProfilesRef, where("profileName", "==", "coguProfile"));
+                const querySnapshot = await getDocs(imageQuery);
+
+                
+                querySnapshot.forEach(async (docSnap) => {
+                    if (docSnap.data().has === false) {
+                        
+                        await updateDoc(docSnap.ref, { has: true });
+                        setShowUnlockModal(true);
+                    }else{
+                      navigation.goBack({reload: true})
+                    }
+                });
+            }else {
+              navigation.goBack({reload: true})
+            }
+        }
+    } catch (error) {
+        console.error("Erro:", error)
+    }
+};
+
+
+
   const finishActivity = async () => {
     setCorrect(false);
     setIncorrect(false);
@@ -112,7 +162,7 @@ export default function QuestoesTrilha() {
 
         const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
         const faseAtual = questoes[0].fase;
-
+        
         if (faseAtual > lastCompletedFase) {
           await updateDoc(subTemaRef, {
             ultimaFaseConcluida: lastCompletedFase + 1,
@@ -124,9 +174,50 @@ export default function QuestoesTrilha() {
           error.message
         );
       }
+      unlockImage();
+    } else{
+      navigation.goBack({reload: true})
     }
 
-    navigation.goBack({ reload: true });
+    setEnd(false);
+  };
+
+  const close = () => {
+    setShowUnlockModal()
+    navigation.goBack({reload: true})
+  }
+
+const ModalUnlock = () => {
+    return (
+      <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
+        <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
+          <View style={Styles.container}>
+            <View style={Styles.boxTitle}>
+              <Text style={Styles.Title}>
+                PARABÉNS!
+                <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
+              </Text>
+            </View>
+  
+            <View style={Styless.boxImage}>
+              <Image
+                style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
+                source={require("../Imagens/profile/profileCogu.png")}
+              />
+            </View>
+  
+            <View style={Styles.buttomBox}>
+              <TouchableOpacity
+                style={Styles.buttom}
+                onPress={() => close()}
+              >
+                <Text style={[Styles.FontFormatButtom, Styles.shadow]}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </LinearGradient>
+      </Modal>
+    );
   };
 
   const ModalSad = () => {
@@ -319,6 +410,7 @@ export default function QuestoesTrilha() {
       <ModalHappy />
       <ModalSad />
       <ModalEnd />
+      <ModalUnlock />
       {questoes && questoes[indice] && !showInitialAnimation ? (
         <>
           <View style={styles.progressContainerInfo}>

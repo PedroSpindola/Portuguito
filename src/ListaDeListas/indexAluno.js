@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup";
 
-import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH } from "../../FirebaseConfig";
 
 export default function QuestoesAluno() {
@@ -36,6 +36,7 @@ export default function QuestoesAluno() {
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
   const [noImage, setNoImage] = useState(null);
   const [loadingImage, setLoadingImage] = useState(true);
+  const [showUnlockModal, setShowUnlockModal] = useState(false);
 
   const auth = FIREBASE_AUTH;
 
@@ -169,6 +170,24 @@ export default function QuestoesAluno() {
     setLoadingImage(false);
   };
 
+  const unlockImage = async () => {
+    if (questoes.length == acertos) {
+      const db = getFirestore(FIREBASE_APP);
+      const userRef = doc(db, "users", aluno);
+      const userProfilesRef = collection(userRef, "userProfiles");
+      const imageQuery = query(userProfilesRef, where("profileName", "==", "studentProfile"));
+      const querySnapshot = await getDocs(imageQuery);
+  
+      querySnapshot.forEach(async (docSnap) => {
+        const data = docSnap.data();
+        if (data.has === false) {
+          await updateDoc(docSnap.ref, { has: true });
+          setShowUnlockModal(true);
+        }
+      });
+    }
+  };
+
   const finishList = async () => {
     setIndice(0);
     setCorrect(false);
@@ -177,6 +196,8 @@ export default function QuestoesAluno() {
     setErros(0);
     setAcertoQuestoes([]);
     setEnd(false);
+
+    unlockImage();
 
     try {
       const db = getFirestore(FIREBASE_APP);
@@ -203,8 +224,45 @@ export default function QuestoesAluno() {
       console.log(error)
     }
 
-    navigation.goBack({ reload: true });
+
+    setEnd(false);
+
+    // navigation.goBack({ reload: true });
   };
+
+  const ModalUnlock = () => {
+    return (
+      <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
+        <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
+          <View style={Styles.container}>
+            <View style={Styles.boxTitle}>
+              <Text style={Styles.Title}>
+                PARABÉNS!
+                <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
+              </Text>
+            </View>
+  
+            <View style={Styless.boxImage}>
+              <Image
+                style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
+                source={require("../Imagens/profile/profileLibrary.png")}
+              />
+            </View>
+  
+            <View style={Styles.buttomBox}>
+              <TouchableOpacity
+                style={Styles.buttom}
+                onPress={() => setShowUnlockModal(false)}
+              >
+                <Text style={[Styles.FontFormatButtom, Styles.shadow]}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </LinearGradient>
+      </Modal>
+    );
+  };
+  
 
   const ModalSad = () => {
     return (
@@ -400,6 +458,7 @@ export default function QuestoesAluno() {
       <ModalHappy />
       <ModalSad />
       <ModalEnd />
+      <ModalUnlock />
       {questoesCarregadas && questaoAtual && !showInitialAnimation ? (
         <>
           <View style={styles.progressContainerInfo}>

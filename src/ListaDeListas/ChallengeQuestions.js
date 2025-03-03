@@ -15,6 +15,7 @@ import Markdown from "react-native-markdown-display";
 import {RadioButtonGroup, RadioButtonItem} from "../Componentes/RadioButtonGroup"
 import { getFirestore, collection, query, where, doc, updateDoc, getDocs, getDoc, addDoc } from "firebase/firestore";
 import LoadingScreen from "../Componentes/LoadingScreen";
+import { reload } from "firebase/auth";
 
 export default function ChallengeQuestions() {
     const [questoes, setQuestoes] = useState([]);
@@ -29,7 +30,7 @@ export default function ChallengeQuestions() {
     const [showInitialAnimation, setShowInitialAnimation] = useState(true);
     const [noImage, setNoImage] = useState(null);
     const [loadingImage, setLoadingImage] = useState(true);
-
+    const [showUnlockModal, setShowUnlockModal] = useState(false);
 
     const route = useRoute();
     const navigation = useNavigation();
@@ -104,6 +105,36 @@ export default function ChallengeQuestions() {
         setLoadingImage(false);
     };
 
+    const unlockImage = async () => {
+        
+        const currentFase = fase;
+        let numFases = 0
+        if (day == 7) {
+            numFases = 30
+        } else{
+            numFases = 15
+        }
+
+        if (currentFase == numFases) {
+            const userId = route.params.params.userId;
+            const userRef = doc(db, "users", userId);
+            const collectionRef = collection(userRef, "userProfiles");
+            const imageQuery = query(collectionRef, where("profileName", "==", "pirateProfile"));
+            const querySnapshot = await getDocs(imageQuery);
+            const imageDoc = querySnapshot.docs[0]; 
+            const hasImage = imageDoc.data().has
+
+            if (hasImage == false) {
+                await updateDoc(imageDoc.ref, {has: true})
+                setShowUnlockModal(true);
+            }else{
+                navigation.goBack({reload: true})
+            }
+        } else{
+            navigation.goBack({reload: true})
+        }
+    }
+
     const finishActivity = async () => {
         setCorrect(false);
         setIncorrect(false);
@@ -111,32 +142,32 @@ export default function ChallengeQuestions() {
             try {
                 const userId = route.params.params.userId;
                 const dayName = route.params.params.dayName;
-
+                
                 const userRef = doc(db, "users", userId);
-
+                
                 const collectionRef = collection(userRef, "desafioInfo");
                 const dayQuery = query(collectionRef, where("dia", "==", dayName));
-
+                
                 const querySnapshot = await getDocs(dayQuery);
                 const subTemaDoc = querySnapshot.docs[0];
-
+                
                 const subTemaRef = doc(db, "users", userId, "desafioInfo", subTemaDoc.id);
-
+                
                 const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
                 const currentFase = fase;
-
+                
                 if (currentFase > lastCompletedFase) {
                     await updateDoc(subTemaRef, { ultimaFaseConcluida: lastCompletedFase + 1 });
 
                     const challengeInfoRef = collection(db, "desafioProgresso");
                     const firstChallengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
                     const firstChallengeInfoSnapshot = await getDocs(firstChallengeInfoQuery);
-
+                    
                     const userRef = collection(db, "users");
                     const userQuery = query(userRef, where("userId", "==", userId));
                     const userSnapshot = await getDocs(userQuery);
                     const userName = userSnapshot.docs[0].data().nome;
-
+                    
                     if (firstChallengeInfoSnapshot.size === 0) {
                         await addDoc(challengeInfoRef, {
                             userId: userId,
@@ -144,25 +175,64 @@ export default function ChallengeQuestions() {
                             fasesConcluidas: 0,
                         });
                     }
-
+                    
                     const challengeInfoQuery = query(challengeInfoRef, where("userId", "==", userId));
                     const challengeInfoSnapshot = await getDocs(challengeInfoQuery);
                     const userProgressRef = challengeInfoSnapshot.docs[0].ref;
                     const fasesConcluidas = challengeInfoSnapshot.docs[0].data().fasesConcluidas;
-
+                    
                     await updateDoc(userProgressRef, {
                         fasesConcluidas: fasesConcluidas + 1,
                     });
                 }
-
+                
             } catch (error) {
                 console.error("Erro ao atualizar a última fase concluída: ", error.message);
             }
+            unlockImage();
         }
+        navigation.goBack({reload: true})
+        setEnd(false)
+    };
+    const close = () => {
+        setShowUnlockModal(false);
+        navigation.goBack({reload: true})
+    }
 
-        navigation.goBack({ reload: true });
+    const ModalUnlock = () => {
+        return (
+            <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
+            <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
+                <View style={Styles.container}>
+                <View style={Styles.boxTitle}>
+                    <Text style={Styles.Title}>
+                    PARABÉNS!
+                    <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
+                    </Text>
+                </View>
+
+                <View style={Styless.boxImage}>
+                    <Image
+                    style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
+                    source={require("../Imagens/profile/profilePirate.png")}
+                    />
+                </View>
+
+                <View style={Styles.buttomBox}>
+                    <TouchableOpacity
+                    style={Styles.buttom}
+                    onPress={() => close()}
+                    >
+                    <Text style={[Styles.FontFormatButtom, Styles.shadow]}>Fechar</Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
+            </LinearGradient>
+            </Modal>
+        );
     };
 
+    
     const ModalSad = () => {
         return (
             <Modal animationType="fade" transparent={false} visible={incorrect}>
@@ -361,6 +431,7 @@ export default function ChallengeQuestions() {
             <ModalHappy />
             <ModalSad />
             <ModalEnd />
+            <ModalUnlock />
 
             {questoes && questoes[indice] && !showInitialAnimation ? (
                 <>
@@ -451,7 +522,6 @@ export default function ChallengeQuestions() {
                                     }}
                                     radioBackground="#F54F59"
                                 >
-
                                     {questoes[indice].respostas.map((resposta, index) => (
                                         <RadioButtonItem
                                             key={index}
