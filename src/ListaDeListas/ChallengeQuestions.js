@@ -32,7 +32,6 @@ export default function ChallengeQuestions() {
     const [loadingImage, setLoadingImage] = useState(true);
     const [showUnlockModal, setShowUnlockModal] = useState(false);
 
-
     const route = useRoute();
     const navigation = useNavigation();
 
@@ -523,7 +522,6 @@ export default function ChallengeQuestions() {
                                     }}
                                     radioBackground="#F54F59"
                                 >
-
                                     {questoes[indice].respostas.map((resposta, index) => (
                                         <RadioButtonItem
                                             key={index}

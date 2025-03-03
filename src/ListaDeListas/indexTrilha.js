@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import Markdown from "react-native-markdown-display";
 
 import { getFirestore, doc, updateDoc, collection, query, where, orderBy, limit, getDocs, Firestore } from "firebase/firestore";
+
 import {
   RadioButtonGroup,
   RadioButtonItem,
@@ -150,7 +151,7 @@ export default function QuestoesTrilha() {
       try {
         const userId = route.params.params.userId;
         const subTemaDoc = route.params.params.subTemaDoc;
-        
+
         const subTemaRef = doc(
           db,
           "users",
@@ -158,7 +159,7 @@ export default function QuestoesTrilha() {
           "trilhaInfo",
           subTemaDoc.id
         );
-        
+
         const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
         const faseAtual = questoes[0].fase;
         
