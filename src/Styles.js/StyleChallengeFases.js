@@ -38,7 +38,7 @@ export default StyleSheet.create({
         bottom: 40,
         flexDirection: 'row',
     },
-    
+
     AjustItens_2Fases_low: {
         height: '100%',
         width: '100%',
@@ -105,17 +105,16 @@ export default StyleSheet.create({
     },
 
     boxImageButtonText: {
-        height: 18,
-        width: 28,
+        position: 'absolute',
+        top: 105,
+        paddingVertical: 1,
+        paddingHorizontal: 12,
         borderRadius: 9,
-        marginTop: 14,
-        backgroundColor: '#ff8c90',
-        color: '#fff',
         textAlign: 'center',
         verticalAlign: 'middle',
         fontSize: 16,
-        position: 'absolute',
-        top: 94,
+        backgroundColor: '#ff8c90',
+        color: '#fff',
         fontFamily: 'Inder_400Regular',
     },
 
