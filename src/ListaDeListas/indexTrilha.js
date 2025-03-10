@@ -104,43 +104,43 @@ export default function QuestoesTrilha() {
     const subTemaData = subTemaDoc.data();
     const subTema = subTemaData.subtema;
     try {
-        const questoesAlunoRef = collection(db, "questoesAluno");
-        const faseQuery = query(
-            questoesAlunoRef,
-            where("subTema", "==", subTema),
-            limit(1000)
-        );
-        const faseSnapshot = await getDocs(faseQuery);
-        if (!faseSnapshot.empty) {
-            const fases = faseSnapshot.docs.map(doc => doc.data());
-            const ultimaFase = fases.reduce((max, fase) => fase.fase > max.fase ? fase : max, { fase: -Infinity });
-            if (Number(faseAtual) === Number(ultimaFase.fase)) {
-                const userId = route.params.params.userId;
+      const questoesAlunoRef = collection(db, "questoesAluno");
+      const faseQuery = query(
+        questoesAlunoRef,
+        where("subTema", "==", subTema),
+        limit(1000)
+      );
+      const faseSnapshot = await getDocs(faseQuery);
+      if (!faseSnapshot.empty) {
+        const fases = faseSnapshot.docs.map(doc => doc.data());
+        const ultimaFase = fases.reduce((max, fase) => fase.fase > max.fase ? fase : max, { fase: -Infinity });
+        if (Number(faseAtual) === Number(ultimaFase.fase)) {
+          const userId = route.params.params.userId;
 
-                const userRef = doc(db, "users", userId);
+          const userRef = doc(db, "users", userId);
 
-                const userProfilesRef = collection(userRef, "userProfiles");
-                const imageQuery = query(userProfilesRef, where("profileName", "==", "coguProfile"));
-                const querySnapshot = await getDocs(imageQuery);
+          const userProfilesRef = collection(userRef, "userProfiles");
+          const imageQuery = query(userProfilesRef, where("profileName", "==", "coguProfile"));
+          const querySnapshot = await getDocs(imageQuery);
 
-                
-                querySnapshot.forEach(async (docSnap) => {
-                    if (docSnap.data().has === false) {
-                        
-                        await updateDoc(docSnap.ref, { has: true });
-                        setShowUnlockModal(true);
-                    }else{
-                      navigation.goBack({reload: true})
-                    }
-                });
-            }else {
-              navigation.goBack({reload: true})
+
+          querySnapshot.forEach(async (docSnap) => {
+            if (docSnap.data().has === false) {
+
+              await updateDoc(docSnap.ref, { has: true });
+              setShowUnlockModal(true);
+            } else {
+              navigation.goBack({ reload: true })
             }
+          });
+        } else {
+          navigation.goBack({ reload: true })
         }
+      }
     } catch (error) {
-        console.error("Erro:", error)
+      console.error("Erro:", error)
     }
-};
+  };
 
 
 
@@ -162,7 +162,7 @@ export default function QuestoesTrilha() {
 
         const lastCompletedFase = subTemaDoc.data().ultimaFaseConcluida;
         const faseAtual = questoes[0].fase;
-        
+
         if (faseAtual > lastCompletedFase) {
           await updateDoc(subTemaRef, {
             ultimaFaseConcluida: lastCompletedFase + 1,
@@ -175,8 +175,8 @@ export default function QuestoesTrilha() {
         );
       }
       unlockImage();
-    } else{
-      navigation.goBack({reload: true})
+    } else {
+      navigation.goBack({ reload: true })
     }
 
     setEnd(false);
@@ -184,10 +184,10 @@ export default function QuestoesTrilha() {
 
   const close = () => {
     setShowUnlockModal()
-    navigation.goBack({reload: true})
+    navigation.goBack({ reload: true })
   }
 
-const ModalUnlock = () => {
+  const ModalUnlock = () => {
     return (
       <Modal animationType="fade" transparent={false} visible={showUnlockModal}>
         <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styless.gradient}>
@@ -198,14 +198,14 @@ const ModalUnlock = () => {
                 <Text style={Styles.SubTitle}>{'\n'}Você desbloqueou uma nova imagem!</Text>
               </Text>
             </View>
-  
+
             <View style={Styless.boxImage}>
               <Image
                 style={{ width: 200, height: 200, marginTop: 100, borderRadius: 20 }}
                 source={require("../Imagens/profile/profileCogu.png")}
               />
             </View>
-  
+
             <View style={Styles.buttomBox}>
               <TouchableOpacity
                 style={Styles.buttom}
@@ -537,11 +537,12 @@ const ModalUnlock = () => {
                           style={{
                             flexDirection: "row-reverse",
                             backgroundColor: "#ffb9bd",
-                            borderRadius: 50,
-                            width: 300,
+                            borderRadius: 40,
+                            width: '90%',
+                            paddingHorizontal: '3%',
                             marginTop: 5,
                             height: "auto",
-                            left: -24,
+                            left: -30,
                             position: "relative",
                             zIndex: -1,
                           }}

@@ -542,11 +542,12 @@ export default function QuestoesAluno() {
                           style={{
                             flexDirection: "row-reverse",
                             backgroundColor: "#ffb9bd",
-                            borderRadius: 50,
-                            width: 300,
+                            borderRadius: 40,
+                            width: '90%',
+                            paddingHorizontal: '3%',
                             marginTop: 5,
                             height: "auto",
-                            left: -24,
+                            left: -30,
                             position: "relative",
                             zIndex: -1,
                           }}

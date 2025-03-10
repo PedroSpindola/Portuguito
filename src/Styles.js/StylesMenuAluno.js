@@ -170,23 +170,24 @@ export default StyleSheet.create({
     criarLista: {
         color: "#F54F59",
         textTransform: "uppercase",
-        fontWeight: "bold",
         textShadowColor: '#acacac',
         textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 7
+        textShadowRadius: 7,
+        fontSize: 17,
+        fontFamily: 'Inder_400Regular',
     },
-        btnDeleteList: {
-            marginLeft: "25%",
-            height: "100%",
-            width: "12%",
-        },
-        iconeDelete: {
-            color: "#e73434",
-            fontSize: 22,
-            borderColor: "#6a6868",
-            borderWidth: 1.2,
-            textAlign: "center",
-            backgroundColor: "#FFB9BD",
-            padding: 5,
-        }
-    })
+    btnDeleteList: {
+        marginLeft: "25%",
+        height: "100%",
+        width: "12%",
+    },
+    iconeDelete: {
+        color: "#e73434",
+        fontSize: 22,
+        borderColor: "#6a6868",
+        borderWidth: 1.2,
+        textAlign: "center",
+        backgroundColor: "#FFB9BD",
+        padding: 5,
+    }
+})

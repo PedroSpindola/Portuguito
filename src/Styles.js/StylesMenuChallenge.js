@@ -41,7 +41,7 @@ export default StyleSheet.create({
         width: 135,
         alignItems: 'center',
         justifyContent: 'center',
-    }, 
+    },
     faseIcon: {
         position: 'relative',
         bottom: 62
@@ -84,7 +84,7 @@ export default StyleSheet.create({
 
     },
     rotatedFase: {
-        transform: [{rotateY: '180deg'}],
+        transform: [{ rotateY: '180deg' }],
     },
     bottomPierLeft: {
         right: 145,
@@ -95,19 +95,19 @@ export default StyleSheet.create({
         top: 220,
     },
     centerPierLeft: {
-        right: 130,
-        bottom: 105,
+        right: 140,
+        bottom: 120,
     },
     centerPierRight: {
-        left: 130,
-        bottom: 243,
+        left: 140,
+        bottom: 258,
     },
     topPierLeft: {
-        right: 120,
-        bottom: 515,
+        right: 140,
+        bottom: 530,
     },
     topPierRight: {
-        left: 120,
-        bottom: 650,
+        left: 140,
+        bottom: 665,
     },
 });
