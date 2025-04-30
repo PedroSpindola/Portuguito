@@ -6,9 +6,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { getAuth, signOut } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState();
+  const navigation = useNavigation();
 
   const logout = () => {
     const auth = getAuth();
@@ -44,6 +46,9 @@ export default function Perfil() {
         <View style={Styles.backgroundUser}>
           <Image style={Styles.image} source={require("../Imagens/profile/profileBase.jpg")} />
         </View>
+        <TouchableOpacity style={[Styles.botao, Styles.sombra]} onPress={() => navigation.navigate("Rate")}>  
+          <Text style={Styles.txtBotao}>Avaliar</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={[Styles.botao, Styles.sombra]} onPress={() => logout()}>
           <Text style={Styles.txtBotao}>Sair</Text>
         </TouchableOpacity>

@@ -190,6 +190,15 @@ export default function PerfilAluno() {
             }
           </View>
         </View>
+        
+        <View style={Styles.buttonRate}>
+          <TouchableOpacity
+            style={[Styles.botao, Styles.sombra]}
+            onPress={() => navigation.navigate("Rate")}
+          >
+            <Text style={Styles.txtBotao}>Avaliar</Text>
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity
           style={[Styles.botao, Styles.sombra]}
