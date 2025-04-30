@@ -64,5 +64,18 @@ export default StyleSheet.create({
         padding: 2,
         fontFamily: 'Inder_400Regular',
 
+    },
+    avaliar: {
+        backgroundColor: '#ff8c90',
+        width: 120,
+        height: 30,
+        position: 'absolute',
+        top: -55,
+        left: 250,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        // marginTop: 20,
     }
+
 })

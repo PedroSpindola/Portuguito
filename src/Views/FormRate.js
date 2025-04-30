@@ -8,6 +8,7 @@ import {
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
@@ -72,6 +73,8 @@ export default function AdicionarAvaliacao() {
   };
 
     return (
+      <LinearGradient colors={['#D5D4FB', '#9B98FC']}
+      style={Styles.gradient} >
         <ScrollView contentContainerStyle={style.container}>
             <View style={style.voltar}>
                 <TouchableOpacity
@@ -120,5 +123,6 @@ export default function AdicionarAvaliacao() {
                 </TouchableOpacity>
             </View>
         </ScrollView>
+        </LinearGradient>
     );
 }

@@ -43,12 +43,12 @@ export default function Perfil() {
     <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
       <View style={Styles.container}>
+        <TouchableOpacity style={[Styles.avaliar, Styles.sombra]} onPress={() => navigation.navigate("Rate")}>  
+          <Text style={Styles.txtBotao}>Avaliar</Text>
+        </TouchableOpacity>
         <View style={Styles.backgroundUser}>
           <Image style={Styles.image} source={require("../Imagens/profile/profileBase.jpg")} />
         </View>
-        <TouchableOpacity style={[Styles.botao, Styles.sombra]} onPress={() => navigation.navigate("Rate")}>  
-          <Text style={Styles.txtBotao}>Avaliar</Text>
-        </TouchableOpacity>
         <TouchableOpacity style={[Styles.botao, Styles.sombra]} onPress={() => logout()}>
           <Text style={Styles.txtBotao}>Sair</Text>
         </TouchableOpacity>
