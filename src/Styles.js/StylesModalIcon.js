@@ -28,6 +28,12 @@ export default StyleSheet.create({
         fontSize: 20,
         marginTop: 7
     },
+    logoModalTitle: {
+        color: '#EFEFFE',
+        fontFamily: 'opensans',
+        fontSize: 20,
+        marginTop: 7
+    },
     closeButton: {
         position: 'absolute',
         top: 0,
@@ -56,6 +62,15 @@ export default StyleSheet.create({
         color: '#EFEFFE',
         flexWrap: 'wrap',
         fontFamily: 'Inder_400Regular',
+        fontSize: 16,
+        marginLeft: 20,
+        verticalAlign: 'middle',
+    },
+    modalLogoDescription: {
+        flex: 1,
+        color: '#EFEFFE',
+        flexWrap: 'wrap',
+        fontFamily: 'opensans',
         fontSize: 16,
         marginLeft: 20,
         verticalAlign: 'middle',

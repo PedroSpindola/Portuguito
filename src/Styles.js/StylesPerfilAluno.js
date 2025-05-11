@@ -69,6 +69,35 @@ export default StyleSheet.create({
         resizeMode: "cover",
     },
 
+    logoContainer: {
+        position: "absolute",
+        backgroundColor: "#FFFFFF",
+        padding: 10,
+        borderRadius: 10,
+        top: -15,
+        left: 15,
+        borderWidth: 2,
+        borderColor: "#ff8c90"
+    },
+
+    logo: {
+        width: 40,
+        height: 55
+    },
+
+    modalLogoContainer: {
+        backgroundColor: "#FFFFFF",
+        padding: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "#ff8c90"
+    },
+
+    modalLogo: {
+        width: 70,
+        height: 110
+    },
+
     ViewDados: {
         backgroundColor: '#EFEFFE',
         height: 120,

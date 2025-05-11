@@ -22,6 +22,7 @@ export default function PerfilAluno() {
   const [sequenciaDias, setSequenciaDias] = useState(0);
   const [icons, setIcons] = useState(null);
   const [modalIconVisible, setModalIconVisible] = useState(false);
+  const [modalLogoVisible, setModalLogoVisible] = useState(false);
   const [modalIconColor, setModalIconColor] = useState(null);
   const [modalDescription, setModalDescription] = useState(null);
   const [profileImage, setProfileImage] = useState(undefined);
@@ -133,6 +134,40 @@ export default function PerfilAluno() {
     setModalIconVisible(true);
   };
 
+  function ModalLogo({ visible, onClose }) {
+
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}>
+        <View style={stylesModalIcon.container}>
+          <View style={stylesModalIcon.boxGeral}>
+            <View style={stylesModalIcon.modalHeader}>
+              <Text style={stylesModalIcon.logoModalTitle}>Apoiador</Text>
+              <TouchableOpacity style={stylesModalIcon.closeButton} onPress={onClose}>
+                <Ionicons name="close" style={stylesModalIcon.iconeDelete} />
+              </TouchableOpacity>
+            </View>
+            <View style={stylesModalIcon.modalBody}>
+              <View
+                style={Styles.modalLogoContainer}
+                onPress={() => {
+                  setModalLogoVisible(true);
+                }}>
+                <Image
+                  style={Styles.modalLogo}
+                  source={require('./../Imagens/modalLogoIF.png')}
+                />
+              </View>
+              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no IF Sudeste MG - Campus Juiz de Fora</Text>
+            </View>
+          </View>
+        </View>
+      </Modal >
+    );
+  }
+
   function IconModalThrophy({ iconColor, description, visible, onClose }) {
     return (
       <Modal
@@ -166,6 +201,20 @@ export default function PerfilAluno() {
           visible={modalIconVisible}
           onClose={() => setModalIconVisible(false)}
         />
+        <ModalLogo
+          visible={modalLogoVisible}
+          onClose={() => setModalLogoVisible(false)}
+        />
+        <TouchableOpacity
+          style={Styles.logoContainer}
+          onPress={() => {
+            setModalLogoVisible(true);
+          }}>
+          <Image
+            style={Styles.logo}
+            source={require('./../Imagens/logoIF.png')}
+          />
+        </TouchableOpacity>
         <View style={Styles.profileFrame}>
           <TouchableOpacity
             style={Styles.editIconFrame}
