@@ -93,7 +93,7 @@ export default function AdicionarAvaliacao() {
         <View style={style.inputContainer}>
           <Text style={Styles.txtInput}>Descrição:</Text>
           <TextInput
-            style={Styles.input}
+            style={[Styles.input, { height: 80 }]}
             value={descricao}
             onChangeText={setDescricao}
           />
