@@ -104,8 +104,8 @@ export default function AdicionarAvaliacao() {
           <Switch
             value={!isSuggestion}
             onValueChange={(value) => setIsSuggestion(!value)}
-            trackColor={{ false: "#767577", true: "#FFB9BD" }}
-            thumbColor={isSuggestion ? "#FFB9BD" : "#f4f3f4"}
+            trackColor={{ false: "#f4f3f4", true: "#f4f3f4" }}
+            thumbColor={isSuggestion ? "#FFB9BD" : "#FFB9BD"}
           />
           <Text style={Styles.txtInput}>Problema</Text>
         </View>
