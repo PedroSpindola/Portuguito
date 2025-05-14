@@ -12,23 +12,24 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
+import { Switch } from "react-native";
+
 
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
 import Styles from "../Styles.js/StylesHome";
 
 export default function AdicionarAvaliacao() {
-  const [nome, setNome] = useState("");
-  const [sugestoes, setSugestoes] = useState("");
-  const [bugs, setBugs] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [isSuggestion, setIsSuggestion] = useState(true);
+
 
   const navigation = useNavigation();
   const db = getFirestore(FIREBASE_APP);
   const auth = FIREBASE_AUTH;
   const user = auth.currentUser?.uid;
-  const isProfessor = null;
 
   const handleSubmit = async () => {
-    if (!nome || !sugestoes || !bugs) {
+    if (!descricao) {
       Alert.alert("Preencha todos os campos obrigatórios!");
       return;
     }
@@ -40,9 +41,7 @@ export default function AdicionarAvaliacao() {
   };
 
   const clearForm = () => {
-    setNome("");
-    setSugestoes("");
-    setBugs("");
+    setDescricao("");
   };
 
   const saveData = async () => {
@@ -53,13 +52,14 @@ export default function AdicionarAvaliacao() {
       const querySnapshot = await getDocs(q);
 
       const email = querySnapshot.empty ? "" : querySnapshot.docs[0].data().email;
+      const nome = querySnapshot.empty ? "" : querySnapshot.docs[0].data().nome;
       const isProfessor = querySnapshot.empty ? false : querySnapshot.docs[0].data().souProfessor;
 
       const rateData = {
-        nome,
+        nome: nome,
         email: email,
-        sugestoes,
-        bugs,
+        tipo: isSuggestion ? "Sugestão" : "Problema",
+        descricao: descricao,
         userId: user,
         data: new Date(),
         souProfessor: isProfessor
@@ -72,57 +72,52 @@ export default function AdicionarAvaliacao() {
     }
   };
 
-    return (
-      <LinearGradient colors={['#D5D4FB', '#9B98FC']}
+  return (
+    <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
-        <ScrollView contentContainerStyle={style.container}>
-            <View style={style.voltar}>
-                <TouchableOpacity
-                    style={style.paginationButton}
-                    onPress={() => {
-                        clearForm();
-                        navigation.goBack();
-                    }}
-                >
-                    <Ionicons name="arrow-back" style={style.iconStyle} />
-                </TouchableOpacity>
-            </View>
+      <ScrollView contentContainerStyle={style.container}>
+        <View style={style.voltar}>
+          <TouchableOpacity
+            style={style.paginationButton}
+            onPress={() => {
+              clearForm();
+              navigation.goBack();
+            }}
+          >
+            <Ionicons name="arrow-back" style={style.iconStyle} />
+          </TouchableOpacity>
+        </View>
 
-            <Text style={Styles.frase}>Avaliar o aplicativo</Text>
+        <Text style={Styles.frase}>Como está sendo sua experiência?</Text>
 
-            <View style={style.inputContainer}>
-                <Text style={Styles.txtInput}>Nome:</Text>
-                <TextInput
-                    style={Styles.input}
-                    value={nome}
-                    onChangeText={setNome}
-                />
-            </View>
+        <View style={style.inputContainer}>
+          <Text style={Styles.txtInput}>Descrição:</Text>
+          <TextInput
+            style={Styles.input}
+            value={descricao}
+            onChangeText={setDescricao}
+          />
+        </View>
 
-            <View style={style.inputContainer}>
-                <Text style={Styles.txtInput}>Sugestões e Críticas:</Text>
-                <TextInput
-                    style={Styles.input}
-                    value={sugestoes}
-                    onChangeText={setSugestoes}
-                />
-            </View>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginVertical: 10 }}>
+          <Text style={Styles.txtInput}>Sugestão</Text>
+          <Switch
+            value={!isSuggestion}
+            onValueChange={(value) => setIsSuggestion(!value)}
+            trackColor={{ false: "#767577", true: "#FFB9BD" }}
+            thumbColor={isSuggestion ? "#FFB9BD" : "#f4f3f4"}
+          />
+          <Text style={Styles.txtInput}>Problema</Text>
+        </View>
 
-            <View style={style.inputContainer}>
-                <Text style={Styles.txtInput}>Problema encontrado:</Text>
-                <TextInput
-                    style={Styles.input}
-                    value={bugs}
-                    onChangeText={setBugs}
-                />
-            </View>
 
-            <View style={Styles.containerBotao}>
-                <TouchableOpacity style={Styles.botao} onPress={handleSubmit}>
-                    <Text style={Styles.txtBotao}>Adicionar</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-        </LinearGradient>
-    );
+
+        <View style={Styles.containerBotao}>
+          <TouchableOpacity style={Styles.botao} onPress={handleSubmit}>
+            <Text style={Styles.txtBotao}>Enviar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </LinearGradient>
+  );
 }
