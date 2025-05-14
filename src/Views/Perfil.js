@@ -7,6 +7,8 @@ import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState();
@@ -43,8 +45,9 @@ export default function Perfil() {
     <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
       <View style={Styles.container}>
-        <TouchableOpacity style={[Styles.avaliar, Styles.sombra]} onPress={() => navigation.navigate("Rate")}>  
-          <Text style={Styles.txtBotao}>Avaliar</Text>
+        <TouchableOpacity style={Styles.editIconFrame} onPress={() => navigation.navigate("Rate")}>  
+          {/* <Text style={Styles.txtBotao}>Avaliar</Text> */}
+            <AntDesign name="notification" style={Styles.editIcon} />
         </TouchableOpacity>
         <View style={Styles.backgroundUser}>
           <Image style={Styles.image} source={require("../Imagens/profile/profileBase.jpg")} />

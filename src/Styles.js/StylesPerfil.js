@@ -65,15 +65,20 @@ export default StyleSheet.create({
         fontFamily: 'Inder_400Regular',
 
     },
-    avaliar: {
-        backgroundColor: '#ff8c90',
-        width: 120,
-        height: 30,
+    editIcon: {
+        color: "#FFFFFF",
+        fontSize: 25,
+        padding: 7.5,
+    },
+    editIconFrame: {
+        zIndex: 1,
         position: 'absolute',
-        top: -55,
-        left: 250,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-    }
+        right: 25,
+        top: -50,
+        height: 40,
+        width: 40,
+        borderRadius: 25,
+        marginTop: 10,
+        backgroundColor: "#ff8c90",
+    },
 })
