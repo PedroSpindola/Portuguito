@@ -7,6 +7,7 @@ import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { format } from "date-fns";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 import { updateSequenceDays } from "../FuncoesFirebase/Funcoes";
 import { doc, getDocs, collection, query } from "firebase/firestore";
@@ -193,10 +194,10 @@ export default function PerfilAluno() {
         
         <View style={Styles.buttonRate}>
           <TouchableOpacity
-            style={[Styles.botao, Styles.sombra]}
+            style={Styles.editIconFrame}
             onPress={() => navigation.navigate("Rate")}
           >
-            <Text style={Styles.txtBotao}>Avaliar</Text>
+            <AntDesign name="notification" style={Styles.editIcon} />
           </TouchableOpacity>
         </View>
 
