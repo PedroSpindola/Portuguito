@@ -47,6 +47,31 @@ export default StyleSheet.create({
         fontSize: 15,
         fontFamily: 'Inder_400Regular',
     },
+    logoContainer: {
+        position: "absolute",
+        backgroundColor: "#FFFFFF",
+        padding: 10,
+        borderRadius: 10,
+        top: -60,
+        left: 15,
+        borderWidth: 2,
+        borderColor: "#ff8c90"
+    },
+    logo: {
+        width: 40,
+        height: 55
+    },
+    modalLogoContainer: {
+        backgroundColor: "#FFFFFF",
+        padding: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: "#ff8c90"
+    },
+    modalLogo: {
+        width: 70,
+        height: 110
+    },
     input: {
         backgroundColor: '#EFEFFE',
         marginTop: 5,

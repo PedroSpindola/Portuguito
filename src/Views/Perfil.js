@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Modal, Image, Text, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Styles from "../Styles.js/StylesPerfil";
+import stylesModalIcon from "../Styles.js/StylesModalIcon";
 import { onAuthStateChanged } from 'firebase/auth';
 import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { getAuth, signOut } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState();
+  const [modalLogoVisible, setModalLogoVisible] = useState(false);
 
   const logout = () => {
     const auth = getAuth();
@@ -37,10 +40,57 @@ export default function Perfil() {
     };
   }, []);
 
+  function ModalLogo({ visible, onClose }) {
+    return (
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={visible}>
+        <View style={stylesModalIcon.container}>
+          <View style={stylesModalIcon.boxGeral}>
+            <View style={stylesModalIcon.modalHeader}>
+              <Text style={stylesModalIcon.logoModalTitle}>Apoiador</Text>
+              <TouchableOpacity style={stylesModalIcon.closeButton} onPress={onClose}>
+                <Ionicons name="close" style={stylesModalIcon.iconeDelete} />
+              </TouchableOpacity>
+            </View>
+            <View style={stylesModalIcon.modalBody}>
+              <View
+                style={Styles.modalLogoContainer}
+                onPress={() => {
+                  setModalLogoVisible(true);
+                }}>
+                <Image
+                  style={Styles.modalLogo}
+                  source={require('./../Imagens/modalLogoIF.png')}
+                />
+              </View>
+              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no IF Sudeste MG - Campus Juiz de Fora</Text>
+            </View>
+          </View>
+        </View>
+      </Modal >
+    );
+  }
+
   return (
     <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
       <View style={Styles.container}>
+        <ModalLogo
+          visible={modalLogoVisible}
+          onClose={() => setModalLogoVisible(false)}
+        />
+        <TouchableOpacity
+          style={Styles.logoContainer}
+          onPress={() => {
+            setModalLogoVisible(true);
+          }}>
+          <Image
+            style={Styles.logo}
+            source={require('./../Imagens/logoIF.png')}
+          />
+        </TouchableOpacity>
         <View style={Styles.backgroundUser}>
           <Image style={Styles.image} source={require("../Imagens/profile/profileBase.jpg")} />
         </View>
