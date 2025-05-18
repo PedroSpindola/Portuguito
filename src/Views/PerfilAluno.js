@@ -150,6 +150,7 @@ export default function PerfilAluno() {
               </TouchableOpacity>
             </View>
             <View style={stylesModalIcon.modalBody}>
+              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no </Text>
               <View
                 style={Styles.modalLogoContainer}
                 onPress={() => {
@@ -160,7 +161,6 @@ export default function PerfilAluno() {
                   source={require('./../Imagens/modalLogoIF.png')}
                 />
               </View>
-              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no IF Sudeste MG - Campus Juiz de Fora</Text>
             </View>
           </View>
         </View>
