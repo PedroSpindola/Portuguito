@@ -2,9 +2,9 @@
   "expo": {
     "name": "Portuguito",
     "slug": "Portuguito",
-    "version": "4.1.1",
+    "version": "4.1.3",
     "orientation": "portrait",
-    "icon": "./assets/portuguitaBase.jpeg",
+    "icon": "./assets/portuguitaBase.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -21,11 +21,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/portuguitaBase.jpeg",
+        "foregroundImage": "./assets/portuguitaBase.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.Portuguito",
-      "versionCode": 14
+      "versionCode": 16
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,8 +36,8 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 35
           }
         }
       ]

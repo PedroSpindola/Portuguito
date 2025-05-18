@@ -49,12 +49,13 @@ export default function Perfil() {
         <View style={stylesModalIcon.container}>
           <View style={stylesModalIcon.boxGeral}>
             <View style={stylesModalIcon.modalHeader}>
-              <Text style={stylesModalIcon.logoModalTitle}>Apoiador</Text>
+              <Text style={stylesModalIcon.logoModalTitle}></Text>
               <TouchableOpacity style={stylesModalIcon.closeButton} onPress={onClose}>
                 <Ionicons name="close" style={stylesModalIcon.iconeDelete} />
               </TouchableOpacity>
             </View>
             <View style={stylesModalIcon.modalBody}>
+              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no </Text>
               <View
                 style={Styles.modalLogoContainer}
                 onPress={() => {
@@ -65,7 +66,6 @@ export default function Perfil() {
                   source={require('./../Imagens/modalLogoIF.png')}
                 />
               </View>
-              <Text style={stylesModalIcon.modalLogoDescription}>Projeto desenvolvido no IF Sudeste MG - Campus Juiz de Fora</Text>
             </View>
           </View>
         </View>
