@@ -7,11 +7,15 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { getInfoUser } from "../FuncoesFirebase/Funcoes";
 import { FIREBASE_AUTH } from '../../FirebaseConfig';
 import { getAuth, signOut } from "firebase/auth";
+import { useNavigation } from "@react-navigation/native";
+import AntDesign from '@expo/vector-icons/AntDesign';
 import { Ionicons } from "@expo/vector-icons";
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState();
   const [modalLogoVisible, setModalLogoVisible] = useState(false);
+  
+  const navigation = useNavigation();
 
   const logout = () => {
     const auth = getAuth();
@@ -81,6 +85,10 @@ export default function Perfil() {
           visible={modalLogoVisible}
           onClose={() => setModalLogoVisible(false)}
         />
+        <TouchableOpacity style={Styles.editIconFrame} onPress={() => navigation.navigate("Rate")}>  
+          {/* <Text style={Styles.txtBotao}>Avaliar</Text> */}
+            <AntDesign name="notification" style={Styles.editIcon} />
+        </TouchableOpacity>
         <TouchableOpacity
           style={Styles.logoContainer}
           onPress={() => {

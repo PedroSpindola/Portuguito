@@ -89,5 +89,21 @@ export default StyleSheet.create({
         padding: 2,
         fontFamily: 'Inder_400Regular',
 
-    }
+    },
+    editIcon: {
+        color: "#FFFFFF",
+        fontSize: 25,
+        padding: 7.5,
+    },
+    editIconFrame: {
+        zIndex: 1,
+        position: 'absolute',
+        right: 25,
+        top: -50,
+        height: 40,
+        width: 40,
+        borderRadius: 25,
+        marginTop: 10,
+        backgroundColor: "#ff8c90",
+    },
 })

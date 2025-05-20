@@ -267,4 +267,14 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    buttonRate: {
+        backgroundColor: '#ff8c90',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginTop: 20,
+        position: 'absolute',
+        left: 370,
+        top: 10,
+    }
 })

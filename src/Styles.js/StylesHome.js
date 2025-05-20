@@ -40,7 +40,6 @@ export default StyleSheet.create({
     color: "#fff",
     fontFamily: "Inder_400Regular",
     padding: 6,
-    // width: não é necessário declarar,
     alignSelf: "flex-start",
     marginLeft: 20,
     marginRight: 20,
