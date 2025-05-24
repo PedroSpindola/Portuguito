@@ -414,7 +414,7 @@ export default function Listas() {
                     copyCode();
                   }}>
                   <Text style={style.txtCodigo}>Código: {itemId}</Text>
-                  <FontAwesome5 name="clipboard-list" size={40} color={"#fff"} />
+                  <FontAwesome5 name="copy" size={30} color={"#fff"} />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={style.botaoEditar}
