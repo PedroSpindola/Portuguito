@@ -62,8 +62,6 @@ export default StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 10,
         paddingVertical: 5,
-        display: 'flex',
-        flexDirection: 'row',
 
     },
     txtEditar: {
@@ -72,6 +70,24 @@ export default StyleSheet.create({
         color: '#fff',
         fontSize: 20,
         left: 0,
-        marginInline: 10,
     },
+    botaoCodigo: {
+        alignItems: 'center',
+        width: '100vw',
+        marginBottom: 40,
+        backgroundColor: '#F54F59',
+        borderRadius: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    txtCodigo: {
+        fontFamily: 'Inder_400Regular',
+        alignItems: 'center',
+        color: '#fff',
+        fontSize: 20,
+        left: 0,
+        marginInline: 10,
+    }
 })

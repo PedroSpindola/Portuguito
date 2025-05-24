@@ -409,11 +409,11 @@ export default function Listas() {
           <View style={style.boxGeral}>
             <View style={{ alignItems: "center" }}>
               <View style={{ justifyContent: "center", height: 185 }}>
-                <TouchableOpacity style={style.botaoEditar}
+                <TouchableOpacity style={style.botaoCodigo}
                   onPress={() => {
                     copyCode();
                   }}>
-                  <Text style={style.txtEditar}>Código: {itemId}</Text>
+                  <Text style={style.txtCodigo}>Código: {itemId}</Text>
                   <FontAwesome5 name="clipboard-list" size={40} color={"#fff"} />
                 </TouchableOpacity>
                 <TouchableOpacity
