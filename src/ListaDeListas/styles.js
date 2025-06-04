@@ -217,7 +217,7 @@ export default StyleSheet.create({
         zIndex: 1000,
     },
     modalContainer: {
-        paddingTop: 80,
+        paddingTop: 70,
         backgroundColor: "rgba(0, 0, 0, 0.8)",
     },
     modalButton: { fontFamily: "Inder_400Regular", fontSize: 15 },
