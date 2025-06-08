@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
     boxGeral: {
         backgroundColor: '#FF8D94',
-        height: '25%',
+        height: '40%',
         width: '90%',
         borderRadius: 10,
         display: 'flex',
@@ -20,7 +20,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         top: 0,
         width: '100%',
-        height: 30,
+        height: 'auto',
     },
     modalTitle: {
         color: '#EFEFFE',
