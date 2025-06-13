@@ -92,7 +92,7 @@ export default StyleSheet.create({
     },
 
     boxImageImage: {
-        height: 200,
+        height: 250,
         width: 200,
 
     },
