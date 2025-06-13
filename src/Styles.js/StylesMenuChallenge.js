@@ -70,7 +70,7 @@ export default StyleSheet.create({
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
-        color: '#fff',
+        color: '#7d471c',
         fontSize: 12,
         fontFamily: 'Inder_400Regular',
     },
