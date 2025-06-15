@@ -407,216 +407,220 @@ export default function QuestoesTrilha() {
 
   return (
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
+
       <ModalHappy />
       <ModalSad />
       <ModalEnd />
       <ModalUnlock />
-      {questoes && questoes[indice] && !showInitialAnimation ? (
-        <>
-          <View style={styles.progressContainerInfo}>
-            <Text style={styles.infoAcertos}>{acertos}</Text>
-            <View style={styles.progressContainer}>
-              <View
-                style={[
-                  styles.progressBar,
-                  {
-                    width: `${(acertos / questoes.length) * 100}%`,
-                    backgroundColor: "#4CAF50",
-                  },
-                ]}
-              />
-              <View
-                style={[
-                  styles.progressBar,
-                  {
-                    width: `${(erros / questoes.length) * 100}%`,
-                    backgroundColor: "#F54F59",
-                    left: `${100 - (erros / questoes.length) * 100}%`,
-                  },
-                ]}
-              />
+      <ScrollView>
+        {questoes && questoes[indice] && !showInitialAnimation ? (
+          <>
+            <View style={styles.progressContainerInfo}>
+              <Text style={styles.infoAcertos}>{acertos}</Text>
+              <View style={styles.progressContainer}>
+                <View
+                  style={[
+                    styles.progressBar,
+                    {
+                      width: `${(acertos / questoes.length) * 100}%`,
+                      backgroundColor: "#4CAF50",
+                    },
+                  ]}
+                />
+                <View
+                  style={[
+                    styles.progressBar,
+                    {
+                      width: `${(erros / questoes.length) * 100}%`,
+                      backgroundColor: "#F54F59",
+                      left: `${100 - (erros / questoes.length) * 100}%`,
+                    },
+                  ]}
+                />
+              </View>
+              <Text style={styles.infoErros}>{erros}</Text>
             </View>
-            <Text style={styles.infoErros}>{erros}</Text>
-          </View>
 
-          {erros > 3 ? (
-            <Text style={styles.progressInfoWarning}>
-              Não é mais possível avançar de fase
-            </Text>
-          ) : acertos < 7 ? (
-            <Text style={styles.progressInfoWarning}>
-              Faltam acertar {7 - acertos} para avançar de fase
-            </Text>
-          ) : (
-            <Text style={styles.progressInfoSuccessful}>
-              Você já acertou o suficiente para passar de fase!
-            </Text>
-          )}
+            {erros > 3 ? (
+              <Text style={styles.progressInfoWarning}>
+                Não é mais possível avançar de fase
+              </Text>
+            ) : acertos < 7 ? (
+              <Text style={styles.progressInfoWarning}>
+                Faltam acertar {7 - acertos} para avançar de fase
+              </Text>
+            ) : (
+              <Text style={styles.progressInfoSuccessful}>
+                Você já acertou o suficiente para passar de fase!
+              </Text>
+            )}
 
-          <View style={styles.container}>
-            <View style={styles.enunciado}>
-              <View style={styles.backgroundImagem}>
-                {loadingImage ? (
-                  <ActivityIndicator
-                    size="large"
-                    color="#EFEFFE"
-                  ></ActivityIndicator>
-                ) : questoes[indice]?.urlImagem &&
-                  questoes[indice].urlImagem.startsWith("http") ? (
-                  <TouchableOpacity onPress={() => setIsExpanded(true)}>
+            <View style={styles.container}>
+              <View style={styles.enunciado}>
+                <View style={styles.backgroundImagem}>
+                  {loadingImage ? (
                     <ActivityIndicator
                       size="large"
                       color="#EFEFFE"
-                      style={styles.loader}
                     ></ActivityIndicator>
-                    <Image
-                      style={styles.imagem}
-                      source={{ uri: questoes[indice].urlImagem }}
-                      contentFit="contain"
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity>
-                    <Image
-                      style={styles.imagem}
-                      source={noImage}
-                      contentFit="contain"
-                    />
-                  </TouchableOpacity>
-                )}
-
-                {/* Modal para exibir a imagem expandida */}
-                <Modal
-                  visible={isExpanded}
-                  transparent={true}
-                  animationType="fade"
-                >
-                  <View style={styles.modalContainer}>
-                    <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                  ) : questoes[indice]?.urlImagem &&
+                    questoes[indice].urlImagem.startsWith("http") ? (
+                    <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                      <ActivityIndicator
+                        size="large"
+                        color="#EFEFFE"
+                        style={styles.loader}
+                      ></ActivityIndicator>
                       <Image
+                        style={styles.imagem}
                         source={{ uri: questoes[indice].urlImagem }}
-                        style={styles.fullImage}
+                        contentFit="contain"
                       />
                     </TouchableOpacity>
-                  </View>
-                </Modal>
-              </View>
-              <Markdown
-                style={{
-                  body: {
-                    fontSize: 16,
-                    color: "#fff",
-                    top: 0,
-                    width: "90%",
-                    left: 5,
-                    padding: 5,
-                    textAlign: "left",
-                    fontFamily: "Inder_400Regular",
-                  },
-                }}
-              >
-                {questoes[indice].pergunta}
-              </Markdown>
-            </View>
+                  ) : (
+                    <TouchableOpacity>
+                      <Image
+                        style={styles.imagem}
+                        source={noImage}
+                        contentFit="contain"
+                      />
+                    </TouchableOpacity>
+                  )}
 
-            <View style={styles.container}>
-              <ScrollView style={styles.questoes}>
-                <RadioButtonGroup
-                  selected={value}
-                  onSelected={(value) => {
-                    setValue(value);
-                    setbtnRadioClicado(false);
+                  {/* Modal para exibir a imagem expandida */}
+                  <Modal
+                    visible={isExpanded}
+                    transparent={true}
+                    animationType="fade"
+                  >
+                    <View style={styles.modalContainer}>
+                      <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                        <Image
+                          source={{ uri: questoes[indice].urlImagem }}
+                          style={styles.fullImage}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </Modal>
+                </View>
+                <Markdown
+                  style={{
+                    body: {
+                      fontSize: 16,
+                      color: "#fff",
+                      top: 0,
+                      width: "97%",
+                      left: 5,
+                      padding: 5,
+                      textAlign: "left",
+                      fontFamily: "Inder_400Regular",
+                    },
                   }}
-                  radioBackground="#F54F59"
                 >
-                  {questoes[indice].respostas.map((resposta, index) => (
-                    <RadioButtonItem
-                      key={index}
-                      label={
-                        <View
-                          style={{
-                            flexDirection: "row-reverse",
-                            backgroundColor: "#ffb9bd",
-                            borderRadius: 40,
-                            width: '90%',
-                            paddingHorizontal: '3%',
-                            marginTop: 5,
-                            height: "auto",
-                            left: -30,
-                            position: "relative",
-                            zIndex: -1,
-                          }}
-                        >
-                          <Markdown
+                  {questoes[indice].pergunta}
+                </Markdown>
+              </View>
+
+              <View style={styles.container}>
+                <ScrollView style={styles.questoes}>
+                  <RadioButtonGroup
+                    selected={value}
+                    onSelected={(value) => {
+                      setValue(value);
+                      setbtnRadioClicado(false);
+                    }}
+                    radioBackground="#F54F59"
+                  >
+                    {questoes[indice].respostas.map((resposta, index) => (
+                      <RadioButtonItem
+                        key={index}
+                        label={
+                          <View
                             style={{
-                              body: {
-                                fontSize: 16,
-                                color: "#fff",
-                                top: 0,
-                                width: "90%",
-                                left: -0.5,
-                                padding: 5,
-                                textAlign: "center",
-                                fontFamily: "Inder_400Regular",
-                              },
+                              flexDirection: "row-reverse",
+                              backgroundColor: "#ffb9bd",
+                              borderRadius: 40,
+                              width: '90%',
+                              paddingHorizontal: '3%',
+                              marginTop: 5,
+                              height: "auto",
+                              left: -30,
+                              position: "relative",
+                              zIndex: -1,
                             }}
                           >
-                            {resposta}
-                          </Markdown>
-                        </View>
-                      }
-                      value={resposta}
-                      style={{
-                        borderWidth: 1,
-                        borderRadius: 12.5,
-                        borderColor: "#fff",
-                        left: 7,
-                        top: 3,
-                        backgroundColor: "#fff",
-                        width: 25,
-                        height: 25,
+                            <Markdown
+                              style={{
+                                body: {
+                                  fontSize: 16,
+                                  color: "#fff",
+                                  top: 0,
+                                  width: "90%",
+                                  left: -0.5,
+                                  padding: 5,
+                                  textAlign: "center",
+                                  fontFamily: "Inder_400Regular",
+                                },
+                              }}
+                            >
+                              {resposta}
+                            </Markdown>
+                          </View>
+                        }
+                        value={resposta}
+                        style={{
+                          borderWidth: 1,
+                          borderRadius: 12.5,
+                          borderColor: "#fff",
+                          left: 7,
+                          top: 3,
+                          backgroundColor: "#fff",
+                          width: 25,
+                          height: 25,
+                        }}
+                      />
+                    ))}
+                  </RadioButtonGroup>
+                  <View style={styles.containerContinuar}>
+                    <TouchableOpacity
+                      style={[
+                        styles.confirmar,
+                        btnRadioClicado
+                          ? styles.btnDesativado
+                          : styles.btnAtivado,
+                      ]}
+                      disabled={btnRadioClicado}
+                      onPress={() => {
+                        setLoadingImage(true);
+                        conferirQuestao(questoes[indice].respostaCorreta, value);
+                        setbtnRadioClicado(true);
                       }}
-                    />
-                  ))}
-                </RadioButtonGroup>
-                <View style={styles.containerContinuar}>
-                  <TouchableOpacity
-                    style={[
-                      styles.confirmar,
-                      btnRadioClicado
-                        ? styles.btnDesativado
-                        : styles.btnAtivado,
-                    ]}
-                    disabled={btnRadioClicado}
-                    onPress={() => {
-                      setLoadingImage(true);
-                      conferirQuestao(questoes[indice].respostaCorreta, value);
-                      setbtnRadioClicado(true);
-                    }}
-                  >
-                    <Text style={styles.label}>Confirmar</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
+                    >
+                      <Text style={styles.label}>Confirmar</Text>
+                    </TouchableOpacity>
+                  </View>
+                </ScrollView>
+              </View>
             </View>
+          </>
+        ) : (
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <Image
+              style={{
+                flex: 1,
+                width: "100%",
+                height: undefined,
+                aspectRatio: 1,
+              }}
+              source={require("../Imagens/TranFinal.gif")}
+              contentFit="contain"
+            />
           </View>
-        </>
-      ) : (
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-        >
-          <Image
-            style={{
-              flex: 1,
-              width: "100%",
-              height: undefined,
-              aspectRatio: 1,
-            }}
-            source={require("../Imagens/TranFinal.gif")}
-            contentFit="contain"
-          />
-        </View>
-      )}
+
+        )}
+      </ScrollView>
     </LinearGradient>
   );
 }
