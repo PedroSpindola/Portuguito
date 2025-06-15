@@ -27,14 +27,14 @@ export default function DescritorImplicacoesGeneroTextual() {
             <Ionicons name="arrow-back" style={Styles.iconStyle} />
           </TouchableOpacity>
         </View>
-        <Descritores titulo="Interpretação de texto com auxílio de material gráfico diverso (D5)" descritor="D5" id={id} />
+        <Descritores titulo="D5 - Interpretação de texto com auxílio de material gráfico diverso" descritor="D5" id={id} />
         <Descritores
-          titulo="Reconhecimento do gênero discursivo (D16)"
+          titulo="D16 - Reconhecimento do gênero discursivo"
           descritor="D16"
           id={id}
         />
         <Descritores
-          titulo="Identificação da finalidade de textos de diferentes gêneros (D9)"
+          titulo="D9 - Identificação da finalidade de textos de diferentes gêneros"
           descritor="D9"
           id={id}
         />

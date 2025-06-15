@@ -31,20 +31,20 @@ export default function DescritorQuestoesAutorais() {
             <Ionicons name="arrow-back" style={Styles.iconStyle} />
           </TouchableOpacity>
         </View>
-        <Descritores titulo="Geral" descritor="DD1" id={id} />
+        <Descritores titulo="DD1 - Geral" descritor="DD1" id={id} />
         <Descritores
-          titulo="Coerência e Coesão Textual"
+          titulo="DD2 - Coerência e Coesão Textual"
           descritor="DD2"
           id={id}
         />
-        <Descritores titulo="Variação Linguística" descritor="DD3" id={id} />
+        <Descritores titulo="DD3 - Variação Linguística" descritor="DD3" id={id} />
         <Descritores
-          titulo="Implicações do Gênero Textual"
+          titulo="DD4 - Implicações do Gênero Textual"
           descritor="DD4"
           id={id}
         />{" "}
         <Descritores
-          titulo="Procedimentos de Leitura"
+          titulo="DD5 - Procedimentos de Leitura"
           descritor="DD5"
           id={id}
         />
