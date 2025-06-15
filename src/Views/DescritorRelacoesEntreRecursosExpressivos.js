@@ -28,12 +28,12 @@ export default function DescritorRelacoesEntreRecursosExpressivos() {
           </TouchableOpacity>
         </View>
         <Descritores
-          titulo="Identificação dos efeitos de ironia ou humor em textos variados"
+          titulo="Identificação dos efeitos de ironia ou humor em textos variados (D13)"
           descritor="D13"
           id={id}
         />
         <Descritores
-          titulo="Identificação do efeito de sentido decorrente do uso da pontuação e de outras notações"
+          titulo="Identificação do efeito de sentido decorrente do uso da pontuação e de outras notações (D14)"
           descritor="D14"
           id={id}
         />

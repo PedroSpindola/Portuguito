@@ -29,18 +29,18 @@ export default function DescritoresProcedimentoLeitura() {
           </TouchableOpacity>
         </View>
         <Descritores
-          titulo="Localização de informações explícitas"
+          titulo="Localização de informações explícitas (D1)"
           descritor="D1"
           id={id}
         />
-        <Descritores titulo="Inferência de sentido" descritor="D3" id={id} />
+        <Descritores titulo="Inferência de sentido (D3)" descritor="D3" id={id} />
         <Descritores
-          titulo="Inferência de informação implícita"
+          titulo="Inferência de informação implícita (D4)"
           descritor="D4"
           id={id}
         />
-        <Descritores titulo="Identificação do tema do texto" descritor="D6" id={id} />
-        <Descritores titulo="Distinção entre fato e opinião" descritor="D11" id={id} />
+        <Descritores titulo="Identificação do tema do texto (D6)" descritor="D6" id={id} />
+        <Descritores titulo="Distinção entre fato e opinião (D11)" descritor="D11" id={id} />
       </View>
     </LinearGradient>
   );

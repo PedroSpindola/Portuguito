@@ -26,22 +26,22 @@ export default function DescritorCoerenciaCoesaoTextual() {
           </TouchableOpacity>
         </View>
         <Descritores
-          titulo="Estabelecimento de relações entre partes de um texto"
+          titulo="Estabelecimento de relações entre partes de um texto (D2)"
           descritor="D2"
           id={id}
         />
         <Descritores
-          titulo="Identificação do conflito gerador do enredo e os elementos que constroem a narrativa"
+          titulo="Identificação do conflito gerador do enredo e os elementos que constroem a narrativa (D7)"
           descritor="D7"
           id={id}
         />
         <Descritores
-          titulo="Estabelecimento de relação causa/consequência entre partes e elementos do texto"
+          titulo="Estabelecimento de relação causa/consequência entre partes e elementos do texto (D8)"
           descritor="D8"
           id={id}
         />
         <Descritores
-          titulo="Estabelecimento das relações lógico-discursivas presentes no texto"
+          titulo="Estabelecimento das relações lógico-discursivas presentes no texto (D12)"
           descritor="D12"
           id={id}
         />
