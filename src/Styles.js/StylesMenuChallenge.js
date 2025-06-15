@@ -33,7 +33,7 @@ export default StyleSheet.create({
     },
     boxImageImage: {
         height: 100,
-        width: 115,
+        width: 175,
         flex: 1,
     },
     boxImageButton: {
@@ -70,7 +70,7 @@ export default StyleSheet.create({
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
-        color: '#fff',
+        color: '#ffffff',
         fontSize: 12,
         fontFamily: 'Inder_400Regular',
     },
@@ -80,22 +80,22 @@ export default StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         flexDirection: 'column',
-        padding: 10,
+        padding: 200,
 
     },
     rotatedFase: {
         transform: [{ rotateY: '180deg' }],
     },
     bottomPierLeft: {
-        right: 145,
-        top: 350,
+        right: 300,
+        top: 245,
     },
     bottomPierRight: {
-        left: 145,
-        top: 220,
+        left: 300,
+        top: 135,
     },
     centerPierLeft: {
-        right: 140,
+        right: 210,
         bottom: 120,
     },
     centerPierRight: {
