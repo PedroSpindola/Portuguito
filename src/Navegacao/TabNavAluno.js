@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import StackNavAluno from "./StackNavAluno";
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
@@ -8,10 +8,12 @@ import StackNavTrilha from "./StackNavTrilha";
 import StackNavChallenge from "./StackNavChallenge";
 import MenuAluno from "../Views/MenuAluno";
 
+
 const Tab = createBottomTabNavigator()
 
 export default function TabNavAluno() {
-
+    
+    
     return (
         <Tab.Navigator
             initialRouteName="StackNavStudent"

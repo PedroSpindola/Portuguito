@@ -74,7 +74,22 @@ export default function ChallengeFases() {
     return unsubscribe;
   }, [userId, dayName, navigation]);
 
+  const imageCloseOptions = [
+    require("../Imagens/closedFase.png"),
+    require("../Imagens/closedFase1.png"),
+    require("../Imagens/closedFase2.png"),
+  ];
+  const imageOpenOptions = [
+    require("../Imagens/openedFase.png"),
+    require("../Imagens/openedFase1.png"),
+    require("../Imagens/openedFase2.png"),
+  ];
+
   const FreeFased = ({ txt }) => {
+    const randomIndex = Math.floor(Math.random() * imageOpenOptions.length);
+    
+    const randomImage = imageOpenOptions[randomIndex];
+
     return (
       <TouchableOpacity
         style={Styles.boxImageButton}
@@ -86,7 +101,7 @@ export default function ChallengeFases() {
         }
       >
         <Image
-          source={require("../Imagens/openedFase.png")}
+          source={randomImage}
           style={Styles.boxImageImage}
         />
         <Text style={Styles.boxImageButtonText}>{txt}</Text>
@@ -95,10 +110,14 @@ export default function ChallengeFases() {
   };
 
   const ClosedFased = ({ txt }) => {
+    const randomIndex = Math.floor(Math.random() * imageCloseOptions.length);
+    
+    const randomImage = imageCloseOptions[randomIndex];
+
     return (
       <TouchableOpacity style={Styles.boxImageButton} activeOpacity={1}>
         <Image
-          source={require("../Imagens/closedFase.png")}
+          source={randomImage}
           style={Styles.boxImageImage}
         />
         <Text style={Styles.boxImageButtonText}>{txt}</Text>
