@@ -12,9 +12,9 @@ export default StyleSheet.create({
     rankingIcon: {
         position: "absolute",
         width: width * 0.5,
-        bottom: height * 0.9,
-        height: width * 0.35,
-        left: width * 0.65,
+        height: width * 0.44,
+        bottom: height * 0.87,
+        left: width * 0.62,
     },
     rankingIconImage: {
         width: '100%',
@@ -28,7 +28,7 @@ export default StyleSheet.create({
     },
     boxLastDay: {
         position: 'absolute',
-        bottom: height * 0.638,
+        bottom: height * 0.615,
         right: 0.005,
         height: height * 0.3,
         width: width * 0.35,
@@ -43,6 +43,7 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     boxImageImageOpened: {
+        marginTop: height * 0.04,
         height: height * 0.12,
         width: width * 0.25,
         resizeMode: 'contain',
@@ -64,8 +65,8 @@ export default StyleSheet.create({
         position: 'absolute',
     },
     centerFaseIcon: {
-        marginTop: height * 0.02,
-        marginRight: width * 0.12,
+        marginTop: height * 0.01,
+        marginRight: width * 0.1,
     },
     rightFaseIcon: {
         left: width * -0.04,
@@ -76,8 +77,8 @@ export default StyleSheet.create({
         top: height * -0.033,
     },
     activeIcon: {
-        left: width * -0.08,
-        top: height * -0.063,
+        left: width * -0.06,
+        top: height * -0.056,
     },
     faseIconText: {
         height: height * 0.06,
@@ -102,32 +103,32 @@ export default StyleSheet.create({
     // Barcos/Píers posicionados proporcionalmente
     bottomPierLeft: {
         position: 'absolute',
-        right: width * 0.4,
-        top: height * 0.6,
+        right: width * 0.41,
+        top: height * 0.58,
     },
     bottomPierRight: {
         position: 'absolute',
-        left: width * 0.39,
-        bottom: height * 0.34,
+        left: width * 0.42,
+        top: height * 0.57,
     },
     centerPierLeft: {
         position: 'absolute',
-        right: width * 0.32,
+        right: width * 0.34,
         bottom: height * 0.46,
     },
     centerPierRight: {
         position: 'absolute',
-        left: width * 0.32,
-        top: height * 0.46,
+        left: width * 0.35,
+        bottom: height * 0.46,
     },
     topPierLeft: {
         position: 'absolute',
-        right: width * 0.25,
+        right: width * 0.27,
         bottom: height * 0.58,
     },
     topPierRight: {
         position: 'absolute',
-        left: width * 0.25,
+        left: width * 0.27,
         bottom: height * 0.58,
     },
 });
