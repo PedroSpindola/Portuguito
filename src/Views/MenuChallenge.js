@@ -110,7 +110,7 @@ export default function MenuChallenge() {
           <>
             <Image
               source={require("../Imagens/BarcoClaro.png")}
-              style={[Styles.boxImageImage, Styles.rotatedFase]}
+              style={[Styles.boxImageImageOpened, Styles.rotatedFase]}
             />
             <FaseIcon
               style={[Styles.leftFaseIcon, Styles.activeIcon]}
@@ -121,7 +121,7 @@ export default function MenuChallenge() {
           <>
             <Image
               source={require("../Imagens/BarcoClaro.png")}
-              style={[Styles.boxImageImage, Styles.rotatedFase]}
+              style={[Styles.boxImageImageOpened, Styles.rotatedFase]}
             />
             <FaseIcon
               style={[Styles.leftFaseIcon, Styles.activeIcon]}
@@ -132,7 +132,7 @@ export default function MenuChallenge() {
           <>
             <Image
               source={require("../Imagens/BarcoClaro.png")}
-              style={Styles.boxImageImage}
+              style={Styles.boxImageImageOpened}
             />
             <FaseIcon
               style={[Styles.rightFaseIcon, Styles.activeIcon]}

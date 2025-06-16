@@ -1,4 +1,7 @@
-import { StyleSheet, TouchableOpacity } from "react-native"
+import { StyleSheet, Dimensions } from "react-native";
+
+// Pega largura e altura da tela do dispositivo
+const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
     imageAjust: {
@@ -8,106 +11,123 @@ export default StyleSheet.create({
     },
     rankingIcon: {
         position: "absolute",
-        width: 125,
-        height: 125,
-        bottom: 680,
-        left: 264,
+        width: width * 0.5,
+        bottom: height * 0.9,
+        height: width * 0.35,
+        left: width * 0.65,
     },
     rankingIconImage: {
-        width: 125,
-        height: 125,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'contain',
     },
     boxImageBoss: {
-        height: 200,
-        width: 150,
+        height: height * 0.25,
+        width: width * 0.35,
         flex: 1,
     },
     boxLastDay: {
-        top: 8,
-        height: 200,
-        width: 150,
+        position: 'absolute',
+        bottom: height * 0.638,
+        right: 0.005,
+        height: height * 0.3,
+        width: width * 0.35,
         alignItems: 'center',
     },
     lastDayClosed: {
         opacity: 0.3,
     },
     boxImageImage: {
-        height: 100,
-        width: 175,
-        flex: 1,
+        height: height * 0.09,
+        width: width * 0.25,
+        resizeMode: 'contain',
+    },
+    boxImageImageOpened: {
+        height: height * 0.12,
+        width: width * 0.25,
+        resizeMode: 'contain',
     },
     boxImageButton: {
-        height: 135,
-        width: 135,
+        height: width * 0.35,
+        width: width * 0.35,
         alignItems: 'center',
         justifyContent: 'center',
     },
     faseIcon: {
         position: 'relative',
-        bottom: 62
+        left: width * 0.015,
+        bottom: height * 0.09,
     },
     faseIconImage: {
-        height: 50,
-        width: 50,
+        height: height * 0.06,
+        width: height * 0.06,
         position: 'absolute',
     },
     centerFaseIcon: {
-        marginTop: 15,
-        marginRight: 50,
+        marginTop: height * 0.02,
+        marginRight: width * 0.12,
     },
     rightFaseIcon: {
-        left: 6,
+        left: width * -0.04,
+        top: height * -0.03,
     },
     leftFaseIcon: {
-        right: 55,
+        left: width * -0.09,
+        top: height * -0.033,
     },
     activeIcon: {
-        marginTop: 10,
+        left: width * -0.08,
+        top: height * -0.063,
     },
     faseIconText: {
-        height: 45,
-        width: 50,
+        height: height * 0.06,
+        width: width * 0.12,
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
-        color: '#ffffff',
-        fontSize: 12,
+        color: '#604437',
+        fontSize: width * 0.03,
         fontFamily: 'Inder_400Regular',
     },
     divTela: {
-        height: 'auto',
-        width: 'auto',
         flex: 1,
         alignItems: 'center',
         flexDirection: 'column',
-        padding: 200,
-
+        padding: width * 0.15,
     },
     rotatedFase: {
         transform: [{ rotateY: '180deg' }],
     },
+
+    // Barcos/Píers posicionados proporcionalmente
     bottomPierLeft: {
-        right: 300,
-        top: 245,
+        position: 'absolute',
+        right: width * 0.4,
+        top: height * 0.6,
     },
     bottomPierRight: {
-        left: 300,
-        top: 135,
+        position: 'absolute',
+        left: width * 0.39,
+        bottom: height * 0.34,
     },
     centerPierLeft: {
-        right: 210,
-        bottom: 120,
+        position: 'absolute',
+        right: width * 0.32,
+        bottom: height * 0.46,
     },
     centerPierRight: {
-        left: 140,
-        bottom: 258,
+        position: 'absolute',
+        left: width * 0.32,
+        top: height * 0.46,
     },
     topPierLeft: {
-        right: 140,
-        bottom: 530,
+        position: 'absolute',
+        right: width * 0.25,
+        bottom: height * 0.58,
     },
     topPierRight: {
-        left: 140,
-        bottom: 665,
+        position: 'absolute',
+        left: width * 0.25,
+        bottom: height * 0.58,
     },
 });
