@@ -28,6 +28,7 @@ export default StyleSheet.create({
     borderRadius: 4,
     shadowColor: "#000",
     elevation: 10,
+    color: '#3E1E1E',
   },
   addLista: {
     backgroundColor: "transparent",
