@@ -1,12 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import styles from '../Styles.js/StyleMenuAdventure'; // importa o estilo
+import { useNavigation } from "@react-navigation/native";
+import styles from '../Styles.js/StyleMenuAdventure'; 
 
 export default function MenuAdventure() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.topo}>
-        <TouchableOpacity style={styles.botaoTopo}>
+        <TouchableOpacity style={styles.botaoTopo} onPress={() =>
+          navigation.navigate("AdventureRanking", {
+            screen: "AdventureRanking",
+          })
+        }>
           <Text style={styles.textoTopo}>Ícone das Melhores Aventuras Jogadas</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.botaoTopo}>
