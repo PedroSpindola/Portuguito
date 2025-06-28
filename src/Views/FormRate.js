@@ -93,7 +93,7 @@ export default function AdicionarAvaliacao() {
         <View style={style.inputContainer}>
           <Text style={Styles.txtInput}>Descrição:</Text>
           <TextInput
-            style={[Styles.input, { height: 80 }]}
+            style={[Styles.input, { height: 100, width:'97%' }]}
             value={descricao}
             onChangeText={setDescricao}
           />
@@ -110,7 +110,9 @@ export default function AdicionarAvaliacao() {
           <Text style={Styles.txtInput}>Problema</Text>
         </View>
 
-
+        <View>
+            <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
+        </View>
 
         <View style={Styles.containerBotao}>
           <TouchableOpacity style={Styles.botao} onPress={handleSubmit}>
