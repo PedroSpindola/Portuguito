@@ -13,7 +13,7 @@ export default StyleSheet.create({
         position: "absolute",
         width: width * 0.5,
         height: width * 0.44,
-        bottom: height * 0.87,
+        bottom: height * 0.85,
         left: width * 0.62,
     },
     rankingIconImage: {
@@ -60,13 +60,13 @@ export default StyleSheet.create({
         bottom: height * 0.09,
     },
     faseIconImage: {
-        height: height * 0.06,
-        width: height * 0.06,
+        height: height * 0.065,
+        width: height * 0.065,
         position: 'absolute',
     },
     centerFaseIcon: {
         marginTop: height * 0.01,
-        marginRight: width * 0.1,
+        marginRight: width * 0.2,
     },
     rightFaseIcon: {
         left: width * -0.04,
@@ -83,11 +83,13 @@ export default StyleSheet.create({
     faseIconText: {
         height: height * 0.06,
         width: width * 0.12,
+        left: width * 0.005,
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
         color: '#604437',
-        fontSize: width * 0.03,
+        fontWeight:'bold',
+        fontSize: width * 0.04,
         fontFamily: 'Inder_400Regular',
     },
     divTela: {
