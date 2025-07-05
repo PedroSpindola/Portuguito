@@ -22,8 +22,9 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     boxImageBoss: {
-        height: height * 0.25,
+        height: height * 0.30,
         width: width * 0.35,
+        top: height * 0.02,
         flex: 1,
     },
     boxLastDay: {
@@ -60,13 +61,13 @@ export default StyleSheet.create({
         bottom: height * 0.09,
     },
     faseIconImage: {
-        height: height * 0.06,
-        width: height * 0.06,
+        height: height * 0.07,
+        width: height * 0.07,
         position: 'absolute',
     },
     centerFaseIcon: {
-        marginTop: height * 0.01,
-        marginRight: width * 0.1,
+        bottom: height * 0.08,
+        marginRight: width * 0.30,
     },
     rightFaseIcon: {
         left: width * -0.04,
@@ -86,9 +87,10 @@ export default StyleSheet.create({
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
-        color: '#604437',
-        fontSize: width * 0.03,
+        color: '#000000',
+        fontSize: width * 0.04,
         fontFamily: 'Inder_400Regular',
+        left: width*0.005,
     },
     divTela: {
         flex: 1,
@@ -103,32 +105,32 @@ export default StyleSheet.create({
     // Barcos/Píers posicionados proporcionalmente
     bottomPierLeft: {
         position: 'absolute',
-        right: width * 0.41,
-        top: height * 0.58,
+        right: width * 0.38,
+        bottom: height * 0.33,
     },
     bottomPierRight: {
         position: 'absolute',
-        left: width * 0.42,
-        top: height * 0.57,
+        left: width * 0.40,
+        bottom: height * 0.32,
     },
     centerPierLeft: {
         position: 'absolute',
-        right: width * 0.34,
-        bottom: height * 0.46,
+        right: width * 0.32,
+        top: height * 0.45,
     },
     centerPierRight: {
         position: 'absolute',
-        left: width * 0.35,
-        bottom: height * 0.46,
+        left: width * 0.32,
+        top: height * 0.45,
     },
     topPierLeft: {
         position: 'absolute',
-        right: width * 0.27,
-        bottom: height * 0.58,
+        right: width * 0.25,
+        bottom: height * 0.55,
     },
     topPierRight: {
         position: 'absolute',
-        left: width * 0.27,
-        bottom: height * 0.58,
+        left: width * 0.25,
+        bottom: height * 0.55,
     },
 });
