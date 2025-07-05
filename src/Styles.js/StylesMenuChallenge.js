@@ -22,8 +22,9 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     boxImageBoss: {
-        height: height * 0.25,
+        height: height * 0.30,
         width: width * 0.35,
+        top: height * 0.02,
         flex: 1,
     },
     boxLastDay: {
@@ -91,6 +92,7 @@ export default StyleSheet.create({
         fontWeight:'bold',
         fontSize: width * 0.04,
         fontFamily: 'Inder_400Regular',
+        left: width*0.005,
     },
     divTela: {
         flex: 1,
@@ -105,32 +107,32 @@ export default StyleSheet.create({
     // Barcos/Píers posicionados proporcionalmente
     bottomPierLeft: {
         position: 'absolute',
-        right: width * 0.41,
-        top: height * 0.58,
+        right: width * 0.38,
+        bottom: height * 0.33,
     },
     bottomPierRight: {
         position: 'absolute',
-        left: width * 0.42,
-        top: height * 0.57,
+        left: width * 0.40,
+        bottom: height * 0.32,
     },
     centerPierLeft: {
         position: 'absolute',
-        right: width * 0.34,
-        bottom: height * 0.46,
+        right: width * 0.32,
+        top: height * 0.45,
     },
     centerPierRight: {
         position: 'absolute',
-        left: width * 0.35,
-        bottom: height * 0.46,
+        left: width * 0.32,
+        top: height * 0.45,
     },
     topPierLeft: {
         position: 'absolute',
-        right: width * 0.27,
-        bottom: height * 0.58,
+        right: width * 0.25,
+        bottom: height * 0.55,
     },
     topPierRight: {
         position: 'absolute',
-        left: width * 0.27,
-        bottom: height * 0.58,
+        left: width * 0.25,
+        bottom: height * 0.55,
     },
 });
