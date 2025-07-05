@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import StackNavStudent from "./StackNavStudent";
 import StackNavTrilha from "./StackNavTrilha";
 import StackNavChallenge from "./StackNavChallenge";
+import StackNavAdventure from "./StackNavAdventure";
 import MenuAluno from "../Views/MenuAluno";
 
 
@@ -74,6 +75,19 @@ export default function TabNavAluno() {
 
             />
 
+            <Tab.Screen name='StackNavAdventure' component={StackNavAdventure} options={{
+
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => {
+                    if (focused) {
+                        return <Ionicons name="game-controller" size={50} color={color} />
+                    }
+                    return <Ionicons name="game-controller" size={50} color="#fff" />
+                },
+
+            }}
+            />
+
             <Tab.Screen name='MenuAluno' component={MenuAluno} options={{
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => {
@@ -98,6 +112,7 @@ export default function TabNavAluno() {
             }}
 
             />
+
         </Tab.Navigator>
     )
 }

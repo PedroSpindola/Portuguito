@@ -1,0 +1,48 @@
+import React from 'react';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { useNavigation } from "@react-navigation/native";
+import styles from '../Styles.js/StyleMenuAdventure'; 
+
+export default function MenuAdventure() {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.container}>
+      <View style={styles.topo}>
+        <TouchableOpacity style={styles.botaoTopo} onPress={() =>
+          navigation.navigate("AdventureRanking", {
+            screen: "AdventureRanking",
+          })
+        }>
+          <Text style={styles.textoTopo}>Ícone das Melhores Aventuras Jogadas</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.botaoTopo}>
+          <Text style={styles.textoTopo}>Ícone da Loja</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.personagemArea}>
+        <TouchableOpacity>
+          <Text style={styles.seta}>{'<'}</Text>
+        </TouchableOpacity>
+
+        <View style={styles.personagem}>
+          <Image
+            // Imagem do personagem
+            src='data:image/jpeg;base64,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'
+            style={styles.imagemPersonagem}
+          />
+          <Text style={styles.nome}>Porturei</Text>
+        </View>
+
+        <TouchableOpacity>
+          <Text style={styles.seta}>{'>'}</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Botão Iniciar */}
+      <TouchableOpacity style={styles.botaoIniciar}>
+        <Text style={styles.textoIniciar}>Iniciar Aventura</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
