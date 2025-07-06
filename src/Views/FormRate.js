@@ -93,15 +93,18 @@ export default function AdicionarAvaliacao() {
         <View style={style.inputContainer}>
           <Text style={Styles.txtInput}>Descrição:</Text>
           <TextInput
-            style={[Styles.input, { height: 100, width:'97%' }]}
+            multiline={true}
+            numberOfLines={8}
+            style={[Styles.input, Styles.textArea]}
             value={descricao}
             onChangeText={setDescricao}
           />
         </View>
 
-        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginVertical: 10 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
           <Text style={Styles.txtInput}>Sugestão</Text>
           <Switch
+            style={Styles.switch}
             value={!isSuggestion}
             onValueChange={(value) => setIsSuggestion(!value)}
             trackColor={{ false: "#f4f3f4", true: "#f4f3f4" }}
@@ -110,14 +113,14 @@ export default function AdicionarAvaliacao() {
           <Text style={Styles.txtInput}>Problema</Text>
         </View>
 
-        <View>
-            <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
-        </View>
-
         <View style={Styles.containerBotao}>
           <TouchableOpacity style={Styles.botao} onPress={handleSubmit}>
             <Text style={Styles.txtBotao}>Enviar</Text>
           </TouchableOpacity>
+        </View>
+
+        <View>
+            <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
         </View>
       </ScrollView>
     </LinearGradient>

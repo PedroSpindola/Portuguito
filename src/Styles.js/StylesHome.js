@@ -12,7 +12,7 @@ export default StyleSheet.create({
     marginTop: 20,
   },
   containerBotao: {
-    marginTop: 40,
+    marginTop: 15,
   },
   containerSmallButton: {
     flexDirection: "row",
@@ -40,10 +40,8 @@ export default StyleSheet.create({
   txtInput: {
     color: "#fff",
     fontFamily: "Inder_400Regular",
-    padding: 6,
+    padding: 7,
     alignSelf: "flex-start",
-    marginLeft: 5,
-    marginRight: 20,
     borderRadius: 10,
     textAlign: "center",
     backgroundColor: "#FFB9BD",
@@ -52,12 +50,8 @@ export default StyleSheet.create({
     color: "#fff",
     fontFamily: "Inder_400Regular",
     padding: 6,
-    alignSelf: "flex-start",
-    marginLeft: 5,
-    marginRight: 5,
-    borderRadius: 10,
-    textAlign: "center",
-    backgroundColor: "#FFB9BD",
+    marginTop: 15,
+    textAlign: "center"
   },
   frase: {
     color: "#fff",
@@ -94,4 +88,17 @@ export default StyleSheet.create({
     padding: 20,
     fontSize: 25,
   },
+  textArea: {
+    height: 120,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 10,
+    textAlignVertical: 'top',
+    fontFamily: "Inder_400Regular",
+  },
+  switch: {
+    position: 'relative',
+    top: '-20%',
+  }
 });
