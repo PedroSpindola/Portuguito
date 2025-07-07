@@ -80,9 +80,9 @@ export default function TabNavAluno() {
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => {
                     if (focused) {
-                        return <Ionicons name="game-controller" size={50} color={color} />
+                        return <Ionicons name="compass-outline" size={50} color={color} />
                     }
-                    return <Ionicons name="game-controller" size={50} color="#fff" />
+                    return <Ionicons name="compass-outline" size={50} color="#fff" />
                 },
 
             }}

@@ -17,21 +17,19 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
 
-  botaoTopo: {
-    backgroundColor: "#F5505A",
-    padding: 8,
-    borderRadius: 10,
-    width: "48%",
+  buttonTop: {
+    marginTop: 5,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: "#ff8c90",
+    justifyContent: "center",
     alignItems: "center",
-    elevation: 8,
   },
 
-  textoTopo: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "bold",
-    fontFamily: "Inder_400Regular",
-    textAlign: "center",
+  iconStyle: {
+    color: "#FFFFFF",
+    fontSize: 26,
   },
 
   personagemArea: {
@@ -46,16 +44,17 @@ export default StyleSheet.create({
   },
 
   imagemPersonagem: {
-    width: 100,
-    height: 150,
+    width: 180,
+    height: 180,
+    backgroundColor: '#F5505A',
     resizeMode: "contain",
   },
 
-  nome: {
+  caractherName: {
     marginTop: 10,
     fontSize: 20,
     fontFamily: "Inder_400Regular",
-    color: "#3E1E1E",
+    color: "#FFFFFF",
   },
 
   seta: {
@@ -77,8 +76,7 @@ export default StyleSheet.create({
 
   textoIniciar: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "Inder_400Regular",
-    textTransform: "uppercase",
   },
 });
