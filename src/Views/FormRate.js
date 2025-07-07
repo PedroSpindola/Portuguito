@@ -95,7 +95,7 @@ export default function AdicionarAvaliacao() {
           <TextInput
             multiline={true}
             numberOfLines={8}
-            style={[Styles.input, Styles.textArea]}
+            style={[Styles.input, Styles.textArea, {height: 180}]}
             value={descricao}
             onChangeText={setDescricao}
           />
