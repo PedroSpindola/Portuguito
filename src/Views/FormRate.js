@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { FIREBASE_AUTH, FIREBASE_APP } from "../../FirebaseConfig";
 import { Switch } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 
 import style from "../Styles.js/StylesAdicionarQuestaoLista";
@@ -72,6 +73,8 @@ export default function AdicionarAvaliacao() {
     }
   };
 
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
@@ -90,12 +93,18 @@ export default function AdicionarAvaliacao() {
 
         <Text style={Styles.frase}>Como está sendo sua experiência?</Text>
 
+        <View style={style.infoContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <AntDesign name="infocirlceo" size={34} style={style.antDesign} />
+          </TouchableOpacity>
+        </View>
+
         <View style={style.inputContainer}>
           <Text style={Styles.txtInput}>Descrição:</Text>
           <TextInput
             multiline={true}
             numberOfLines={8}
-            style={[Styles.input, Styles.textArea]}
+            style={[Styles.input, Styles.textArea, { height: 180 }]}
             value={descricao}
             onChangeText={setDescricao}
           />
@@ -120,8 +129,22 @@ export default function AdicionarAvaliacao() {
         </View>
 
         <View>
-            <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
+          <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
         </View>
+
+        {modalVisible && (
+          <View style={style.modalContainer}>
+            <View style={style.modalContent}>
+              <Text style={style.modalText}>
+                Em breve, você receberá nossa resposta por e-mail.
+              </Text>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={style.modalCloseButton}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
       </ScrollView>
     </LinearGradient>
   );
