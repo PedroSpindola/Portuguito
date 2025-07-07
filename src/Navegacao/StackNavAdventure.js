@@ -4,6 +4,9 @@ import MenuAdventure from "../Views/MenuAdventure"
 import AdventureRanking from "../Views/AdventureRanking";
 import AdventureFases from "../Views/AdventureFases";
 import Battle from "../Views/Battle";
+import QuestaoMultipla from "../ListaDeListas/QuestaoMultipla";
+import QuestaoVF from "../ListaDeListas/QuestaoVF";
+import QuestaoCompletar from "../ListaDeListas/QuestaoCompletar";
 
 const Stack = createStackNavigator();
 
@@ -20,6 +23,9 @@ export default function StackNavAdventure({ navigation, route }) {
       <Stack.Screen name="AdventureRanking" component={AdventureRanking} />
       <Stack.Screen name="AdventureFases" component={AdventureFases} />
       <Stack.Screen name="Battle" component={Battle} />
+      <Stack.Screen name="QuestaoMultipla" component={QuestaoMultipla} />
+      <Stack.Screen name="QuestaoVF" component={QuestaoVF} />
+      <Stack.Screen name="QuestaoCompletar" component={QuestaoCompletar} />
     </Stack.Navigator>
   );
 }

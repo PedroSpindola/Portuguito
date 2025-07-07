@@ -1,20 +1,43 @@
+import React, { useEffect } from "react";
 import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
 import Styles from "../Styles.js/StyleBattle.js";
 
 export default function Battle({ route, navigation }) {
+    const { faseInfo, acertou } = route.params;
+
+    console.log(acertou);
+
+    useEffect(() => {
+        if (route.params?.hitSuccess !== undefined) {
+            if (route.params.hitSuccess) {
+                console.log("Resposta correta! Aplicar dano.");
+            } else {
+                console.log("Resposta incorreta! Sem dano.");
+            }
+        }
+    }, [route.params?.hitSuccess]);
 
     const attackEnemy = () => {
-        
-    }
+        const types = ["COMPLETE"];
+        // const types = ["VF", "MULTIPLE", "COMPLETE"];
+        const randomType = types[Math.floor(Math.random() * types.length)];
 
-    const { faseInfo } = route.params;
+        switch (randomType) {
+            case "VF":
+                navigation.navigate("QuestaoVF", { faseInfo: faseInfo });
+                break;
+            case "MULTIPLE":
+                navigation.navigate("QuestaoMultipla", { faseInfo: faseInfo });
+                break;
+            case "COMPLETE":
+                navigation.navigate("QuestaoCompletar", { faseInfo: faseInfo });
+                break;
+        }
+    };
 
-    const Enemy = ({ txt, faseInfo }) => {
+    const Enemy = ({ txt }) => {
         return (
-            <TouchableOpacity
-                style={Styles.boxImageButton}
-                onPress={() => attackEnemy}
-            >
+            <TouchableOpacity style={Styles.boxImageButton} onPress={attackEnemy}>
                 <Image
                     style={Styles.boxImageImage}
                 />
@@ -32,7 +55,7 @@ export default function Battle({ route, navigation }) {
                 <View style={Styles.box}>
                     <View style={Styles.AjustItens_high}>
                         <View style={Styles.boxImage}>
-                            <Enemy txt={'Boss'} />
+                            <Enemy txt={"Boss"} />
                         </View>
                     </View>
                 </View>
@@ -42,9 +65,7 @@ export default function Battle({ route, navigation }) {
                 <View style={Styles.box}>
                     <View style={Styles.AjustItens_high}>
                         <View style={Styles.boxImage}>
-                            <Enemy
-                                txt={'Inimigo 1'}
-                            />
+                            <Enemy txt={"Inimigo 1"} />
                         </View>
                     </View>
                 </View>
@@ -54,9 +75,7 @@ export default function Battle({ route, navigation }) {
                 <View style={Styles.box}>
                     <View style={Styles.AjustItens_center}>
                         <View style={Styles.boxImage}>
-                            <Enemy
-                                txt={'Inimigo 2'}
-                            />
+                            <Enemy txt={"Inimigo 2"} />
                         </View>
                     </View>
                 </View>
@@ -66,9 +85,7 @@ export default function Battle({ route, navigation }) {
                 <View style={Styles.box}>
                     <View style={Styles.AjustItens_center}>
                         <View style={Styles.boxImage}>
-                            <Enemy
-                                txt={'Inimigo 3'}
-                            />
+                            <Enemy txt={"Inimigo 3"} />
                         </View>
                     </View>
                 </View>
