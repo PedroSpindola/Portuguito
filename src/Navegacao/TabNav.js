@@ -5,6 +5,7 @@ import Listas from "../Views/Listas";
 import StackNav from "./StackNav";
 import { Feather, FontAwesome5 } from '@expo/vector-icons';
 
+
 const Tab = createBottomTabNavigator()
 
 export default function TabNav() {
