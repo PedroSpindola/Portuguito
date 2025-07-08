@@ -18,8 +18,7 @@ export default function Battle({ route, navigation }) {
     }, [route.params?.hitSuccess]);
 
     const attackEnemy = () => {
-        const types = ["COMPLETE"];
-        // const types = ["VF", "MULTIPLE", "COMPLETE"];
+        const types = ["VF", "MULTIPLE", "COMPLETE"];
         const randomType = types[Math.floor(Math.random() * types.length)];
 
         switch (randomType) {

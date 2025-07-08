@@ -139,7 +139,6 @@ export default function QuestaoLacuna({ route, navigation }) {
                         style={[styles.confirmar, styles.btnAtivado]}
                         onPress={() => {
                             handleConfirm()
-                            setbtnRadioClicado(true);
                         }}
                     >
                         <Text style={styles.label}>Confirmar</Text>
