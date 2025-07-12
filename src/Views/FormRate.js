@@ -73,8 +73,6 @@ export default function AdicionarAvaliacao() {
     }
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <LinearGradient colors={['#D5D4FB', '#9B98FC']}
       style={Styles.gradient} >
@@ -92,12 +90,6 @@ export default function AdicionarAvaliacao() {
         </View>
 
         <Text style={Styles.frase}>Como está sendo sua experiência?</Text>
-
-        <View style={style.infoContainer}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <AntDesign name="infocirlceo" size={34} style={style.antDesign} />
-          </TouchableOpacity>
-        </View>
 
         <View style={style.inputContainer}>
           <Text style={Styles.txtInput}>Descrição:</Text>
@@ -131,20 +123,6 @@ export default function AdicionarAvaliacao() {
         <View>
           <Text style={Styles.txtAllert}>Em breve, você receberá nossa resposta por e-mail.</Text>
         </View>
-
-        {modalVisible && (
-          <View style={style.modalContainer}>
-            <View style={style.modalContent}>
-              <Text style={style.modalText}>
-                Em breve, você receberá nossa resposta por e-mail.
-              </Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={style.modalCloseButton}>Fechar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        )}
-
       </ScrollView>
     </LinearGradient>
   );
