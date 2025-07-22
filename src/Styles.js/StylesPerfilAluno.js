@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
     gradient: {
@@ -256,7 +258,7 @@ export default StyleSheet.create({
     },
     editIcon: {
         color: "#FFFFFF",
-        fontSize: 25,
+        fontSize: 27,
         padding: 7.5,
     },
     paginationButton: {
@@ -274,7 +276,7 @@ export default StyleSheet.create({
         borderRadius: 10,
         marginTop: 20,
         position: 'absolute',
-        left: 370,
+        left: width*0.95,
         top: 10,
     }
 })
