@@ -18,13 +18,15 @@ export default StyleSheet.create({
         left: width * 0.62,
     },
     rankingIconImage: {
+        marginTop: "20",
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
     },
     boxImageBoss: {
-        height: height * 0.25,
+        height: height * 0.30,
         width: width * 0.35,
+        top: height * 0.02,
         flex: 1,
         top: height>= 700 ? 0 : width *0.06,
     },
@@ -62,8 +64,8 @@ export default StyleSheet.create({
         bottom: height * 0.09,
     },
     faseIconImage: {
-        height: height * 0.06,
-        width: height * 0.06,
+        height: height * 0.065,
+        width: height * 0.065,
         position: 'absolute',
     },
     centerFaseIcon: {
@@ -91,9 +93,9 @@ export default StyleSheet.create({
         verticalAlign: "middle",
         fontWeight: "bold",
         color: '#604437',
-        fontSize: width * 0.03,
+        fontWeight:'bold',
+        fontSize: width * 0.04,
         fontFamily: 'Inder_400Regular',
-
     },
     divTela: {
         flex: 1,
@@ -135,5 +137,6 @@ export default StyleSheet.create({
         position: 'absolute',
         left: width>= 360 ? width * 0.27: width * 0.25,
         bottom: height >= 700 ? height * 0.52 : height * 0.47,
+
     },
 });
