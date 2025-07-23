@@ -111,12 +111,12 @@ export default StyleSheet.create({
     bottomPierLeft: {
         position: 'absolute',
         right: width>= 360? width * 0.41: width *0.35,
-        top: height >= 700 ? height * 0.56 : height * 0.53,
+        top: height >= 700 ? height * 0.58 : height * 0.53,
     },
     bottomPierRight: {
         position: 'absolute',
         left: width>= 360? width * 0.41: width *0.35,
-        top: height >= 700 ? height * 0.56 : height * 0.53,
+        top: height >= 700 ? height * 0.58 : height * 0.53,
     },
     centerPierLeft: {
         position: 'absolute',
