@@ -5,24 +5,24 @@ import { LinearGradient } from "expo-linear-gradient";
 import Markdown from "react-native-markdown-display";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { FIREBASE_APP } from "../../FirebaseConfig";
-import styles from "../QuestionStyles/StyleQuestaoCompletar";
+import styles from "../QuestionStyles/StyleQuestaoNumeroDe";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
-export default function QuestaoLacuna({ route, navigation }) {
+export default function QuestaoNumeroDe({ route, navigation }) {
     const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [inputText, setInputText] = useState("");
+    const [inputValue, setInputValue] = useState("");
     const [isExpanded, setIsExpanded] = useState(false);
 
     const db = getFirestore(FIREBASE_APP);
 
     useEffect(() => {
-        const fetchRandomQuestion = async () => {
+        const fetchQuestion = async () => {
             try {
-                const questoesRef = collection(db, "questoesComplete");
-                const snapshot = await getDocs(questoesRef);
+                const ref = collection(db, "questoesNumeroDe");
+                const snapshot = await getDocs(ref);
                 const total = snapshot.size;
                 if (total === 0) {
                     setQuestion(null);
@@ -30,30 +30,32 @@ export default function QuestaoLacuna({ route, navigation }) {
                     return;
                 }
                 const randomIndex = Math.floor(Math.random() * total);
-                const randomDoc = snapshot.docs[randomIndex];
-                const questaoData = randomDoc.data();
-                setQuestion(questaoData);
-                setLoading(false);
-            } catch (error) {
-                console.log("Erro ao buscar questão lacuna: ", error);
+                const doc = snapshot.docs[randomIndex];
+                setQuestion(doc.data());
+            } catch (err) {
+                console.error("Erro ao buscar questão:", err);
+            } finally {
                 setLoading(false);
             }
         };
 
-        fetchRandomQuestion();
+        fetchQuestion();
     }, []);
 
     const handleConfirm = () => {
-        if (!inputText.trim()) {
-            Alert.alert("Aviso", "Por favor, preencha a lacuna.");
+        if (!inputValue.trim()) {
+            Alert.alert("Resposta vazia", "Inira o número correspondente");
             return;
         }
 
-        const respostaUsuario = inputText.trim().toLowerCase();
-        const respostasValidas = question.possiveisLacunas.map(r => r.toLowerCase());
+        const parsed = parseInt(inputValue.trim(), 10);
 
-        const acertou = respostasValidas.includes(respostaUsuario);
+        if (isNaN(parsed)) {
+            Alert.alert("Erro", "Digite um número válido.");
+            return;
+        }
 
+        const acertou = parsed === question.numero;
         navigation.navigate("Battle", { faseInfo: faseInfo, acertou, character: character, currentFase });
     };
 
@@ -69,8 +71,7 @@ export default function QuestaoLacuna({ route, navigation }) {
         <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
             <View style={styles.container}>
                 <View style={styles.enunciado}>
-
-                    {question.urlImagem && question.urlImagem.startsWith('http') && (
+                    {question.urlImagem && question.urlImagem.startsWith("http") && (
                         <View style={styles.backgroundImagem}>
                             <TouchableOpacity onPress={() => setIsExpanded(true)}>
                                 <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader} />
@@ -80,7 +81,7 @@ export default function QuestaoLacuna({ route, navigation }) {
                                     contentFit="contain"
                                 />
                             </TouchableOpacity>
-                            {/* Modal imagem expandida */}
+
                             <Modal visible={isExpanded} transparent={true} animationType="fade">
                                 <View style={styles.modalContainer}>
                                     <TouchableOpacity onPress={() => setIsExpanded(false)}>
@@ -91,54 +92,26 @@ export default function QuestaoLacuna({ route, navigation }) {
                         </View>
                     )}
 
-                    <Markdown
-                        style={{
-                            body: {
-                                fontSize: 16,
-                                color: "#fff",
-                                padding: 10,
-                                fontFamily: "Inder_400Regular",
-                            },
-                        }}
+                    <Text
+                        style={styles.pergunta}
                     >
                         {question.pergunta}
-                    </Markdown>
-
-                </View>
-                <View style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 30, marginBottom: 10, alignItems: "center" }}>
-                    <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
-                        {question.preLacuna + " "}
                     </Text>
 
                     <TextInput
-                        style={{
-                            backgroundColor: "#fff",
-                            borderRadius: 8,
-                            paddingHorizontal: 10,
-                            paddingVertical: 5,
-                            fontSize: 16,
-                            minWidth: 100,
-                            color: "#000",
-                            fontFamily: "Inder_400Regular",
-                            alignSelf: "center", // alinha com o texto
-                        }}
-                        value={inputText}
-                        onChangeText={setInputText}
-                        placeholder="Digite aqui"
-                        autoCapitalize="none"
-                        autoCorrect={false}
+                        style={styles.input}
+                        keyboardType="numeric"
+                        value={inputValue}
+                        onChangeText={setInputValue}
+                        placeholder="0"
+                        maxLength={4}
                     />
-
-                    <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
-                        {" " + question.posLacuna}
-                    </Text>
                 </View>
-                <View style={styles.containerContinuar}>
+
+                <View style={{ marginTop: 30, alignItems: "center" }}>
                     <TouchableOpacity
-                        style={[styles.confirmar, styles.btnAtivado]}
-                        onPress={() => {
-                            handleConfirm()
-                        }}
+                        style={[styles.confirmar, { paddingHorizontal: 40, paddingVertical: 15 }]}
+                        onPress={handleConfirm}
                     >
                         <Text style={styles.label}>Confirmar</Text>
                     </TouchableOpacity>

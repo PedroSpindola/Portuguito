@@ -1,9 +1,12 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+
   container: {
     flex: 1,
-    backgroundColor: "#FFB9BD",
     padding: 20,
     justifyContent: "space-between",
     alignItems: "center",
@@ -44,9 +47,8 @@ export default StyleSheet.create({
   },
 
   imagemPersonagem: {
-    width: 180,
-    height: 180,
-    backgroundColor: '#F5505A',
+    width: 240,
+    height: 240,
     resizeMode: "contain",
   },
 
@@ -55,13 +57,20 @@ export default StyleSheet.create({
     fontSize: 20,
     fontFamily: "Inder_400Regular",
     color: "#FFFFFF",
-  },
+
+    textShadowColor: "#999999",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 4,
+  },  
 
   seta: {
+    backgroundColor: "#F5505A",
     fontSize: 36,
     fontWeight: "bold",
-    color: "#F5505A",
-    paddingHorizontal: 10,
+    color: "#FFFFFF",
+    paddingHorizontal: 14,
+    paddingBottom: 4,
+    borderRadius: 30,
   },
 
   botaoIniciar: {

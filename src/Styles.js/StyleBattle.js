@@ -18,6 +18,41 @@ export default StyleSheet.create({
 
     },
 
+    topBar: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 15,
+        paddingVertical: 14,
+        width: "100%"
+    },
+
+    statItem: {
+        width: 100,
+        height: 70,
+        borderRadius: 12,
+        borderWidth: 3,
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        flexDirection: "row",
+        gap: 10,
+
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+
+    statText: {
+        color: "#fff",
+        fontSize: 20,
+        fontWeight: "700",
+    },         
+
     box: {
         height: 500,
         width: 300,
@@ -89,9 +124,14 @@ export default StyleSheet.create({
     },
 
     boxImageImage: {
-        height: 120,
-        width: 120,
-        backgroundColor: '#F5505A',
+        height: 300,
+        width: 300,
+        resizeMode: "contain",
+    },
+    
+    boxImagePortuguita: {
+        height: 230,
+        width: 230,
         resizeMode: "contain",
     },
 

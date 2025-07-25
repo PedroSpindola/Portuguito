@@ -6,12 +6,12 @@ import Markdown from "react-native-markdown-display";
 import { ScrollView } from "react-native-gesture-handler";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { FIREBASE_APP } from "../../FirebaseConfig";
-import styles from "../ListaDeListas/styles";
+import styles from "../QuestionStyles/StyleQuestaoMultipla";
 import { RadioButtonGroup, RadioButtonItem } from "../Componentes/RadioButtonGroup";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function QuestaoMultipla({ route, navigation }) {
-    const { faseInfo } = route.params;
+    const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [showInitialAnimation, setShowInitialAnimation] = useState(true);
@@ -66,7 +66,7 @@ export default function QuestaoMultipla({ route, navigation }) {
     }, []);
 
     const handleConfirm = () => {
-        navigation.navigate("Battle", { faseInfo: faseInfo, acertou: selectedAnswer === question.respostaCorreta });
+        navigation.navigate("Battle", { faseInfo: faseInfo, acertou: selectedAnswer === question.respostaCorreta, character: character, currentFase });
     };
 
     return (

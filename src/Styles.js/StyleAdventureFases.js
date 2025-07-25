@@ -18,6 +18,41 @@ export default StyleSheet.create({
 
     },
 
+    topBar: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 15,
+        paddingVertical: 14,
+        width: "100%"
+    },
+
+    statItem: {
+        width: 100,
+        height: 70,
+        borderRadius: 12,
+        borderWidth: 3,
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 10,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        flexDirection: "row",
+        gap: 10,
+
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+      
+    statText: {
+        color: "#fff",
+        fontSize: 20,
+        fontWeight: "700",
+    },                  
+
     box: {
         height: 500,
         width: 300,
@@ -53,8 +88,8 @@ export default StyleSheet.create({
         width: '100%',
         flex: 1,
         position: 'absolute',
-        left: 80,
-        top: 20,
+        left: 40,
+        top: 40,
         flexDirection: 'row',
 
     },
@@ -64,7 +99,8 @@ export default StyleSheet.create({
         width: '100%',
         flex: 1,
         position: "absolute",
-        left: 150,
+        right: 50,
+        bottom: 50,
         flexDirection: 'row',
 
     },
@@ -74,8 +110,8 @@ export default StyleSheet.create({
         width: '100%',
         flex: 1,
         position: "absolute",
-        left: 80,
-        bottom: 20,
+        left: 200,
+        bottom: 120,
         flexDirection: 'row',
 
     },
@@ -91,7 +127,6 @@ export default StyleSheet.create({
     boxImageImage: {
         height: 120,
         width: 120,
-        backgroundColor: '#F5505A',
         resizeMode: "contain",
     },
 
@@ -123,6 +158,7 @@ export default StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
+        marginBottom: 10,
         backgroundColor: "#ff8c90",
         justifyContent: "center",
         alignItems: "center",

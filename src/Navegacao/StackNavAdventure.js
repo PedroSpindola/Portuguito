@@ -7,6 +7,7 @@ import Battle from "../Views/Battle";
 import QuestaoMultipla from "../ListaDeListas/QuestaoMultipla";
 import QuestaoVF from "../ListaDeListas/QuestaoVF";
 import QuestaoCompletar from "../ListaDeListas/QuestaoCompletar";
+import QuestaoNumeroDe from "../ListaDeListas/QuestaoNumeroDe";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,7 @@ export default function StackNavAdventure({ navigation, route }) {
       <Stack.Screen name="QuestaoMultipla" component={QuestaoMultipla} />
       <Stack.Screen name="QuestaoVF" component={QuestaoVF} />
       <Stack.Screen name="QuestaoCompletar" component={QuestaoCompletar} />
+      <Stack.Screen name="QuestaoNumeroDe" component={QuestaoNumeroDe} />
     </Stack.Navigator>
   );
 }
