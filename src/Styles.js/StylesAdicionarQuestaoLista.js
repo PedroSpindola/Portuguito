@@ -14,7 +14,7 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   inputContainer: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
