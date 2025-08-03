@@ -196,8 +196,8 @@ export default function PerfilAluno() {
   return (
 
     <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
-      <ScrollView>
-        <View style={Styles.container}>
+      
+        <ScrollView contentContainerStyle={Styles.container}>
           <IconModalThrophy
             iconColor={modalIconColor}
             description={modalDescription}
@@ -384,8 +384,8 @@ export default function PerfilAluno() {
             )
           }
 
-        </View>
-      </ScrollView>
+        </ScrollView>
+      
     </LinearGradient >
   );
 }

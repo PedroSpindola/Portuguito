@@ -62,7 +62,8 @@ export default StyleSheet.create({
         marginTop: 60,
         borderRadius: 10,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        textAlign: 'justify',
     },
     backgroundImagem: {
         backgroundColor: '#F54F59',
@@ -80,7 +81,7 @@ export default StyleSheet.create({
         width: '90%',
         left: 5,
         padding: 10,
-        textAlign: 'left',
+        textAlign: 'justify',
         fontFamily: 'Inder_400Regular',
     },
     resposta: {

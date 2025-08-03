@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+const {width, height} = Dimensions.get("window")
 
 export default StyleSheet.create({
     gradient: {
@@ -7,17 +8,19 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#D2D0FA",
-        alignItems: 'center',
+        alignItems:'center',
+        minHeight: height<700 ? height+200:null,
         paddingTop: '10%',
     },
     button: {
-        position: 'absolute',
+        position:  'absolute',
         bottom: 0,
         backgroundColor: "#FF6F6F",
         paddingVertical: 15,
         paddingHorizontal: 45,
         borderRadius: 10,
         marginBottom: 30,
+        
     },
     buttonText: {
         color: "#FFFFFF",
@@ -29,7 +32,8 @@ export default StyleSheet.create({
         width: '90%',
     },
     profileContainer: {
-        width: '64%',
+        width: width * 0.45,
+        transform: width<360?[{scale: 0.9}]: [{scale:1}],
         marginTop: 10,
         alignItems: 'center',
     },
@@ -75,6 +79,7 @@ export default StyleSheet.create({
     profileText: {
         color: "#FFFFFF",
         fontSize: 20,
+        width:width < 360? width*0.315 : null, 
         fontWeight: "bold",
     },
     textContainer: {
@@ -82,7 +87,7 @@ export default StyleSheet.create({
     },
     infoButton: {
         top: 3,
-        marginLeft: 8,
+        marginLeft: width<360? 0:4,
         height: 22,
         width: 22,
         borderRadius: 11,

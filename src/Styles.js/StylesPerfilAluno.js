@@ -11,6 +11,7 @@ export default StyleSheet.create({
         flex: 1,
         marginTop: 50,
         alignItems: 'center',
+        minHeight: height<700 ? height + 300: null
 
     },
 
