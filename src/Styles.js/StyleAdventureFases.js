@@ -46,12 +46,12 @@ export default StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
-      
+
     statText: {
         color: "#fff",
         fontSize: 20,
         fontWeight: "700",
-    },                  
+    },
 
     box: {
         height: 500,
@@ -187,5 +187,39 @@ export default StyleSheet.create({
         width: 100,
         height: 100,
     },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalContainer: {
+        width: '80%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    modalDescription: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    modalButton: {
+        backgroundColor: '#3498db',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+    modalButtonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+
 
 });
