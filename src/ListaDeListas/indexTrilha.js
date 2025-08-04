@@ -412,9 +412,11 @@ export default function QuestoesTrilha() {
       <ModalSad />
       <ModalEnd />
       <ModalUnlock />
-      <ScrollView>
+      
         {questoes && questoes[indice] && !showInitialAnimation ? (
+          
           <>
+          <ScrollView>
             <View style={styles.progressContainerInfo}>
               <Text style={styles.infoAcertos}>{acertos}</Text>
               <View style={styles.progressContainer}>
@@ -522,7 +524,7 @@ export default function QuestoesTrilha() {
               </View>
 
               <View style={styles.container}>
-                <ScrollView style={styles.questoes}>
+                <View style={styles.questoes}>
                   <RadioButtonGroup
                     selected={value}
                     onSelected={(value) => {
@@ -599,9 +601,10 @@ export default function QuestoesTrilha() {
                       <Text style={styles.label}>Confirmar</Text>
                     </TouchableOpacity>
                   </View>
-                </ScrollView>
+                </View>
               </View>
             </View>
+          </ScrollView>
           </>
         ) : (
           <View
@@ -620,7 +623,7 @@ export default function QuestoesTrilha() {
           </View>
 
         )}
-      </ScrollView>
+      
     </LinearGradient>
   );
 }
