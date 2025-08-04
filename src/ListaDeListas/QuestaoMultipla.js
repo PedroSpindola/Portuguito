@@ -11,7 +11,6 @@ import { RadioButtonGroup, RadioButtonItem } from "../Componentes/RadioButtonGro
 import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function QuestaoMultipla({ route, navigation }) {
-    const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [showInitialAnimation, setShowInitialAnimation] = useState(true);
@@ -66,7 +65,15 @@ export default function QuestaoMultipla({ route, navigation }) {
     }, []);
 
     const handleConfirm = () => {
-        navigation.navigate("Battle", { faseInfo: faseInfo, acertou: selectedAnswer === question.respostaCorreta, character: character, currentFase });
+        const acertou = selectedAnswer === question.respostaCorreta;
+
+        navigation.navigate("Battle", {
+            faseInfo: route.params.faseInfo,
+            characterInfo: route.params.character,
+            currentFase: route.params.currentFase,
+            hitSuccess: acertou,
+            enemyIndex: route.params.enemyIndex,
+        });
     };
 
     return (

@@ -1,11 +1,17 @@
-import React, { useEffect } from "react";
-import { View, Text, ImageBackground, TouchableOpacity, Image } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, Text, ImageBackground, TouchableOpacity, Image, BackHandler, Alert } from "react-native";
 import Styles from "../Styles.js/StyleBattle.js";
 import { Ionicons } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function Battle({ route, navigation }) {
-    const { faseInfo, acertou, character, currentFase } = route.params;
+    const { faseInfo, characterInfo, currentFase } = route.params;
 
+    const [enemies, setEnemies] = useState(
+        faseInfo.map(e => ({ ...e, vidaMax: e.vida }))
+    );
+    const [character, setCharacter] = useState(characterInfo);
+    
     const backgrounds = [
         require("../Imagens/adventure/area1background2.png"),
         require("../Imagens/adventure/area2background1.png"),
@@ -17,33 +23,93 @@ export default function Battle({ route, navigation }) {
         extraTime: { bg: "#3498db", border: "#2a75b0" },
     };
 
-    useEffect(() => {
-        if (route.params?.hitSuccess !== undefined) {
+    useFocusEffect (
+        useCallback(() => {
+            const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
+                Alert.alert(
+                    "Sair da Batalha",  
+                    "Tem certeza de que deseja abandonar a batalha? Você perderá todo o progresso da aventura.",
+                    [
+                        { text: "Cancelar", style: "cancel" },
+                        {
+                            text: "Abandonar Aventura",
+                            style: "destructive",
+                            onPress: () => navigation.navigate("MenuAdventure", {
+                                screen: "MenuAdventure ",
+                            })
+                        },
+                    ]
+                );
+                return true;
+            });
+
+            return () => backHandler.remove();
+        }, [])
+    );
+       
+    useEffect(() => { 
+        if (route.params?.hitSuccess !== undefined && route.params?.enemyIndex !== undefined) {
+            const index = route.params.enemyIndex;
+            const updatedEnemies = [...enemies];
+
             if (route.params.hitSuccess) {
-                console.log("Resposta correta! Aplicar dano.");
+                updatedEnemies[index].vida -= character.damage;
             } else {
-                console.log("Resposta incorreta! Sem dano.");
+                setCharacter(prev => ({
+                    ...prev,
+                    life: prev.life - updatedEnemies[index].dano
+                }));
             }
+
+            const filteredEnemies = updatedEnemies.filter(enemy => enemy.vida > 0);
+            setEnemies(filteredEnemies);
+
+            navigation.setParams({ hitSuccess: undefined, enemyIndex: undefined });
         }
     }, [route.params?.hitSuccess]);
 
-    const attackEnemy = () => {
+    useEffect(() => {
+        if (character.life <= 0) {
+            navigation.navigate("LoseAdventure", { fase: currentFase });
+        } else if (enemies.length === 0) {
+            navigation.navigate("WinAdventure", { characterInfo: character, nextFase: currentFase + 1 });
+        }
+    }, [character.life, enemies]);
+
+    const attackEnemy = (index) => {
         const types = ["NumeroDe", "VF", "Multipla", "Completar"];
         const randomType = types[Math.floor(Math.random() * types.length)];
-        navigation.navigate(`Questao${randomType}`, { faseInfo, character, currentFase });
+
+        navigation.navigate(`Questao${randomType}`, {
+            faseInfo,
+            character,
+            currentFase,
+            enemyIndex: index,
+        })
     };
 
-    const Enemy = ({ enemy }) => (
-        <TouchableOpacity style={Styles.boxImageButton} onPress={attackEnemy}>
-            <Image
-                style={Styles.boxImageImage}
-                source={ enemy.imagem }
-            />
-            <Text style={Styles.boxImageButtonText}>
-                Vida: {enemy.vida} | Dano: {enemy.dano}
-            </Text>
-        </TouchableOpacity>
-    );    
+    const Enemy = ({ enemy, index }) => {
+        const positions = [
+            { top: 70, right: 45 },
+            { top: 200, right: 150 },
+            { top: 260, right: -50 },
+        ];
+
+        const vidaPercent = Math.max(0, (enemy.vida / enemy.vidaMax) * 100);
+
+        return (
+            <TouchableOpacity
+                style={[Styles.boxImageButton, { position: 'absolute', ...positions[index] }]}
+                onPress={() => attackEnemy(index)}
+            >
+                <Image style={Styles.boxImageImage} source={enemy.imagem} />  
+
+                <View style={Styles.lifeBarContainer}>
+                    <View style={[Styles.lifeBarFill, { width: `${vidaPercent}%` }]} />
+                </View>
+            </TouchableOpacity>
+        );
+    };
 
     const getBackground = () => {
         if (currentFase >= 4) {
@@ -52,7 +118,7 @@ export default function Battle({ route, navigation }) {
         }
         return require("../Imagens/adventure/area1background2.png");
     };
-    
+
 
     return (
         <ImageBackground
@@ -93,12 +159,9 @@ export default function Battle({ route, navigation }) {
 
             <View style={Styles.box}>
                 <View style={Styles.AjustItens_center}>
-                    <View style={Styles.boxImage}>
-                        {faseInfo.map((enemy, index) => (
-                            <Enemy
-                                key={index}
-                                enemy={enemy}
-                            />
+                    <View style={[Styles.boxImage, { position: 'relative', height: 300 }]}>
+                        {enemies.map((enemy, index) => (
+                            <Enemy key={index} enemy={enemy} index={index} />
                         ))}
                     </View>
                 </View>
@@ -115,5 +178,5 @@ export default function Battle({ route, navigation }) {
                 </View>
             </View>
         </ImageBackground>
-    );    
+    );
 }

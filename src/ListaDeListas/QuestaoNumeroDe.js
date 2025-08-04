@@ -9,7 +9,6 @@ import styles from "../QuestionStyles/StyleQuestaoNumeroDe";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function QuestaoNumeroDe({ route, navigation }) {
-    const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -56,7 +55,14 @@ export default function QuestaoNumeroDe({ route, navigation }) {
         }
 
         const acertou = parsed === question.numero;
-        navigation.navigate("Battle", { faseInfo: faseInfo, acertou, character: character, currentFase });
+        
+        navigation.navigate("Battle", {
+            faseInfo: route.params.faseInfo,
+            characterInfo: route.params.character,
+            currentFase: route.params.currentFase,
+            hitSuccess: acertou,
+            enemyIndex: route.params.enemyIndex,
+        });
     };
 
     if (loading) {

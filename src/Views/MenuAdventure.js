@@ -50,7 +50,7 @@ export default function MenuAdventure() {
           onPress={() =>
             navigation.navigate("AdventureFases", {
               screen: "AdventureFases",
-              character: characters['portuguita'],
+              characterInfo: characters['portuguita'],
               currentFase: 1,
             })
           }>

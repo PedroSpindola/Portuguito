@@ -192,4 +192,20 @@ export default StyleSheet.create({
         height: 100,
     },
 
+    lifeBarContainer: {
+        width: 80,
+        height: 8,
+        backgroundColor: '#ccc',
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 4,
+        bottom: 60,
+        overflow: 'hidden',
+    },
+
+    lifeBarFill: {
+        height: '100%',
+        backgroundColor: '#27ae60',
+    },
+
 });

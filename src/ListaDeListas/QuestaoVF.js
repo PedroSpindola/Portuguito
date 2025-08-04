@@ -9,7 +9,6 @@ import styles from "../QuestionStyles/StyleQuestaoVF";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function QuestaoVF({ route, navigation }) {
-    const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [showInitialAnimation, setShowInitialAnimation] = useState(true);
@@ -62,8 +61,14 @@ export default function QuestaoVF({ route, navigation }) {
     }, []);
 
     const handleAnswer = (answer) => {
-        const acertou = answer === question.respostaCorreta;
-        navigation.navigate("Battle", { faseInfo: faseInfo, acertou, character: character, currentFase });
+        const acertou = answer === question.resposta;
+        navigation.navigate("Battle", {
+            faseInfo: route.params.faseInfo,
+            characterInfo: route.params.character,
+            currentFase: route.params.currentFase,
+            hitSuccess: acertou,
+            enemyIndex: route.params.enemyIndex,
+        });
     };
 
     return (
@@ -127,7 +132,7 @@ export default function QuestaoVF({ route, navigation }) {
                                 borderRadius: 12,
                                 alignItems: "center",
                             }}
-                            onPress={() => handleAnswer("V")}
+                            onPress={() => handleAnswer(true)}
                         >
                             <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>Verdadeiro</Text>
                         </TouchableOpacity>
@@ -140,7 +145,7 @@ export default function QuestaoVF({ route, navigation }) {
                                 borderRadius: 12,
                                 alignItems: "center",
                             }}
-                            onPress={() => handleAnswer("F")}
+                            onPress={() => handleAnswer(false)}
                         >
                             <Text style={{ color: "#fff", fontSize: 18, fontWeight: "bold" }}>Falso</Text>
                         </TouchableOpacity>

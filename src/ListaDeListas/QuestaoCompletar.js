@@ -9,7 +9,6 @@ import styles from "../QuestionStyles/StyleQuestaoCompletar";
 import LoadingScreen from "../Componentes/LoadingScreen";
 
 export default function QuestaoLacuna({ route, navigation }) {
-    const { faseInfo, character, currentFase } = route.params;
 
     const [question, setQuestion] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -54,7 +53,13 @@ export default function QuestaoLacuna({ route, navigation }) {
 
         const acertou = respostasValidas.includes(respostaUsuario);
 
-        navigation.navigate("Battle", { faseInfo: faseInfo, acertou, character: character, currentFase });
+        navigation.navigate("Battle", {
+            faseInfo: route.params.faseInfo,
+            characterInfo: route.params.character,
+            currentFase: route.params.currentFase,
+            hitSuccess: acertou,
+            enemyIndex: route.params.enemyIndex,
+        });
     };
 
     if (loading) {
