@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, BackHandler, FlatList, Modal } from "react-native";
+import { View, Text, TouchableOpacity, BackHandler, FlatList, Modal, ScrollView } from "react-native";
 import Styles from "../Styles.js/ProfileImageStyles.js";
 import stylesModalIcon from "../Styles.js/StylesModalIcon";
 import { useNavigation } from "@react-navigation/native";
@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ActivityIndicator } from "react-native";
+
 
 export default function ProfileImage() {
     const db = getFirestore(FIREBASE_APP);
@@ -329,7 +330,9 @@ export default function ProfileImage() {
 
     return (
         <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={Styles.gradient}>
-            <View style={Styles.container}>
+        
+            
+            <ScrollView contentContainerStyle={Styles.container}>
                 <IconModalProfile
                     title={modalProfileTitle}
                     image={modalProfileImage}
@@ -354,6 +357,7 @@ export default function ProfileImage() {
                                     />
                                 )}
                             />
+                            
                             < TouchableOpacity
                                 style={Styles.button}
                                 onPress={() => {
@@ -364,10 +368,10 @@ export default function ProfileImage() {
                             </TouchableOpacity>
                         </>
                     )
+                   
                 }
-
-
-            </View >
+                
+            </ScrollView >
         </LinearGradient>
     );
 }
