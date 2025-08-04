@@ -7,6 +7,8 @@ import {
     Image,
     Alert,
     BackHandler,
+    Modal,
+    Pressable,
 } from "react-native";
 import Styles from "../Styles.js/StyleAdventureFases.js";
 import { useNavigation, useRoute, useFocusEffect } from "@react-navigation/native";
@@ -22,6 +24,12 @@ export default function AdventureFases() {
     const fasesPerPage = 3;
     const totalFases = 6;
 
+    // Estados dos modais
+    const [modalVisible, setModalVisible] = useState({
+        life: false,
+        damage: false,
+        extraTime: false
+    });
 
     const backgrounds = [
         require("../Imagens/adventure/area1background1.png"),
@@ -93,9 +101,7 @@ export default function AdventureFases() {
                             {unlocked ? (
                                 <FreeFased
                                     txt={faseNumber}
-                                    faseInfo={
-                                        enemies[faseNumber - 1]
-                                    }                                      
+                                    faseInfo={enemies[faseNumber - 1]}
                                     character={character}
                                     currentFase={currentFase}
                                 />
@@ -110,41 +116,68 @@ export default function AdventureFases() {
         return fases;
     };
 
+    const renderModal = (type, description) => (
+        <Modal
+            transparent
+            visible={modalVisible[type]}
+            animationType="fade"
+            onRequestClose={() => setModalVisible(prev => ({ ...prev, [type]: false }))}
+        >
+            <View style={Styles.modalOverlay}>
+                <View style={Styles.modalContainer}>
+                    <Text style={Styles.modalTitle}>
+                        {type === 'life' ? 'Vida' : type === 'damage' ? 'Dano' : 'Tempo Extra'}
+                    </Text>
+                    <Text style={Styles.modalDescription}>{description}</Text>
+                    <Pressable
+                        style={Styles.modalButton}
+                        onPress={() => setModalVisible(prev => ({ ...prev, [type]: false }))}
+                    >
+                        <Text style={Styles.modalButtonText}>Fechar</Text>
+                    </Pressable>
+                </View>
+            </View>
+        </Modal>
+    );
+
     return (
         <ImageBackground
             style={Styles.imageAjust}
             source={backgrounds[page] || backgrounds[0]}
         >
             <View style={Styles.topBar}>
-                <View
+                <TouchableOpacity
                     style={[
                         Styles.statItem,
                         { backgroundColor: colors.life.bg, borderColor: colors.life.border },
                     ]}
+                    onPress={() => setModalVisible(prev => ({ ...prev, life: true }))}
                 >
                     <Text style={Styles.statText}>{character.life}</Text>
                     <Ionicons name="heart" size={30} color="#fff" style={{ marginLeft: 8 }} />
-                </View>
+                </TouchableOpacity>
 
-                <View
+                <TouchableOpacity
                     style={[
                         Styles.statItem,
                         { backgroundColor: colors.damage.bg, borderColor: colors.damage.border },
                     ]}
+                    onPress={() => setModalVisible(prev => ({ ...prev, damage: true }))}
                 >
                     <Text style={Styles.statText}>{character.damage}</Text>
                     <Ionicons name="flame" size={30} color="#fff" style={{ marginLeft: 8 }} />
-                </View>
+                </TouchableOpacity>
 
-                <View
+                <TouchableOpacity
                     style={[
                         Styles.statItem,
                         { backgroundColor: colors.extraTime.bg, borderColor: colors.extraTime.border },
                     ]}
+                    onPress={() => setModalVisible(prev => ({ ...prev, extraTime: true }))}
                 >
                     <Text style={Styles.statText}>{character.extraTime}s</Text>
                     <Ionicons name="time" size={30} color="#fff" style={{ marginLeft: 8 }} />
-                </View>
+                </TouchableOpacity>
             </View>
 
             {renderFases()}
@@ -171,6 +204,10 @@ export default function AdventureFases() {
                     </TouchableOpacity>
                 )}
             </View>
+
+            {renderModal('life', 'Vida representa quantos pontos de vida seu personagem possui. Se chegar a zero, ele é derrotado.')}
+            {renderModal('damage', 'Dano é o quanto de dano seu personagem causa aos inimigos em cada ataque.')}
+            {renderModal('extraTime', 'Tempo Extra é o tempo adicional que você tem para responder durante as batalhas.')}
         </ImageBackground>
     );
 }
