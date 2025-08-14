@@ -5,7 +5,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 
 export default function Battle({ route, navigation }) {
-    const { faseInfo, characterInfo, currentFase } = route.params;
+    const { faseInfo, characterInfo, currentFase, page } = route.params;
+
+    const [pages, setPages] = useState(page);
 
     const [enemies, setEnemies] = useState(
         faseInfo.map(e => ({ ...e, vidaMax: e.vida }))
@@ -14,7 +16,11 @@ export default function Battle({ route, navigation }) {
     
     const backgrounds = [
         require("../Imagens/adventure/area1background2.png"),
-        require("../Imagens/adventure/area2background1.png"),
+        require("../Imagens/adventure/area2background2.png"),
+        require("../Imagens/adventure/area3background2.png"),
+        require("../Imagens/adventure/area4background2.png"),
+        require("../Imagens/adventure/area5background2.png"),
+        require("../Imagens/adventure/area6background2.png"),
     ];
 
     const colors = {
@@ -111,19 +117,11 @@ export default function Battle({ route, navigation }) {
         );
     };
 
-    const getBackground = () => {
-        if (currentFase >= 4) {
-            return require("../Imagens/adventure/area2background1.png");
-
-        }
-        return require("../Imagens/adventure/area1background2.png");
-    };
-
 
     return (
         <ImageBackground
             style={Styles.imageAjust}
-            source={getBackground()}
+            source={backgrounds[pages] || backgrounds[0]}
         >
             <View style={Styles.topBar}>
                 <View
@@ -172,7 +170,7 @@ export default function Battle({ route, navigation }) {
                     <View style={Styles.boxImage}>
                         <Image
                             style={Styles.boxImagePortuguita}
-                            source={require('../Imagens/adventure/portuguitaBack.png')}
+                            source={characterInfo.imagemBack}
                         />
                     </View>
                 </View>

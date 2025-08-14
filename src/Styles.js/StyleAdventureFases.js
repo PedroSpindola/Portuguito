@@ -125,14 +125,14 @@ export default StyleSheet.create({
     },
 
     boxImageImage: {
-        height: 120,
-        width: 120,
+        height: 260,
+        width: 260,
         resizeMode: "contain",
     },
 
     boxImageButton: {
-        height: 120,
-        width: 120,
+        height: 260,
+        width: 260,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -141,7 +141,11 @@ export default StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         position: 'absolute',
-        top: 94,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        backgroundColor: "rgba(255, 140, 144, 0.5)",
+        top: 180,
         fontFamily: 'Inder_400Regular',
 
     },
@@ -159,7 +163,7 @@ export default StyleSheet.create({
         height: 50,
         borderRadius: 25,
         marginBottom: 10,
-        backgroundColor: "#ff8c90",
+        backgroundColor: "rgba(255, 140, 144, 0.5)",
         justifyContent: "center",
         alignItems: "center",
     },
