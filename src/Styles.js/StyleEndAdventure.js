@@ -33,4 +33,11 @@ export default StyleSheet.create({
         fontSize: 20,
         fontFamily: 'Inder_400Regular',
     },
+    coinsText: {
+        marginBottom: 20,
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Inder_400Regular',
+    },
 })

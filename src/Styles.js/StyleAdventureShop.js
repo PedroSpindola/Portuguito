@@ -89,4 +89,22 @@ export default StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
     },
+    buyButton: {
+        backgroundColor: "#FF6F6F",
+        marginTop: 7,
+        padding: 7,
+        borderRadius: 7,
+    },
+    buyButtonText: {
+        color: "#FFFFFF",
+    },
+    unlockButton: {
+        backgroundColor: "#4CAF50", 
+        marginTop: 7,
+        padding: 7,
+        borderRadius: 7,
+    },
+    unlockButtonText: {
+        color: "#FFFFFF",
+    },
 });

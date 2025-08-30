@@ -49,7 +49,7 @@ export default [
                 enemies: [
                     {
                         vida: 10,
-                        dano: 2,
+                        dano: 5,
                         imagem: require('../Imagens/adventure/boss1.png')
                     }
                 ]
@@ -72,41 +72,41 @@ export default [
             { top: 260, right: -50 },
             { top: 200, right: 150 },
         ],
-        tempoDecrescido: 4,
+        tempoDecrescido: 5,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion2.png')
-                    }
-                ]
-            },
-            {
-                enemies: [
-                    {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion2.png')
-                    },
-                    {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion2.png')
-                    },
-                    {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion2.png')
-                    }
-                ]
-            },
-            {
-                enemies: [
-                    {
-                        vida: 15,
+                        vida: 3,
                         dano: 3,
+                        imagem: require('../Imagens/adventure/minion2.png')
+                    }
+                ]
+            },
+            {
+                enemies: [
+                    {
+                        vida: 3,
+                        dano: 3,
+                        imagem: require('../Imagens/adventure/minion2.png')
+                    },
+                    {
+                        vida: 3,
+                        dano: 3,
+                        imagem: require('../Imagens/adventure/minion2.png')
+                    },
+                    {
+                        vida: 3,
+                        dano: 3,
+                        imagem: require('../Imagens/adventure/minion2.png')
+                    }
+                ]
+            },
+            {
+                enemies: [
+                    {
+                        vida: 20,
+                        dano: 8,
                         imagem: require('../Imagens/adventure/boss2.png')
                     }
                 ]
@@ -129,13 +129,13 @@ export default [
             { top: 280, right: -50 },
             { top: 220, right: 150 },
         ],
-        tempoDecrescido: 8,
+        tempoDecrescido: 10,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 5,
+                        dano: 5,
                         imagem: require('../Imagens/adventure/minion3.png')
                     }
                 ]
@@ -143,18 +143,18 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 5,
+                        dano: 5,
                         imagem: require('../Imagens/adventure/minion3.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 5,
+                        dano: 5,
                         imagem: require('../Imagens/adventure/minion3.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 5,
+                        dano: 5,
                         imagem: require('../Imagens/adventure/minion3.png')
                     }
                 ]
@@ -162,8 +162,8 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 15,
-                        dano: 3,
+                        vida: 24,
+                        dano: 10,
                         imagem: require('../Imagens/adventure/boss3.png')
                     }
                 ]
@@ -186,13 +186,13 @@ export default [
             { top: 290, right: -50 },
             { top: 300, right: 150 },
         ],
-        tempoDecrescido: 12,
+        tempoDecrescido: 15,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 8,
+                        dano: 6,
                         imagem: require('../Imagens/adventure/minion4.png')
                     }
                 ]
@@ -200,18 +200,18 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 8,
+                        dano: 6,
                         imagem: require('../Imagens/adventure/minion4.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 8,
+                        dano: 6,
                         imagem: require('../Imagens/adventure/minion4.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 8,
+                        dano: 6,
                         imagem: require('../Imagens/adventure/minion4.png')
                     }
                 ]
@@ -219,8 +219,8 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 15,
-                        dano: 3,
+                        vida: 35,
+                        dano: 12,
                         imagem: require('../Imagens/adventure/boss4.png')
                     }
                 ]
@@ -243,13 +243,13 @@ export default [
             { top: 260, right: -50 },
             { top: 200, right: 150 },
         ],
-        tempoDecrescido: 16,
+        tempoDecrescido: 20,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 10,
+                        dano: 8,
                         imagem: require('../Imagens/adventure/minion5.png')
                     }
                 ]
@@ -257,18 +257,18 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 10,
+                        dano: 8,
                         imagem: require('../Imagens/adventure/minion5.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 10,
+                        dano: 8,
                         imagem: require('../Imagens/adventure/minion5.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 10,
+                        dano: 8,
                         imagem: require('../Imagens/adventure/minion5.png')
                     }
                 ]
@@ -276,8 +276,8 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 15,
-                        dano: 3,
+                        vida: 50,
+                        dano: 16,
                         imagem: require('../Imagens/adventure/boss5.png')
                     }
                 ]
@@ -300,32 +300,13 @@ export default [
             { top: 260, right: -70 },
             { top: 240, right: 170 },
         ],
-        tempoDecrescido: 20,
+        tempoDecrescido: 25,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion6.png')
-                    }
-                ]
-            },
-            {
-                enemies: [
-                    {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion6.png')
-                    },
-                    {
-                        vida: 2,
-                        dano: 2,
-                        imagem: require('../Imagens/adventure/minion6.png')
-                    },
-                    {
-                        vida: 2,
-                        dano: 2,
+                        vida: 15,
+                        dano: 10,
                         imagem: require('../Imagens/adventure/minion6.png')
                     }
                 ]
@@ -334,7 +315,26 @@ export default [
                 enemies: [
                     {
                         vida: 15,
-                        dano: 3,
+                        dano: 10,
+                        imagem: require('../Imagens/adventure/minion6.png')
+                    },
+                    {
+                        vida: 15,
+                        dano: 10,
+                        imagem: require('../Imagens/adventure/minion6.png')
+                    },
+                    {
+                        vida: 15,
+                        dano: 10,
+                        imagem: require('../Imagens/adventure/minion6.png')
+                    }
+                ]
+            },
+            {
+                enemies: [
+                    {
+                        vida: 70,
+                        dano: 20,
                         imagem: require('../Imagens/adventure/boss6.png')
                     }
                 ]
@@ -357,13 +357,13 @@ export default [
             { top: 260, right: -70 },
             { top: 240, right: 170 },
         ],
-        tempoDecrescido: 24,
+        tempoDecrescido: 30,
         fases: [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 20,
+                        dano: 15,
                         imagem: require('../Imagens/adventure/minion7.png')
                     }
                 ]
@@ -371,18 +371,18 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 20,
+                        dano: 15,
                         imagem: require('../Imagens/adventure/minion7.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 20,
+                        dano: 15,
                         imagem: require('../Imagens/adventure/minion7.png')
                     },
                     {
-                        vida: 2,
-                        dano: 2,
+                        vida: 20,
+                        dano: 15,
                         imagem: require('../Imagens/adventure/minion7.png')
                     }
                 ]
@@ -390,8 +390,8 @@ export default [
             {
                 enemies: [
                     {
-                        vida: 15,
-                        dano: 3,
+                        vida: 100,
+                        dano: 28,
                         imagem: require('../Imagens/adventure/boss7.png')
                     }
                 ]

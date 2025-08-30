@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -33,6 +33,13 @@ export default function AdventureFases() {
         damage: { bg: "rgba(255, 128, 49, 1)", border: "#d67119ff" },
         extraTime: { bg: "#3498db", border: "#2a75b0" },
     };
+
+    useEffect(() => {
+        navigation.navigate("ItemShop", {
+            characterInfo,
+            currentFase
+        });
+    }, [currentFase]);
 
     useFocusEffect(
         useCallback(() => {

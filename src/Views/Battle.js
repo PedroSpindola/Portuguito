@@ -69,7 +69,6 @@ export default function Battle({ route, navigation }) {
         if (character.life <= 0) {
             navigation.navigate("LoseAdventure", { fase: faseNumber });
         } else if (enemies.length === 0) {
-            console.log(faseNumber + 1)
             if (faseNumber + 1 >= 22) {
                 navigation.navigate("WinAndEndAdventure");
             } else {

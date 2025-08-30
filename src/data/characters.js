@@ -3,7 +3,7 @@ export default {
   portuguita: {
     name: "Portuguita",
     life: 10,
-    damage: 2,
+    damage: 1,
     extraTime: 0,
     description: "Aventureira Inicial",
     price: 0,
@@ -12,8 +12,8 @@ export default {
   },
   papaituguito: {
     name: "Papaituguito",
-    life: 12,
-    damage: 3,
+    life: 14,
+    damage: 2,
     extraTime: 0,
     description: "Pai da Portuguita",
     price: 200,
@@ -22,21 +22,21 @@ export default {
   },
   porturei: {
     name: "Porturei",
-    life: 15,
+    life: 20,
     damage: 4,
-    extraTime: 0,
+    extraTime: 4,
     description: "Rei do Império Portuguito",
-    price: 1500,
+    price: 500,
     imagemFront: require("../Imagens/adventure/portureiFront.png"),
     imagemBack: require("../Imagens/adventure/portureiBack.png")
   },
   vilatuguita: {
     name: "Vilãtuguita",
-    life: 18,
-    damage: 500,
-    extraTime: 100,
+    life: 12,
+    damage: 8,
+    extraTime: 4,
     description: "Inimiga da Portuguita",
-    price: 3000,
+    price: 500,
     imagemFront: require("../Imagens/adventure/vilatuguitaFront.png"),
     imagemBack: require("../Imagens/adventure/vilatuguitaBack.png")
   }
