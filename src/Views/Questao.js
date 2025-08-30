@@ -128,18 +128,10 @@ export default function Questao() {
                             </Modal>
 
                         </View>
+                        
                         <Markdown
                             style={{
-                                body: {
-                                    fontSize: 16,
-                                    color: "#fff",
-                                    top: 0,
-                                    width: "90%",
-                                    left: 5,
-                                    padding: 5,
-                                    textAlign: "left",
-                                    fontFamily: "Inder_400Regular",
-                                },
+                                body: styles.txtEnunciado
                             }}
                         >
                             {question.pergunta}

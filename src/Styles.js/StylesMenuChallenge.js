@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions } from "react-native";
 // Pega largura e altura da tela do dispositivo
 const { width, height } = Dimensions.get("window");
 
+
 export default StyleSheet.create({
     imageAjust: {
         flex: 1,
@@ -13,18 +14,21 @@ export default StyleSheet.create({
         position: "absolute",
         width: width * 0.5,
         height: width * 0.44,
-        bottom: height * 0.87,
+        bottom:  height >= 700 ? height * 0.87 : height * 0.77,
         left: width * 0.62,
     },
     rankingIconImage: {
+        marginTop: "20",
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
     },
     boxImageBoss: {
-        height: height * 0.25,
+        height: height * 0.30,
         width: width * 0.35,
+        top: height * 0.02,
         flex: 1,
+        top: height>= 700 ? 0 : width *0.06,
     },
     boxLastDay: {
         position: 'absolute',
@@ -60,13 +64,14 @@ export default StyleSheet.create({
         bottom: height * 0.09,
     },
     faseIconImage: {
-        height: height * 0.06,
-        width: height * 0.06,
+        height: height * 0.065,
+        width: height * 0.065,
         position: 'absolute',
     },
     centerFaseIcon: {
         marginTop: height * 0.01,
-        marginRight: width * 0.1,
+        marginLeft: width * 0.22,
+        bottom: height>= 700 ?height*0.11: height*0.07,
     },
     rightFaseIcon: {
         left: width * -0.04,
@@ -81,13 +86,15 @@ export default StyleSheet.create({
         top: height * -0.056,
     },
     faseIconText: {
-        height: height * 0.06,
-        width: width * 0.12,
+        height: height * 0.056,
+        width: width * 0.125,
         position: 'absolute',
         textAlign: 'center',
         verticalAlign: "middle",
+        fontWeight: "bold",
         color: '#604437',
-        fontSize: width * 0.03,
+        fontWeight:'bold',
+        fontSize: width * 0.04,
         fontFamily: 'Inder_400Regular',
     },
     divTela: {
@@ -103,32 +110,33 @@ export default StyleSheet.create({
     // Barcos/Píers posicionados proporcionalmente
     bottomPierLeft: {
         position: 'absolute',
-        right: width * 0.41,
-        top: height * 0.58,
+        right: width>= 360? width * 0.41: width *0.35,
+        top: height >= 700 ? height * 0.58 : height * 0.53,
     },
     bottomPierRight: {
         position: 'absolute',
-        left: width * 0.42,
-        top: height * 0.57,
+        left: width>= 360? width * 0.41: width *0.35,
+        top: height >= 700 ? height * 0.58 : height * 0.53,
     },
     centerPierLeft: {
         position: 'absolute',
-        right: width * 0.34,
-        bottom: height * 0.46,
+        right: width>= 360 ?width * 0.34: width * 0.3,
+        bottom: height >= 700 ? height * 0.42 : height * 0.37,
     },
     centerPierRight: {
         position: 'absolute',
-        left: width * 0.35,
-        bottom: height * 0.46,
+        left: width>= 360 ?width * 0.35: width * 0.3,
+        bottom: height >= 700 ? height * 0.42 : height * 0.37,
     },
     topPierLeft: {
         position: 'absolute',
-        right: width * 0.27,
-        bottom: height * 0.58,
+        right: width>= 360 ? width * 0.27: width * 0.25,
+        bottom: height >= 700 ? height * 0.52 : height * 0.47,
     },
     topPierRight: {
         position: 'absolute',
-        left: width * 0.27,
-        bottom: height * 0.58,
+        left: width>= 360 ? width * 0.27: width * 0.25,
+        bottom: height >= 700 ? height * 0.52 : height * 0.47,
+
     },
 });
