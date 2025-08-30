@@ -33,7 +33,8 @@ export default StyleSheet.create({
         marginLeft: 5,
     },
     section: {
-        marginBottom: 20,
+        marginHorizontal: 5,
+        marginVertical: 20,
     },
     sectionTitle: {
         color: "#FFFFFF",

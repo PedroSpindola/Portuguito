@@ -33,8 +33,8 @@ export default {
   vilatuguita: {
     name: "Vilãtuguita",
     life: 18,
-    damage: 5,
-    extraTime: 0,
+    damage: 500,
+    extraTime: 100,
     description: "Inimiga da Portuguita",
     price: 3000,
     imagemFront: require("../Imagens/adventure/vilatuguitaFront.png"),

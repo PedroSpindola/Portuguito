@@ -9,6 +9,7 @@ import QuestaoVF from "../ListaDeListas/QuestaoVF";
 import QuestaoCompletar from "../ListaDeListas/QuestaoCompletar";
 import QuestaoNumeroDe from "../ListaDeListas/QuestaoNumeroDe";
 import WinAdventure from "../Views/WinAdventure";
+import WinAndEndAdventure from "../Views/WinAndEndAdventure";
 import LoseAdventure from "../Views/LoseAdventure";
 import AdventureShop from "../Views/AdventureShop";
 
@@ -33,6 +34,7 @@ export default function StackNavAdventure({ navigation, route }) {
       <Stack.Screen name="QuestaoCompletar" component={QuestaoCompletar} />
       <Stack.Screen name="QuestaoNumeroDe" component={QuestaoNumeroDe} />
       <Stack.Screen name="WinAdventure" component={WinAdventure} />
+      <Stack.Screen name="WinAndEndAdventure" component={WinAndEndAdventure} />
       <Stack.Screen name="LoseAdventure" component={LoseAdventure} />
     </Stack.Navigator>
   );

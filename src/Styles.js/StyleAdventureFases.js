@@ -83,39 +83,6 @@ export default StyleSheet.create({
         flexDirection: 'row',
     },
 
-    AjustItens_high: {
-        height: '100%',
-        width: '100%',
-        flex: 1,
-        position: 'absolute',
-        left: 40,
-        top: 40,
-        flexDirection: 'row',
-
-    },
-
-    AjustItens_center: {
-        height: '100%',
-        width: '100%',
-        flex: 1,
-        position: "absolute",
-        right: 50,
-        bottom: 50,
-        flexDirection: 'row',
-
-    },
-
-    AjustItens_low: {
-        height: '100%',
-        width: '100%',
-        flex: 1,
-        position: "absolute",
-        left: 200,
-        bottom: 120,
-        flexDirection: 'row',
-
-    },
-
     boxImage: {
         height: '100%',
         width: '40%',
@@ -225,5 +192,23 @@ export default StyleSheet.create({
         fontSize: 16,
     },
 
+    pageIcon: {
+        height: '100%',
+        width: '100%',
+        flex: 1,
+        position: 'absolute',
+        flexDirection: 'row',
+    },
+
+    closedFaseIcon: {
+        tintColor: "black",
+        position: "absolute",
+        opacity: 0.6
+    },
+
+    closedFaseText: {
+        opacity: 0.5,
+        backgroundColor: "#00000077",
+    },
 
 });

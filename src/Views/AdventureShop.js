@@ -22,22 +22,6 @@ export default function AdventureShop() {
             title: "Aventureiros", 
             data: aventureiros 
         },
-        {
-            title: "Fotos de Perfil",
-            data: [
-                { id: "7", title: "Exemplo 1", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 1", price: 100 },
-                { id: "8", title: "Exemplo 2", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 2", price: 200 },
-                { id: "9", title: "Exemplo 3", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 3", price: 300 },
-            ]
-        },
-        {
-            title: "Conquistas",
-            data: [
-                { id: "10", title: "Exemplo 1", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 1", price: 100 },
-                { id: "11", title: "Exemplo 2", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 2", price: 200 },
-                { id: "12", title: "Exemplo 3", image: require("../Imagens/adventure/portuguitaBack.png"), description: "Descrição 3", price: 300 },
-            ]
-        }
     ];
 
     const renderCard = ({ item }) => (
