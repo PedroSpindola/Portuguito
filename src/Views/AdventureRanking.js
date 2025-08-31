@@ -4,8 +4,7 @@ import Styles from "../Styles.js/StyleAdventureRanking";
 import { useNavigation } from "@react-navigation/native";
 import { getFirestore, collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { FIREBASE_APP, FIREBASE_AUTH } from "../../FirebaseConfig.js";
-
-const CURRENT_USER_ID = FIREBASE_AUTH.currentUser.uid;
+import { onAuthStateChanged } from "firebase/auth";
 
 const RankingRow = ({ position, nome, fasesConcluidas, isUser = false }) => (
     <TouchableOpacity
@@ -33,8 +32,24 @@ export default function AdventureRanking() {
 
     const [rankingData, setRankingData] = useState([]);
     const [currentUserData, setCurrentUserData] = useState(null);
+    const [currentUserId, setCurrentUserId] = useState(null);
 
+    // 🔹 Captura o usuário autenticado
     useEffect(() => {
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, (user) => {
+            if (user) {
+                setCurrentUserId(user.uid);
+            } else {
+                setCurrentUserId(null);
+            }
+        });
+        return unsubscribe;
+    }, []);
+
+    // 🔹 Só busca ranking depois de ter o usuário
+    useEffect(() => {
+        if (!currentUserId) return;
+
         const fetchRanking = async () => {
             try {
                 const rankingSnapshot = await getDocs(collection(db, "AdventureRanking"));
@@ -62,7 +77,7 @@ export default function AdventureRanking() {
                 }));
 
                 setRankingData(rankedData);
-                const currentUser = rankedData.find(user => user.userId === CURRENT_USER_ID);
+                const currentUser = rankedData.find(user => user.userId === currentUserId);
                 setCurrentUserData(currentUser || null);
 
             } catch (error) {
@@ -71,7 +86,7 @@ export default function AdventureRanking() {
         };
 
         fetchRanking();
-    }, []);
+    }, [currentUserId]);
 
     return (
         <View style={Styles.container}>
@@ -92,7 +107,7 @@ export default function AdventureRanking() {
                         position={item.position}
                         nome={item.userName}
                         fasesConcluidas={item.fasesConcluidas}
-                        isUser={item.userId === CURRENT_USER_ID}
+                        isUser={item.userId === currentUserId}
                     />
                 ))}
             </ScrollView>
