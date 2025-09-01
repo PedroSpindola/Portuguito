@@ -6,9 +6,9 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area1background2.png"),
         icon: require("../Imagens/adventure/faseIcon1.png"),
         iconPositions: [
-            { top: 310, right: -210 },
-            { top: -120, right: 60 },
-            { top: -470, right: -40 },
+            { top: 310, right: -200 },
+            { top: -110, right: 60 },
+            { top: -450, right: -30 },
         ],
         enemyPositions: [
             { top: 70, right: 45 },
@@ -178,8 +178,8 @@ export default [
         icon: require("../Imagens/adventure/faseIcon4.png"),
         iconPositions: [
             { top: 340, right: -220 },
-            { top: -70, right: 0 },
-            { top: -430, right: -40 },
+            { top: -50, right: 25 },
+            { top: -400, right: -40 },
         ],
         enemyPositions: [
             { top: 240, right: 45 },

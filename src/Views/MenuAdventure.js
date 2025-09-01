@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Styles from '../Styles.js/StyleMenuAdventure';
 import { Ionicons } from '@expo/vector-icons';
 import characters from '../data/characters';
@@ -19,37 +19,38 @@ export default function MenuAdventure() {
   const [userCharacters, setUserCharacters] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchOrCreateAdventureInfo = async () => {
-      try {
-        const userRef = doc(db, "users", userId);
-        const adventureInfoCollectionRef = collection(userRef, "adventureInfo");
+  useFocusEffect(
+    useCallback(() => {
+      const fetchOrCreateAdventureInfo = async () => {
+        try {
+          const userRef = doc(db, "users", userId);
+          const adventureInfoCollectionRef = collection(userRef, "adventureInfo");
 
-        const snapshot = await getDocs(adventureInfoCollectionRef);
+          const snapshot = await getDocs(adventureInfoCollectionRef);
 
+          if (snapshot.empty) {
+            const initialData = {
+              characters: ["Portuguita"],
+              coins: 0,
+              lastFaseCompleted: 0
+            };
 
-        if (snapshot.empty) {
-          const initialData = {
-            characters: ["Portuguita"],
-            coins: 0,
-            lastFaseCompleted: 0
-          };
+            const newDocRef = doc(adventureInfoCollectionRef);
+            await setDoc(newDocRef, initialData);
 
-          const newDocRef = doc(adventureInfoCollectionRef);
-          await setDoc(newDocRef, initialData);
-
-          setUserCharacters(initialData.characters);
-        } else {
-          const adventureDoc = snapshot.docs[0].data();
-          setUserCharacters(adventureDoc.characters);
+            setUserCharacters(initialData.characters);
+          } else {
+            const adventureDoc = snapshot.docs[0].data();
+            setUserCharacters(adventureDoc.characters);
+          }
+        } catch (error) {
+          console.error("Erro ao buscar ou criar adventureInfo:", error);
         }
-      } catch (error) {
-        console.error("Erro ao buscar ou criar adventureInfo:", error);
-      }
-    };
+      };
 
-    fetchOrCreateAdventureInfo();
-  }, []);
+      fetchOrCreateAdventureInfo();
+    }, [userId])
+  );
 
   const characterList = Object.entries(characters).map(([key, value]) => ({
     key,
