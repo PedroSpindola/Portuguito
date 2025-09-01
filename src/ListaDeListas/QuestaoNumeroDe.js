@@ -98,9 +98,7 @@ export default function QuestaoNumeroDe({ route, navigation }) {
     }, [loading, question]);
 
     const handleConfirm = () => {
-        const parsed = parseInt(inputValue.trim(), 10);
-
-        const acertou = parsed === question.numero;
+        const acertou = inputValue.trim() === question.numero;
         
         navigation.navigate("Battle", {
             area: route.params.area,
@@ -110,7 +108,7 @@ export default function QuestaoNumeroDe({ route, navigation }) {
             enemyIndex: route.params.enemyIndex,
             hitSuccess: acertou,
             loseByTime: false,
-        });
+        }); 
     };
 
     if (loading) {
