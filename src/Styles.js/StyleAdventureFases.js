@@ -126,6 +126,7 @@ export default StyleSheet.create({
     },
 
     paginationButton: {
+        zIndex: 999,
         width: 50,
         height: 50,
         borderRadius: 25,
