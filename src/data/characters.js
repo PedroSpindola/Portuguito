@@ -2,9 +2,9 @@
 export default {
   portuguita: {
     name: "Portuguita",
-    life: 10,
-    damage: 1,
-    extraTime: 0,
+    life: 100,
+    damage: 100,
+    extraTime: 100,
     description: "Aventureira Inicial",
     price: 0,
     imagemFront: require("../Imagens/adventure/portuguitaFront.png"),

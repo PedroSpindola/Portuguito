@@ -1,3 +1,5 @@
+import { StyleSheet, Dimensions } from "react-native";
+const {width, height} = Dimensions.get("window")
 export default [
 
     // Area 1
@@ -6,13 +8,13 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area1background2.png"),
         icon: require("../Imagens/adventure/faseIcon1.png"),
         iconPositions: [
-            { top: 310, right: -200 },
-            { top: -110, right: 60 },
-            { top: -450, right: -30 },
+            { top: height*0.35, right: -200 },
+            { top: height*-0.2, right: 60 },
+            { top: height* -0.63, right: -30 },
         ],
         enemyPositions: [
-            { top: 70, right: 45 },
-            { top: 260, right: -50 },
+            { top: height * -0.01, right: 45 },
+            { top: height * 0.2, right: -50 },
             { top: 200, right: 150 },
         ],
         tempoDecrescido: 0,
@@ -63,13 +65,13 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area2background2.png"),
         icon: require("../Imagens/adventure/faseIcon2.png"),
         iconPositions: [
-            { top: 330, right: -200 },
+            { top: height*0.35, right: -200 },
             { top: -70, right: 0 },
-            { top: -400, right: -190 },
+            { top: height*-0.5, right: -190 },
         ],
         enemyPositions: [
-            { top: 70, right: 45 },
-            { top: 260, right: -50 },
+            { top: height*0.05, right: 45 },
+            { top: height *0.2, right: -50 },
             { top: 200, right: 150 },
         ],
         tempoDecrescido: 5,
@@ -120,14 +122,14 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area3background2.png"),
         icon: require("../Imagens/adventure/faseIcon3.png"),
         iconPositions: [
-            { top: 340, right: -190 },
+            { top: height*0.4, right: -190 },
             { top: -70, right: -190 },
-            { top: -400, right: 10 },
+            { top: height*-0.55, right: 10 },
         ],
         enemyPositions: [
-            { top: 150, right: 45 },
-            { top: 280, right: -50 },
-            { top: 220, right: 150 },
+            { top: height*0.2, right: 45 },
+            { top: height*0.3, right: -50 },
+            { top: height*0.3, right: 150 },
         ],
         tempoDecrescido: 10,
         fases: [
@@ -177,14 +179,14 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area4background2.png"),
         icon: require("../Imagens/adventure/faseIcon4.png"),
         iconPositions: [
-            { top: 340, right: -220 },
+            { top: height*0.4, right: -220 },
             { top: -50, right: 25 },
-            { top: -400, right: -40 },
+            { top: height*-0.5, right: -40 },
         ],
         enemyPositions: [
-            { top: 240, right: 45 },
-            { top: 290, right: -50 },
-            { top: 300, right: 150 },
+            { top: height >= 700? height*0.3: height*0.1, right: 45 },
+            { top: height >= 700?height*0.4: height*0.2, right: -50 },
+            { top: height >= 700?height*0.4: height*0.2, right: 150 },
         ],
         tempoDecrescido: 15,
         fases: [
@@ -234,14 +236,14 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area5background2.png"),
         icon: require("../Imagens/adventure/faseIcon5.png"),
         iconPositions: [
-            { top: 320, right: 10 },
+            { top: height*0.35, right: 10 },
             { top: 0, right: -180 },
-            { top: -340, right: 0 },
+            { top: height*-0.4, right: 0 },
         ],
         enemyPositions: [
-            { top: 70, right: 45 },
-            { top: 260, right: -50 },
-            { top: 200, right: 150 },
+            { top: height*0.1, right: 45 },
+            { top: height*0.2, right: -50 },
+            { top: height*0.25, right: 150 },
         ],
         tempoDecrescido: 20,
         fases: [
@@ -291,14 +293,14 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area6background1.png"),
         icon: require("../Imagens/adventure/faseIcon6.png"),
         iconPositions: [
-            { top: 400, right: -200 },
+            { top: height*0.45, right: -200 },
             { top: 100, right: 0 },
-            { top: -200, right: -140 },
+            { top: height*-0.25, right: -140 },
         ],
         enemyPositions: [
-            { top: 200, right: 45 },
-            { top: 260, right: -70 },
-            { top: 240, right: 170 },
+            { top: height*0.1, right: 45 },
+            { top: height*0.2, right: -70 },
+            { top: height*0.25, right: 170 },
         ],
         tempoDecrescido: 25,
         fases: [
@@ -348,14 +350,14 @@ export default [
         backgroundBattle: require("../Imagens/adventure/area7background2.png"),
         icon: require("../Imagens/adventure/faseIcon7.png"),
         iconPositions: [
-            { top: 420, right: 20 },
+            { top: height*0.45, right: 20 },
             { top: 10, right: -240 },
-            { top: -280, right: -80 }
+            { top: height*-0.35, right: -80 }
         ],
         enemyPositions: [
-            { top: 200, right: 45 },
-            { top: 260, right: -70 },
-            { top: 240, right: 170 },
+            { top: height>= 700?height*0.2:height*0.1, right: 45 },
+            { top: height>= 700?height*0.3:height*0.2, right: -70 },
+            { top: height>= 700?height*0.35:height*0.25, right: 170 },
         ],
         tempoDecrescido: 30,
         fases: [

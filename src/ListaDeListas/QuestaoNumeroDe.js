@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, TextInput, TouchableOpacity, Modal, ActivityIndicator, Alert, BackHandler } from "react-native";
+import { ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Markdown from "react-native-markdown-display";
@@ -23,11 +24,11 @@ export default function QuestaoNumeroDe({ route, navigation }) {
 
     const db = getFirestore(FIREBASE_APP);
 
-    useFocusEffect (
+    useFocusEffect(
         useCallback(() => {
             const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
                 Alert.alert(
-                    "Sair da Batalha",  
+                    "Sair da Batalha",
                     "Tem certeza de que deseja abandonar a batalha? Você perderá todo o progresso da aventura.",
                     [
                         { text: "Cancelar", style: "cancel" },
@@ -99,7 +100,7 @@ export default function QuestaoNumeroDe({ route, navigation }) {
 
     const handleConfirm = () => {
         const acertou = inputValue.trim() === question.numero;
-        
+
         navigation.navigate("Battle", {
             area: route.params.area,
             faseInfo: route.params.faseInfo,
@@ -108,7 +109,7 @@ export default function QuestaoNumeroDe({ route, navigation }) {
             enemyIndex: route.params.enemyIndex,
             hitSuccess: acertou,
             loseByTime: false,
-        }); 
+        });
     };
 
     if (loading) {
@@ -121,70 +122,72 @@ export default function QuestaoNumeroDe({ route, navigation }) {
 
     return (
         <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
-            <View style={styles.container}>
-                <View style={{ flexDirection: "row", alignItems: "center", margin: 30 }}>
-                    <Ionicons name="time-outline" size={24} color="#fff" style={{ marginRight: 8 }} />
-                    <View style={{ flex: 1, height: 12, backgroundColor: "#ccc", borderRadius: 6 }}>
-                        <View
-                            style={{
-                                height: "100%",
-                                width: `${(timeLeft / time) * 100}%`,
-                                backgroundColor: "#3498db",
-                                borderRadius: 6,
-                            }}
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={{ flexDirection: "row", alignItems: "center", margin: 30 }}>
+                        <Ionicons name="time-outline" size={24} color="#fff" style={{ marginRight: 8 }} />
+                        <View style={{ flex: 1, height: 12, backgroundColor: "#ccc", borderRadius: 6 }}>
+                            <View
+                                style={{
+                                    height: "100%",
+                                    width: `${(timeLeft / time) * 100}%`,
+                                    backgroundColor: "#3498db",
+                                    borderRadius: 6,
+                                }}
+                            />
+                        </View>
+                        <Text style={{ color: "#fff", marginLeft: 8, fontFamily: "Inder_400Regular" }}>
+                            {timeLeft}s
+                        </Text>
+                    </View>
+                    <View style={styles.enunciado}>
+                        {question.urlImagem && question.urlImagem.startsWith("http") && (
+                            <View style={styles.backgroundImagem}>
+                                <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                                    <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader} />
+                                    <Image
+                                        style={styles.imagem}
+                                        source={{ uri: question.urlImagem }}
+                                        contentFit="contain"
+                                    />
+                                </TouchableOpacity>
+
+                                <Modal visible={isExpanded} transparent={true} animationType="fade">
+                                    <View style={styles.modalContainer}>
+                                        <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                                            <Image source={{ uri: question.urlImagem }} style={styles.fullImage} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </Modal>
+                            </View>
+                        )}
+
+                        <Text
+                            style={styles.pergunta}
+                        >
+                            {question.pergunta}
+                        </Text>
+
+                        <TextInput
+                            style={styles.input}
+                            keyboardType="numeric"
+                            value={inputValue}
+                            onChangeText={setInputValue}
+                            placeholder="0"
+                            maxLength={4}
                         />
                     </View>
-                    <Text style={{ color: "#fff", marginLeft: 8, fontFamily: "Inder_400Regular" }}>
-                        {timeLeft}s
-                    </Text>
+
+                    <View style={{ marginTop: 30, alignItems: "center" }}>
+                        <TouchableOpacity
+                            style={[styles.confirmar, { paddingHorizontal: 40, paddingVertical: 15 }]}
+                            onPress={handleConfirm}
+                        >
+                            <Text style={styles.label}>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={styles.enunciado}>
-                    {question.urlImagem && question.urlImagem.startsWith("http") && (
-                        <View style={styles.backgroundImagem}>
-                            <TouchableOpacity onPress={() => setIsExpanded(true)}>
-                                <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader} />
-                                <Image
-                                    style={styles.imagem}
-                                    source={{ uri: question.urlImagem }}
-                                    contentFit="contain"
-                                />
-                            </TouchableOpacity>
-
-                            <Modal visible={isExpanded} transparent={true} animationType="fade">
-                                <View style={styles.modalContainer}>
-                                    <TouchableOpacity onPress={() => setIsExpanded(false)}>
-                                        <Image source={{ uri: question.urlImagem }} style={styles.fullImage} />
-                                    </TouchableOpacity>
-                                </View>
-                            </Modal>
-                        </View>
-                    )}
-
-                    <Text
-                        style={styles.pergunta}
-                    >
-                        {question.pergunta}
-                    </Text>
-
-                    <TextInput
-                        style={styles.input}
-                        keyboardType="numeric"
-                        value={inputValue}
-                        onChangeText={setInputValue}
-                        placeholder="0"
-                        maxLength={4}
-                    />
-                </View>
-
-                <View style={{ marginTop: 30, alignItems: "center" }}>
-                    <TouchableOpacity
-                        style={[styles.confirmar, { paddingHorizontal: 40, paddingVertical: 15 }]}
-                        onPress={handleConfirm}
-                    >
-                        <Text style={styles.label}>Confirmar</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </LinearGradient>
     );
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, TextInput, TouchableOpacity, Modal, ActivityIndicator, Alert, BackHandler } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Modal, ActivityIndicator, Alert, BackHandler, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Markdown from "react-native-markdown-display";
@@ -23,11 +23,11 @@ export default function QuestaoLacuna({ route, navigation }) {
 
     const db = getFirestore(FIREBASE_APP);
 
-    useFocusEffect (
+    useFocusEffect(
         useCallback(() => {
             const backHandler = BackHandler.addEventListener("hardwareBackPress", () => {
                 Alert.alert(
-                    "Sair da Batalha",  
+                    "Sair da Batalha",
                     "Tem certeza de que deseja abandonar a batalha? Você perderá todo o progresso da aventura.",
                     [
                         { text: "Cancelar", style: "cancel" },
@@ -125,99 +125,101 @@ export default function QuestaoLacuna({ route, navigation }) {
 
     return (
         <LinearGradient colors={["#D5D4FB", "#9B98FC"]} style={styles.gradient}>
-            <View style={styles.container}>
-                <View style={{ flexDirection: "row", alignItems: "center", margin: 30 }}>
-                    <Ionicons name="time-outline" size={24} color="#fff" style={{ marginRight: 8 }} />
-                    <View style={{ flex: 1, height: 12 , backgroundColor: "#ccc", borderRadius: 6 }}>
-                        <View
-                            style={{
-                                height: "100%",
-                                width: `${(timeLeft / time) * 100}%`,
-                                backgroundColor: "#3498db",
-                                borderRadius: 6,
-                            }}
-                        />
-                    </View>
-                    <Text style={{ color: "#fff", marginLeft: 8, fontFamily: "Inder_400Regular" }}>
-                        {timeLeft}s
-                    </Text>
-                </View>
-                <View style={styles.enunciado}>
-
-                    {question.urlImagem && question.urlImagem.startsWith('http') && (
-                        <View style={styles.backgroundImagem}>
-                            <TouchableOpacity onPress={() => setIsExpanded(true)}>
-                                <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader} />
-                                <Image
-                                    style={styles.imagem}
-                                    source={{ uri: question.urlImagem }}
-                                    contentFit="contain"
-                                />
-                            </TouchableOpacity>
-                            {/* Modal imagem expandida */}
-                            <Modal visible={isExpanded} transparent={true} animationType="fade">
-                                <View style={styles.modalContainer}>
-                                    <TouchableOpacity onPress={() => setIsExpanded(false)}>
-                                        <Image source={{ uri: question.urlImagem }} style={styles.fullImage} />
-                                    </TouchableOpacity>
-                                </View>
-                            </Modal>
+            <ScrollView>
+                <View contentContainerStyle={styles.container}>
+                    <View style={{ flexDirection: "row", alignItems: "center", margin: 30 }}>
+                        <Ionicons name="time-outline" size={24} color="#fff" style={{ marginRight: 8 }} />
+                        <View style={{ flex: 1, height: 12, backgroundColor: "#ccc", borderRadius: 6 }}>
+                            <View
+                                style={{
+                                    height: "100%",
+                                    width: `${(timeLeft / time) * 100}%`,
+                                    backgroundColor: "#3498db",
+                                    borderRadius: 6,
+                                }}
+                            />
                         </View>
-                    )}
+                        <Text style={{ color: "#fff", marginLeft: 8, fontFamily: "Inder_400Regular" }}>
+                            {timeLeft}s
+                        </Text>
+                    </View>
+                    <View style={styles.enunciado}>
 
-                    <Markdown
-                        style={{
-                            body: {
+                        {question.urlImagem && question.urlImagem.startsWith('http') && (
+                            <View style={styles.backgroundImagem}>
+                                <TouchableOpacity onPress={() => setIsExpanded(true)}>
+                                    <ActivityIndicator size="large" color="#EFEFFE" style={styles.loader} />
+                                    <Image
+                                        style={styles.imagem}
+                                        source={{ uri: question.urlImagem }}
+                                        contentFit="contain"
+                                    />
+                                </TouchableOpacity>
+                                {/* Modal imagem expandida */}
+                                <Modal visible={isExpanded} transparent={true} animationType="fade">
+                                    <View style={styles.modalContainer}>
+                                        <TouchableOpacity onPress={() => setIsExpanded(false)}>
+                                            <Image source={{ uri: question.urlImagem }} style={styles.fullImage} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </Modal>
+                            </View>
+                        )}
+
+                        <Markdown
+                            style={{
+                                body: {
+                                    fontSize: 16,
+                                    color: "#fff",
+                                    padding: 10,
+                                    fontFamily: "Inder_400Regular",
+                                },
+                            }}
+                        >
+                            {question.pergunta}
+                        </Markdown>
+
+                    </View>
+                    <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", padding: 12, marginTop: 15, alignItems: "center" }}>
+                        <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
+                            {question.preLacuna + " "}
+                        </Text>
+
+                        <TextInput
+                            style={{
+                                backgroundColor: "#fff",
+                                borderRadius: 8,
+                                paddingHorizontal: 10,
+                                paddingVertical: 5,
                                 fontSize: 16,
-                                color: "#fff",
-                                padding: 10,
+                                minWidth: 100,
+                                color: "#000",
                                 fontFamily: "Inder_400Regular",
-                            },
-                        }}
-                    >
-                        {question.pergunta}
-                    </Markdown>
+                                alignSelf: "center",
+                            }}
+                            value={inputText}
+                            onChangeText={setInputText}
+                            placeholder="Digite aqui"
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
 
+                        <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
+                            {" " + question.posLacuna}
+                        </Text>
+                    </View>
+                    <View style={styles.containerContinuar}>
+                        <TouchableOpacity
+                            style={[styles.confirmar, styles.btnAtivado]}
+                            onPress={() => {
+                                handleConfirm()
+                            }}
+                        >
+                            <Text style={styles.label}>Confirmar</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", padding: 12, marginTop: 15, alignItems: "center" }}>
-                    <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
-                        {question.preLacuna + " "}
-                    </Text>
-
-                    <TextInput
-                        style={{
-                            backgroundColor: "#fff",
-                            borderRadius: 8,
-                            paddingHorizontal: 10,
-                            paddingVertical: 5,
-                            fontSize: 16,
-                            minWidth: 100,
-                            color: "#000",
-                            fontFamily: "Inder_400Regular",
-                            alignSelf: "center",
-                        }}
-                        value={inputText}
-                        onChangeText={setInputText}
-                        placeholder="Digite aqui"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                    />
-
-                    <Text style={{ color: "#fff", fontSize: 18, fontFamily: "Inder_400Regular" }}>
-                        {" " + question.posLacuna}
-                    </Text>
-                </View>
-                <View style={styles.containerContinuar}>
-                    <TouchableOpacity
-                        style={[styles.confirmar, styles.btnAtivado]}
-                        onPress={() => {
-                            handleConfirm()
-                        }}
-                    >
-                        <Text style={styles.label}>Confirmar</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
+            </ScrollView>
         </LinearGradient>
     );
 }

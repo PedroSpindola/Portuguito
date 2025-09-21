@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, TouchableOpacity, Text, Modal, ActivityIndicator, BackHandler, Alert } from "react-native";
+import { View, TouchableOpacity, Text, Modal, ActivityIndicator, BackHandler, Alert, ScrollView } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import Markdown from "react-native-markdown-display";
